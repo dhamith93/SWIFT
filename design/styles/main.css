@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif|Noto+Serif|Roboto+Slab');
+
+nav {
+    font-family: 'Noto Serif', serif;    
+    /* font-family: 'Roboto Slab', serif; */
+}
+
+nav ul {
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+    list-style-type: none;
+    text-align: center;
+    font-family: 'Bree Serif', serif;
+    min-width: 80px;
+    height: 40px;
+    margin: 10px 20px 0;
+    line-height: 40px;
+    border-bottom: 2px solid #ffffff;
+}
+
+nav ul li:hover {
+    cursor: pointer;
+    border-bottom: 2px solid #776688;
+}
+
+nav ul .active {
+    border-bottom: 2px solid blue;
+}
+
+nav .logo, nav #title {    
+    height: 40px;
+    width: 40px;
+    margin: 10px 30px;
+    float: left;
+}
+
+nav #title {
+    width: auto;
+}
+
+nav #org-name {
+    font-size: 1.2em;
+    margin-bottom: 4px;
+}
+
+nav #search {
+    height: 40px;
+    margin: 10px 20px;
+    line-height: 40px;
+    float: right;
+}
