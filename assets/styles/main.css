@@ -1,5 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css?family=Bree+Serif|Noto+Serif|Roboto+Slab'); */
-
 .dashboard-nav {
     margin-top: 10px;
 }
@@ -13,6 +11,11 @@
     color: #fff;
     margin: auto;
     margin-left: 10px;
+}
+
+.dashboard-columns {
+    height: 100vh;
+    margin-bottom: 0 !important;
 }
 
 .vert-nav-column {
@@ -29,9 +32,17 @@
     cursor: pointer;
     color: #fff;
     display: block;
-    line-height: 1.5;
-    padding: 1rem .75rem;
+    padding-left: .75rem;
     position: relative;
+    height: 60px;
+}
+
+.vert-nav-item a {
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    line-height: 60px;
 }
 
 .vert-nav-item:hover {

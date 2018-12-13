@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <title>SWIFT - Emergency Management System</title>
+</head>
+<body>    
+    <div class="columns">
+        <div class="column vert-nav-column is-one-fifth">
+            <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item dashboard-title" href="#">
+                        <img src="img/swift_logo_128.png">
+                        <span class="title is-5">SWIFT</span>
+                    </a>
+
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+            </nav>
+            <nav class="dashboard-nav" id="dashboard-nav">
+                <ul>
+                    <li class="vert-nav-item">Home</li>
+                    <li class="vert-nav-item nav-item-active">Employees</li>
+                    <li class="vert-nav-item">Entities</li>
+                    <li class="vert-nav-item">Organization Info</li>
+                    <li class="vert-nav-item">Admin Settings</li>
+                </ul>
+            </nav>
+        </div>
+        <div class="column is-four-fifths dashboard-selected-column">
+                <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+                    <div class="navbar-brand">
+                        <h1 class="navbar-item title is-5">
+                            Employees
+                        </h1>
+                    </div>
+                </nav>
+            <div class="tabs is-centered">
+                <ul>
+                    <li class="tab-header is-active" data-tab="0"><a>Search</a></li>
+                    <li class="tab-header" data-tab="1"><a>Add</a></li>
+                </ul>
+            </div>
+            <div id="tab-content" class="tab-content">
+                <div class="tab is-active" data-content="0">
+                    <div class="search-input-area is-centered">
+                        <div class="field has-addons is-centered">
+                            <p class="control">
+                                <input class="input" type="text" placeholder="Employee name">
+                            </p>
+                            <p class="control">
+                                <button class="button">
+                                    Search
+                                </button>
+                            </p>
+                        </div> 
+                    </div>
+                    <div class="columns search-result">
+                        <div class="column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">John Smith</p>
+                                    </div>
+                                    </div>
+                                
+                                    <div class="content">
+                                    Last logged in: <br> <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">John Smith</p>
+                                    </div>
+                                    </div>
+                                
+                                    <div class="content">
+                                    Last logged in: <br> <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">John Smith</p>
+                                    </div>
+                                    </div>
+                                
+                                    <div class="content">
+                                    Last logged in: <br> <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">John Smith</p>
+                                    </div>
+                                    </div>
+                                
+                                    <div class="content">
+                                    Last logged in: <br> <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab" data-content="1">
+                    <form action="" method="get">
+                        <div class="field">
+                            <label class="label">Employee ID</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="text" name="emp-id">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-address-card"></i>
+                              </span>
+                            </div>
+                          </div>
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="text" name="first-name">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-address-card"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="text" name="last-name">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-address-card"></i>
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="field">
+                            <label class="label">Username</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="text" name="username">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="field">
+                            <label class="label">Password</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="password" name="password">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="field">
+                            <label class="label">Contact Number</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="text" name="contact">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-phone"></i>
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="email" name="email">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="field is-grouped">
+                            <div class="control">
+                              <button class="button is-link">Add Employee</button>
+                            </div>
+                            <div class="control">
+                              <button class="button is-text" type="reset">Cancel</button>
+                            </div>
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>SWIFT</strong> Emergency Management System <br> designed and developed by <a href="">Someone</a>.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var tabHeaders = document.getElementsByClassName('tab-header');
+            var tabs = document.getElementsByClassName('tab');
+
+            for (let i = 0; i < tabHeaders.length; i++) {
+                tabHeaders[i].addEventListener('click', function() {
+                    for (let j = 0; j < tabHeaders.length; j++) {
+                        tabHeaders[j].classList.remove('is-active');
+                        tabs[j].classList.remove('is-active');
+                    }
+                    
+                    this.classList.add('is-active');
+
+                    let selectedTabContents = document.querySelectorAll('[data-content="' + this.dataset.tab + '"]');
+
+                    selectedTabContents.forEach(function(selectedTabContent) {
+                        selectedTabContent.classList.add('is-active');
+                    });
+                });
+            }
+
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach( el => {
+                    el.addEventListener('click', () => {
+                        let dashboardNav = document.getElementById('dashboard-nav');
+                        dashboardNav.classList.toggle('dashboard-nav-active');
+                        el.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
