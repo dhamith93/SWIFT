@@ -52,6 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['admin'] = 'admin/view';
 $route['admin/add-employee'] = 'admin/addEmployee';
+$route['admin/get-employee'] = 'admin/getEmployeeInfo';
+$route['admin/delete-employee'] = 'admin/deleteEmployee';
 $route['admin/(:any)'] = 'admin/view/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

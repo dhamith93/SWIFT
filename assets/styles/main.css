@@ -99,8 +99,31 @@
     min-width: 300px;
 }
 
+#employee-result {
+    max-width: 400px;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
+#employee-result button {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
 .notification {
     overflow: auto;
+}
+
+#success-notification, #employee-error-notification, #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification {
+    display: none;
+    max-width: 400px;
+    margin: auto;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification {
+    margin-top: 20px;
 }
 
 .open-item {
@@ -165,5 +188,9 @@
 
     .search-result {
         margin-right: unset;
+    }
+
+    #employee-result {
+        margin-left: 15px;
     }
 }
