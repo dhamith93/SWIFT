@@ -18,7 +18,7 @@
                                     </button>
                                 </p>
                             </div> 
-                        </form>
+                        <?php echo form_close(); ?>
                     </div>
                     <div class="columns search-result">
                         <?php 
@@ -124,7 +124,7 @@
                         <div class="field">
                             <label class="label">Password</label>
                             <div class="control has-icons-left has-icons-right">
-                              <input class="input" type="password" name="password" <?php if ($hasFormData) echo 'value="'.$formData['password'].'"'; ?>>
+                              <input class="input" type="password" name="password">
                               <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
                               </span>
@@ -132,6 +132,20 @@
                             <?php
                                 if ($hasErrors && isset($errors['password'])) {
                                     echo '<p class="help is-danger">Password is required!</p>';
+                                }
+                            ?>
+                        </div>
+                        <div class="field">
+                            <label class="label">Password confirmation</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" type="password" name="password2">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                              </span>
+                            </div>
+                            <?php
+                                if ($hasErrors && isset($errors['password2'])) {
+                                    echo '<p class="help is-danger">Matching password is required!</p>';
                                 }
                             ?>
                         </div>
@@ -161,7 +175,7 @@
                             </div>
                             <?php
                                 if ($hasErrors && isset($errors['email'])) {
-                                    echo '<p class="help is-danger">Email is required!</p>';
+                                    echo '<p class="help is-danger">A valid email is required!</p>';
                                 }
                             ?>
                         </div>
@@ -174,7 +188,7 @@
                               <button class="button is-text" type="reset">Cancel</button>
                             </div>
                         </div>
-                    </form>
+                    <?php echo form_close(); ?>
                 </div>
             </div>
         </div>

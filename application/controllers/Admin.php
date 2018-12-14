@@ -18,15 +18,17 @@
             
             $this->load->view('templates/header');
             $this->load->view('dashboard/admin/dashboard', $data);
+            $this->load->view('templates/footer');
         }
 
         public function addEmployee() {
             $this->form_validation->set_rules('emp-id', 'Employee ID', 'required');
             $this->form_validation->set_rules('first-name', 'First Name', 'required');
             $this->form_validation->set_rules('last-name', 'Last Name', 'required');
-            $this->form_validation->set_rules('password', 'Password', 'required');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required');
+            $this->form_validation->set_rules('password2', 'Password confirm', 'trim|required|matches[password]');
             $this->form_validation->set_rules('contact', 'Contact Number', 'required'); 
-            $this->form_validation->set_rules('email', 'Email', 'required|trim'); 
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email'); 
 
             
             if ($this->form_validation->run() === FALSE) {                
@@ -35,6 +37,7 @@
                     'first_name' => $this->input->post('first-name'),
                     'last_name' => $this->input->post('last-name'),
                     'password' => $this->input->post('password'),
+                    'password2' => $this->input->post('password2'),
                     'contact' => $this->input->post('contact'),
                     'email' => $this->input->post('email')
                 );

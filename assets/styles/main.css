@@ -1,3 +1,33 @@
+.hero {
+    background-color: #ECF0F1;
+}
+
+.avatar {
+    margin-top: -70px;
+    padding-bottom: 20px;
+}
+
+.avatar img {
+    padding: 5px;
+    background: #fff;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+    box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+}
+
+#login-box {
+    max-width: 400px;
+    margin: auto;
+}
+
+#login-box input, #login-box select, #login-box .select, #login-box button {
+    height: 2.75em;
+}
+
+#login-box input {
+    font-weight: 300;
+}
+
 .dashboard-nav {
     margin-top: 10px;
 }
@@ -14,7 +44,7 @@
 }
 
 .dashboard-columns {
-    height: 100vh;
+    min-height: 100vh;
     margin-bottom: 0 !important;
 }
 
