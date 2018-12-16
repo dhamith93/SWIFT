@@ -20,9 +20,9 @@
             return $this->db->insert('employees', $formData);
         }
 
-        public function getEmployee($empId) {
-            $query = $this->db->get_where('employees', array('emp_id' => $empId));
-            return $query->row_array();
+        public function getEmployees($searchValue, $searchType) {
+            $query = $this->db->get_where('employees', array($searchType => $searchValue));
+            return $query->result();
         }
 
         public function deleteEmployee($empId) {
@@ -39,6 +39,11 @@
                 return false;
             
             return password_verify($password, $hash);
+        }
+
+        public function setLoginDateTime($empId, $dateTime) {
+            $this->db->where('emp_id', $empId);
+            return $this->db->update('employees', array('last_logged_in' => $dateTime));
         }
     }
 ?>

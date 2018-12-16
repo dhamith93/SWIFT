@@ -17,7 +17,8 @@
                             Password/username incorrect or account does not exists!<br>
                             Please contact admin for more information.
                         </div>
-                        <?php echo form_open('login/go'); ?>
+                        <?php echo form_open('login/go', 'id="login-form"'); ?>
+                            <input type="hidden" name="date-time" id="date-time">
                             <div class="field">
                                 <div class="control">
                                     <input class="input is-rounded" name="username" type="text" <?php if ($hasFormData) echo 'value="'.$formData['username'].'"'; ?> placeholder="Username" autofocus="">
@@ -54,3 +55,16 @@
             </div>
         </div>
     </section>
+    <script>
+        var loginForm = document.getElementById('login-form');
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let dateTime = new Date();
+                document.getElementById('date-time').value = new Date(dateTime.getTime() - (dateTime.getTimezoneOffset() * 60000)).toISOString().slice(0, 19).replace('T', ' ');
+                loginForm.submit();
+            });
+        }
+    
+    </script>

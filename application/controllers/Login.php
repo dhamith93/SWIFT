@@ -47,13 +47,40 @@
             }
 
             if ($verified) {
-                // set session info
-                // redirect to account-type's dashboard
-                echo 'logged in';
+                $userData = array(
+                    'username' => $username,
+                    'logged_in' => true,
+                    'user_type' => $accountType,
+                    'is_admin' => true // TODO: change this
+                );
+                
+                $this->session->set_userdata($userData);
+                $this->employee_model->setLoginDateTime($username, $this->input->post('date-time'));
+
+                switch ($accountType) {
+                    case 'Employee':
+                        redirect('employee');
+                        break;
+                    case 'Organization':
+                        // $verified = $this->employee_model->verifyUser($username, $password);
+                        break;
+                    case 'Responder':
+                        // $verified = $this->employee_model->verifyUser($username, $password);
+                        break;
+                    default:
+                        redirect('login');
+                        break;
+                }
             } else {
                 $this->session->set_flashdata('errors', array('loginError' => true));
                 redirect('login');
             }
+        }
+
+        public function userLogout() {
+            $this->session->unset_userdata('username');
+            $this->session->unset_userdata('logged_in');
+            redirect('login');
         }
     }
 

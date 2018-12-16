@@ -1,10 +1,9 @@
 # TODO
 
-- [ ] Design
-- [ ] Build UI framework
+- [x] Design
 - [ ] ADMIN
     - [ ] ADD/UPDATE/REMOVE
-        - [ ] internal employees
+        - [x] internal employees
         - [ ] entities
         - [ ] checklists
         - [ ] tasks for entities

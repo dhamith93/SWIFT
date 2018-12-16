@@ -6,8 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     var urlAnchor = window.location.hash.substr(1);
     if (urlAnchor && (urlAnchor === 'add' || urlAnchor === 'add-success')) {
         unsetTabHeaderIsActive();
-        tabHeaders[1].classList.add('is-active'); // add tabHeader
-        let selectedTabContents = document.querySelectorAll('[data-content="1"]'); // add tab
+
+        let selectedTabContents;
+
+        if (section === 'admin') {
+            tabHeaders[1].classList.add('is-active'); // add tabHeader
+            selectedTabContents = document.querySelectorAll('[data-content="1"]'); // add tab
+        } 
+
+        if (section === 'employee') {
+            tabHeaders[2].classList.add('is-active'); // add tabHeader
+            selectedTabContents = document.querySelectorAll('[data-content="2"]'); // add tab
+        }
+        
         activateTab(selectedTabContents);
 
         if (urlAnchor === 'add-success') {
@@ -19,6 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (urlAnchor && urlAnchor === 'no-record') {
         document.getElementById('no-record-notification').style.display = 'block';
         window.history.replaceState('', 'Employees', '#');
+
+        if (section === 'employee') {
+            unsetTabHeaderIsActive();
+            tabHeaders[1].classList.add('is-active');
+            selectedTabContents = document.querySelectorAll('[data-content="1"]');
+            activateTab(selectedTabContents);
+        }
+    }
+
+    if (urlAnchor && urlAnchor === 'search') {
+        unsetTabHeaderIsActive();
+        tabHeaders[1].classList.add('is-active');
+        selectedTabContents = document.querySelectorAll('[data-content="1"]');
+        activateTab(selectedTabContents);
     }
 
     if (urlAnchor && urlAnchor === 'delete-success') {
@@ -64,4 +89,18 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedTabContent.classList.add('is-active');
         });
     }
+
+    var deleteEmpForms = Array.prototype.slice.call(document.querySelectorAll('.delete-emp-form'), 0);
+
+    if (deleteEmpForms.length > 0) {
+        deleteEmpForms.forEach(el => {
+            el.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (confirm("Do you want to delete the employee record? This can't be undone!")) {
+                   el.submit();
+                }
+            });
+        });
+    }
+
 });

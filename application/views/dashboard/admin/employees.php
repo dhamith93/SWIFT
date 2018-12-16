@@ -8,18 +8,42 @@
                 <div class="tab is-active" data-content="0">
                     <div class="search-input-area is-centered">
                         <?php echo form_open('admin/get-employee'); ?>
+                            <?php
+                                $empId = ''; 
+                                $firstName = '';
+                                $lastName = '';
+
+                                if (!empty($searchType)) {
+                                    if ($searchType === 'emp-id')
+                                        $empId = 'selected';
+                                    if ($searchType === 'first-name')
+                                        $firstName = 'selected';
+                                    if ($searchType === 'last-name')
+                                        $lastName = 'selected';
+                                }
+                            ?>
                             <div class="field has-addons is-centered">
                                 <p class="control">
-                                    <input class="input" type="text" name="emp-id" placeholder="Employee ID">
+                                    <span class="select is-rounded is-primary">
+                                        <select name="search-type">
+                                            <option value="emp-id" <?php echo $empId; ?>>Emp ID</option>
+                                            <option value="first-name" <?php echo $firstName; ?>>First Name</option>
+                                            <option value="last-name" <?php echo $lastName; ?>>Last Name</option>
+                                        </select>
+                                    </span>
                                 </p>
                                 <p class="control">
-                                    <button class="button" type="submit">
+                                    <input class="input is-rounded is-primary" type="text" name="search-value" <?php if (!empty($searchValue)) echo 'value="'.$searchValue.'"'; ?>>
+                                </p>
+                                <p class="control">
+                                    <button class="button is-rounded is-primary" type="submit">
                                         Search
                                     </button>
                                 </p>
                             </div> 
                         <?php echo form_close(); ?>
                     </div>
+                    <hr>
                     <div class="columns search-result">
                         <?php 
                             $hasEmployeeResult = !empty($employeeResult);
@@ -36,34 +60,41 @@
                             Try again.
                         </div>
 
-                        <div class="card" id="employee-result" style="display:<?php echo $displayOpt; ?>;">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    <?php 
-                                        if ($hasEmployeeResult)
-                                            echo $employeeResult['first_name'] . ' ' . $employeeResult['last_name'];
-                                    ?>
-                                </p>                                
-                            </header>
-                            <div class="card-content">
-                                <div class="content">
+                        <table class="table is-bordered is-striped is-narrow is-hoverable" style="display:<?php echo $displayOpt; ?>;">
+                            <thead>
+                                <tr>
+                                <th>Employee ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                <th>Last Logged In</th>
+                                <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                     <?php 
                                         if ($hasEmployeeResult) {
-                                            echo '<strong>Employee ID:</strong> ' . $employeeResult['emp_id'] .'<br>';
-                                            echo '<strong>Contact Number:</strong> ' . $employeeResult['contact'] .'<br>';
-                                            echo '<strong>Email:</strong> ' . $employeeResult['email'] .'<br>';
-                                            // echo '<strong>Last logged in:</strong>' . $employeeResult['last_logged_in'] .'<br>';
+                                            foreach ($employeeResult as $row) {
+                                                echo '<tr>';
+                                                echo '<td>' . ucfirst($row->emp_id) . '</td>';
+                                                echo '<td>' . ucfirst($row->first_name) . '</td>';
+                                                echo '<td>' . ucfirst($row->last_name) . '</td>';
+                                                echo '<td>' . ucfirst($row->contact) . '</td>';
+                                                echo '<td>' . ucfirst($row->email) . '</td>';
+                                                echo '<td>' . ucfirst($row->last_logged_in) . '</td>';
+                                                echo '<td>';
+                                                echo form_open('admin/delete-employee', 'class="delete-emp-form"');
+                                                echo '<input type="hidden" name="emp-id" value="' . $row->emp_id . '"/>';
+                                                echo '<button class="button is-danger" type="submit">Delete</button>';
+                                                echo form_close();
+                                                echo '</td>';
+                                                echo '</tr>';
+                                            }
                                         }
                                     ?>
-                                </div>
-                            </div>
-                            <footer class="card-footer">
-                                <?php echo form_open('admin/delete-employee'); ?>
-                                    <button class="button is-danger" name="emp-id" <?php if ($hasEmployeeResult) echo 'value="'.$employeeResult['emp_id'].'"'; ?> type="submit">Delete</button>
-                                </form>
-                            </footer>
-                        </div>
-
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="tab" data-content="1">
@@ -179,13 +210,13 @@
                                 }
                             ?>
                         </div>
-                          
-                        <div class="field is-grouped">
+                        <br>
+                        <div class="field is-grouped submit-btns">
                             <div class="control">
-                              <button class="button is-link">Add Employee</button>
+                              <button class="button is-link is-rounded">Add Employee</button>
                             </div>
                             <div class="control">
-                              <button class="button is-text" type="reset">Cancel</button>
+                              <button class="button is-danger is-rounded" type="reset">Cancel</button>
                             </div>
                         </div>
                     <?php echo form_close(); ?>
