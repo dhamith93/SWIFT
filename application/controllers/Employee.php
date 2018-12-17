@@ -16,7 +16,7 @@
                 $data['formData'] = $this->session->flashdata('formData');
 
             if (!empty($this->session->flashdata('incidentResult')))
-                $data['incidentResult'] = $this->session->flashdata('incidentResult');
+                $data['incidentResults'] = $this->session->flashdata('incidentResult');
 
             if (!empty($this->session->flashdata('searchValue')))
                 $data['searchValue'] = $this->session->flashdata('searchValue');
@@ -26,6 +26,8 @@
 
             if (!empty($this->session->flashdata('ongoing')))
                 $data['ongoing'] = $this->session->flashdata('ongoing');
+
+            $data['incidents'] = $this->incident_model->getOngoingIncidents();
 
             $this->load->view('templates/header');
             $this->load->view('dashboard/dashboard', $data);

@@ -103,4 +103,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    var moreBtns = Array.prototype.slice.call(document.querySelectorAll('.more-btn'), 0);
+
+    if (moreBtns.length > 0) {
+        moreBtns.forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert(el.id);
+            });
+        });
+    }
+
+
+
 });

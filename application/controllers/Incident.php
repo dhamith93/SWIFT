@@ -39,23 +39,23 @@
 
             $searchValue = $this->input->post('search-value');
             $searchType = $this->input->post('search-type');
+            $onlyOngoing = $this->input->post('is-ongoing');
 
             $this->session->set_flashdata('searchValue', $searchValue);
             $this->session->set_flashdata('searchType', $searchType);
 
             if (empty($searchValue))
-                redirect('employee/incidents/');
+                redirect('employee/incidents/#search');
 
             $searchType = str_replace('-', '_', $searchType);
 
-            $onlyOngoing = (null !== $this->input->post('is-ongoing')) ? true : false;
-
-            if ($onlyOngoing) {
+            if ($onlyOngoing === '1') {
                 $this->session->set_flashdata('ongoing', 'checked');
-            } else {
+            } else if ($onlyOngoing === '0') {
                 $this->session->set_flashdata('ongoing', 'unchecked');
+            } else if ($onlyOngoing === '-1') {
+                $this->session->set_flashdata('ongoing', 'indeterminate');
             }
-
 
             $incidents = $this->incident_model->getIncidents($searchValue, $searchType, $onlyOngoing);
 

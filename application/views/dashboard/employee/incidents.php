@@ -7,6 +7,12 @@
     </div>
     <div id="tab-content" class="tab-content">
         <div class="tab is-active" data-content="0">
+            <?php
+                if (!empty($incidents)) {
+                    $data['incidentResult'] = $incidents;
+                    $this->load->view('dashboard/employee/incident_table', $data);
+                }
+            ?>
         </div>
         <div class="tab" data-content="1">
             <div class="search-input-area is-centered" >
@@ -15,10 +21,13 @@
                     $location = '';
                     $province = '';
                     $district = '';
-                    $isOngoing = 'checked';
+                    $isOngoing = 'indeterminate';
 
                     if (!empty($ongoing) && $ongoing === 'unchecked')
                         $isOngoing = '';
+                    
+                    if (!empty($ongoing) && $ongoing === 'checked')
+                        $isOngoing = 'checked';
 
                     if (!empty($searchType)) {
                         if ($searchType === 'name')
@@ -32,7 +41,7 @@
                     }
 
                 ?>
-                <?php echo form_open('incident/search'); ?>
+                <?php echo form_open('incident/search', 'id="search-form"'); ?>
                     <div class="field has-addons is-centered">
                         <p class="control">
                             <span class="select is-rounded is-primary">
@@ -54,61 +63,48 @@
                         </p>
                     </div> 
                     <label class="checkbox">
-                        <input type="checkbox" name="is-ongoing" <?php echo $isOngoing; ?>>
+                        <input type="checkbox" id="checkbox" <?php if ($isOngoing === 'checked') echo 'checked'; ?>>
                         On going
                     </label>
+
+                    <input type='hidden' id='is-ongoing' name='is-ongoing' value='-1'>
+
+
                 <?php echo form_close(); ?>
+                <script>
+                    let checkbox = document.getElementById('checkbox');
+
+                    if ('<?php echo $isOngoing; ?>' === 'indeterminate') {
+                        checkbox.indeterminate = true;
+                    } else if (checkbox.checked) {
+                        document.getElementById('is-ongoing').value = '1';
+                    } else {
+                        document.getElementById('is-ongoing').value = '0';
+                    }
+
+                    checkbox.addEventListener('click', (e) => {
+                        if (checkbox.checked) {
+                            document.getElementById('is-ongoing').value = '1';
+                        } else {
+                            document.getElementById('is-ongoing').value = '0';
+                        }
+                    });
+                </script>
             </div>
             <hr>
             <div class="columns search-result">
-                <?php 
-                    $hasIncidentResult = !empty($incidentResult);
-                    $displayOpt = ($hasIncidentResult) ? 'block' : 'none';
-                ?>
                 <div class="notification is-danger" id="no-record-notification">
                     No records found!
                 </div>
-                <table class="table is-bordered is-striped is-narrow is-hoverable" style="display:<?php echo $displayOpt; ?>;">
-                    <thead>
-                        <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Province</th>
-                        <th>District</th>
-                        <th>Location</th>
-                        <th>Longtitude</th>
-                        <th>Latitude</th>
-                        <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <?php 
-                                if ($hasIncidentResult) {
-                                    foreach ($incidentResult as $row) {
-                                        echo '<tr>';
-                                        echo '<td>' . ucfirst($row->name) . '</td>';
-                                        echo '<td>' . ucfirst($row->type) . '</td>';
-                                        echo '<td>' . ucfirst($row->province) . '</td>';
-                                        echo '<td>' . ucfirst($row->district) . '</td>';
-                                        echo '<td>' . ucfirst($row->location) . '</td>';
-                                        echo '<td>' . ucfirst($row->lng) . '</td>';
-                                        echo '<td>' . ucfirst($row->lat) . '</td>';
-                                        echo '<td>';
-                                        echo '<button class="button is-danger more-btn" id="' . $row->id . '">More</button>';
-                                        echo '</td>';
-                                        echo '</tr>';
-                                    }
-                                }
-                            ?>
-                    </tbody>
-                </table>
+                <?php 
+                    if (!empty($incidentResults)) {
+                        $data['incidentResult'] = $incidentResults;
+                        $this->load->view('dashboard/employee/incident_table', $data);
+                    }
+                ?>
             </div>
         </div>
         <div class="tab" data-content="2">
-            <?php
-                if (!empty($errors))
-                    print_r($errors);
-            ?>
             <div class="notification is-success" id="success-notification">
                 Incident added successfully!
             </div>
