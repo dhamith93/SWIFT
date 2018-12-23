@@ -17,8 +17,9 @@
         <div class="tab" data-content="1">
             <div class="search-input-area is-centered" >
                 <?php
-                    $name = ''; 
-                    $location = '';
+                    $name = '';
+                    $type = ''; 
+                    $town = '';
                     $province = '';
                     $district = '';
                     $isOngoing = 'indeterminate';
@@ -32,8 +33,10 @@
                     if (!empty($searchType)) {
                         if ($searchType === 'name')
                             $name = 'selected';
-                        if ($searchType === 'location')
-                            $location = 'selected';
+                        if ($searchType === 'type')
+                            $type = 'selected';
+                        if ($searchType === 'town')
+                            $town = 'selected';
                         if ($searchType === 'province')
                             $province = 'selected';
                         if ($searchType === 'district')
@@ -47,7 +50,8 @@
                             <span class="select is-rounded is-primary">
                                 <select name="search-type">
                                     <option value="name" <?php echo $name; ?>>Name</option>
-                                    <option value="location" <?php echo $location; ?>>Location</option>
+                                    <option value="type" <?php echo $type; ?>>Type</option>
+                                    <option value="town" <?php echo $town; ?>>Town</option>
                                     <option value="district" <?php echo $district; ?>>District</option>
                                     <option value="province" <?php echo $province; ?>>Province</option>
                                 </select>
@@ -105,6 +109,14 @@
             </div>
         </div>
         <div class="tab" data-content="2">
+            <?php 
+                if (!empty($errors)) {
+                    echo '<div class="notification is-danger" id="empty-error-notification">';
+                    foreach ($errors as $error)
+                        echo $error . '<br>';
+                    echo '</div>';
+                }
+            ?>
             <div class="notification is-success" id="success-notification">
                 Incident added successfully!
             </div>
@@ -112,7 +124,7 @@
                 An error occured when adding incident! <br>
                 Try again.
             </div>
-            <?php echo form_open('incident/add'); ?>
+            <?php echo form_open('incident/add', 'id="add-incident-form"'); ?>
                 <div class="field">
                     <label class="label">Name</label>
                     <div class="control">
@@ -138,64 +150,77 @@
 
                 <br>
 
-                <div class="control">
-                    <label class="label">Province</label>
-                    <div class="select is-fullwidth">
-                        <select name="province">
-                            <option value="central">Central</option>
-                            <option value="eastern">Eastern</option>
-                            <option value="north-central">North Central</option>
-                            <option value="north-western">North Western</option>
-                            <option value="northern">Northern</option>
-                            <option value="sabaragamuwa">Sabaragamuwa</option>
-                            <option value="southern">Southern</option>
-                            <option value="uva">Uva</option>
-                            <option value="western">Western</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <br>
-
-                <div class="control">
-                    <label class="label">District</label>
-                    <div class="select is-fullwidth">
-                        <select name="district">
-                            <option value="ampara">Ampara</option>
-                            <option value="anuradhapura">Anuradhapura</option>
-                            <option value="badulla">Badulla</option>
-                            <option value="batticaloa">Batticaloa</option>
-                            <option value="colombo">Colombo</option>
-                            <option value="galle">Galle</option>
-                            <option value="gampaha">Gampaha</option>
-                            <option value="hambantota">Hambantota</option>
-                            <option value="jaffna">Jaffna</option>
-                            <option value="kalutara">Kalutara</option>
-                            <option value="kandy">Kandy</option>
-                            <option value="kegalle">Kegalle</option>
-                            <option value="kilinochchi">Kilinochchi</option>
-                            <option value="kurunegala">Kurunegala</option>
-                            <option value="mannar">Mannar</option>
-                            <option value="matale">Matale</option>
-                            <option value="matara">Matara</option>
-                            <option value="monaragala">Monaragala</option>
-                            <option value="mullaitivu">Mullaitivu</option>
-                            <option value="nuwara-eliya">Nuwara Eliya</option>
-                            <option value="polonnaruwa">Polonnaruwa</option>
-                            <option value="puttalam">Puttalam</option>
-                            <option value="ratnapura">Ratnapura</option>
-                            <option value="trincomalee">Trincomalee</option>
-                            <option value="vavuniya">Vavuniya</option>
-                        </select>
-                    </div>
-                </div>
-
-                <br>
-
-                <div class="field">
-                    <label class="label">Location</label>
+                <div class="box" id="location-box">
+                    <label class="label">Affected Areas</label> <br>
                     <div class="control">
-                        <input class="input" type="text" name="location">
+                        <label class="label">Province</label>
+                        <div class="select is-fullwidth">
+                            <select id="province">
+                                <option value="central">Central</option>
+                                <option value="eastern">Eastern</option>
+                                <option value="north-central">North Central</option>
+                                <option value="north-western">North Western</option>
+                                <option value="northern">Northern</option>
+                                <option value="sabaragamuwa">Sabaragamuwa</option>
+                                <option value="southern">Southern</option>
+                                <option value="uva">Uva</option>
+                                <option value="western">Western</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <br>
+
+                    <div class="control">
+                        <label class="label">District</label>
+                        <div class="select is-fullwidth">
+                            <select id="district">
+                                <option value="ampara">Ampara</option>
+                                <option value="anuradhapura">Anuradhapura</option>
+                                <option value="badulla">Badulla</option>
+                                <option value="batticaloa">Batticaloa</option>
+                                <option value="colombo">Colombo</option>
+                                <option value="galle">Galle</option>
+                                <option value="gampaha">Gampaha</option>
+                                <option value="hambantota">Hambantota</option>
+                                <option value="jaffna">Jaffna</option>
+                                <option value="kalutara">Kalutara</option>
+                                <option value="kandy">Kandy</option>
+                                <option value="kegalle">Kegalle</option>
+                                <option value="kilinochchi">Kilinochchi</option>
+                                <option value="kurunegala">Kurunegala</option>
+                                <option value="mannar">Mannar</option>
+                                <option value="matale">Matale</option>
+                                <option value="matara">Matara</option>
+                                <option value="monaragala">Monaragala</option>
+                                <option value="mullaitivu">Mullaitivu</option>
+                                <option value="nuwara-eliya">Nuwara Eliya</option>
+                                <option value="polonnaruwa">Polonnaruwa</option>
+                                <option value="puttalam">Puttalam</option>
+                                <option value="ratnapura">Ratnapura</option>
+                                <option value="trincomalee">Trincomalee</option>
+                                <option value="vavuniya">Vavuniya</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="field">
+                        <label class="label">Town</label>
+                        <div class="control">
+                            <input class="input" type="text" id="town">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control" id="locations"> </div>
+                    </div>
+
+                    <input type="hidden" name="location-list" id="location-list" value="">
+
+                    <div class="field">
+                        <button class="button is-link is-rounded" id="add-location-btn" type="button">Add Area</button>
                     </div>
                 </div>
 
@@ -209,6 +234,8 @@
                         <input class="input" type="text" name="lat" placeholder="Latitude">
                     </div>
                 </div>
+
+                <br>
 
                 <div class="control">
                     <label class="label">Send Alerts</label> <small>CTRL + CLICK to chose multiple items.</small>
@@ -253,3 +280,5 @@
             <?php echo form_close(); ?>
         </div>
     </div>
+
+    <?php $this->load->view('dashboard/employee/incident_modal') ?>

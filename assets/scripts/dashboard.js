@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-    if ($navbarBurgers.length > 0) {
-        $navbarBurgers.forEach( el => {
+    const navbarBurgers = getAll('.navbar-burger');
+    if (navbarBurgers.length > 0) {
+        navbarBurgers.forEach( el => {
             el.addEventListener('click', () => {
                 let dashboardNav = document.getElementById('dashboard-nav');
                 dashboardNav.classList.toggle('dashboard-nav-active');
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    var deleteEmpForms = Array.prototype.slice.call(document.querySelectorAll('.delete-emp-form'), 0);
+    var deleteEmpForms = getAll('.delete-emp-form');
 
     if (deleteEmpForms.length > 0) {
         deleteEmpForms.forEach(el => {
@@ -103,17 +103,127 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    var moreBtns = Array.prototype.slice.call(document.querySelectorAll('.more-btn'), 0);
+    var addLocationBtn = document.getElementById('add-location-btn');
+    var locationCount = 0;
+    var locationList = new Array();
+
+    addLocationBtn.addEventListener('click', (e) => {
+        let province = document.getElementById('province').value;
+        let district = document.getElementById('district').value;
+        let town = document.getElementById('town').value;
+        let locations = document.getElementById('locations');
+
+        if (!town) {
+            document.getElementById('town').classList.add('is-danger');
+            return
+        }
+
+        document.getElementById('town').classList.remove('is-danger');
+        document.getElementById('location-box').classList.remove('box-is-danger');
+
+        let locationString = province + '>' + district + '>' + town;
+
+        locationList[locationCount] = locationString;
+        
+        locations.innerHTML += '<div id="loc-'+ locationCount +'"><p>' + locationString 
+            + '<button class="delete location-delete" aria-label="close" type="button" style="float:right;" data-target="loc-' 
+            + locationCount +'"></button></p><hr></div>';
+
+        locationCount += 1;
+
+        let locationDelBtns = getAll('.location-delete');
+
+        if (locationDelBtns.length > 0) {
+            locationDelBtns.forEach(el => {
+                el.addEventListener('click', (e) => {
+                    let locationElement = document.getElementById(el.dataset.target);
+                    let arrPos = parseInt(el.dataset.target.substr(4));
+                    delete locationList[arrPos];
+                    locationElement.parentNode.removeChild(locationElement);
+                });
+            });
+        }
+    });
+
+    var addIncidentForm = document.getElementById('add-incident-form');
+
+    addIncidentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let locationVals = document.getElementById('location-list');
+
+        locationVals.value = '';
+
+        for (let i = 0; i < locationList.length; i++) {
+            if (locationList[i] !== undefined) {
+                if (locationVals.value.length > 0)
+                    locationVals.value += '|';
+                
+                locationVals.value += locationList[i];
+            }
+        }
+
+        if (locationVals.value.length == 0) {
+            document.getElementById('location-box').classList.add('box-is-danger');
+            return;
+        }
+
+        document.getElementById('location-box').classList.remove('box-is-danger');
+
+        addIncidentForm.submit();
+    });
+
+
+    // Modal | chose to load a different page instead of a modal. Keep commented codes as reference.
+
+    var moreBtns = getAll('.more-btn');
+    // var rootEl = document.documentElement;
+    // var $modals = getAll('.modal');
+    // var $modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
 
     if (moreBtns.length > 0) {
         moreBtns.forEach(el => {
             el.addEventListener('click', (e) => {
                 e.preventDefault();
-                alert(el.id);
+                // let target = el.dataset.target;
+                // openModal(target);
+                window.location.href = "http://localhost:8888/SWIFT/incident/" + el.id;
             });
         });
     }
 
 
+    // if ($modalCloses.length > 0) {
+    //     $modalCloses.forEach(function ($el) {
+    //         $el.addEventListener('click', function () {
+    //             closeModals();
+    //         });
+    //     });
+    // }
+
+    // function openModal(target) {
+    //     var $target = document.getElementById(target);
+    //     rootEl.classList.add('is-clipped');
+    //     $target.classList.add('is-active');
+    // }
+
+    // function closeModals() {
+    //     rootEl.classList.remove('is-clipped');
+    //         $modals.forEach(function ($el) {
+    //         $el.classList.remove('is-active');
+    //     });
+    // }
+
+    // document.addEventListener('keydown', function (event) {
+    //         var e = event || window.event;
+    //         if (e.keyCode === 27) {
+    //         closeModals();
+    //         closeDropdowns();
+    //     }
+    // });
+
+    function getAll(selector) {
+        return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
+    }
 
 });

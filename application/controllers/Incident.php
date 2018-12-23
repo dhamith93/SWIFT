@@ -1,5 +1,15 @@
 <?php
     class Incident extends CI_Controller {
+        public function singleIncidentView($id) {
+            $this->redirectIfNotAuthorized();
+
+            $data['id'] = $id;
+            $data['incident'] = $this->incident_model->getSingleIncident($id); 
+
+            $this->load->view('templates/header');
+            $this->load->view('dashboard/single_incident', $data);
+        }
+
         public function add() {
             $this->redirectIfNotAuthorized();
 
@@ -7,9 +17,7 @@
 
             $this->form_validation->set_rules('name', 'Name', 'required');
             $this->form_validation->set_rules('type', 'Type', 'required');
-            $this->form_validation->set_rules('province', 'Province', 'required');
-            $this->form_validation->set_rules('district', 'District', 'required');
-            $this->form_validation->set_rules('location', 'Location', 'required');
+            $this->form_validation->set_rules('location-list', 'Location List', 'required');
 
             if (!empty($alertReceivers))
                 $this->form_validation->set_rules('alert', 'Alert', 'required');
@@ -18,9 +26,6 @@
                 $formData = array(
                     'name' => $this->input->post('name'),
                     'type' => $this->input->post('type'),
-                    'province' => $this->input->post('province'),
-                    'district' => $this->input->post('district'),
-                    'location' => $this->input->post('location'),
                     'lat' => $this->input->post('lat'),
                     'long' => $this->input->post('long'),
                     'hazard_warning' => $this->input->post('warning')

@@ -62,5 +62,6 @@ $route['employee'] = 'employee/view';
 $route['employee/(:any)'] = 'employee/view/$1';
 $route['incident/add'] = 'incident/add';
 $route['incident/search'] = 'incident/getIncidentInfo';
+$route['incident/(:any)'] = 'incident/singleIncidentView/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

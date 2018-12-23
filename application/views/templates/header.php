@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/bulma.min.css">
+    <script defer src="<?php echo base_url(); ?>assets/scripts/all.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/main.css">
     <title>SWIFT - Emergency Management System</title>
 </head>

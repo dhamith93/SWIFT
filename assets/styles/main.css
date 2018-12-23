@@ -107,7 +107,7 @@
 }
 
 #tab-content .tab form {
-    max-width: 400px;
+    max-width: 600px;
     margin: auto;
 }
 
@@ -134,6 +134,10 @@
     min-width: 300px;
 }
 
+.box-is-danger {
+    box-shadow: 0 2px 3px rgb(251, 10, 10), 0 0 0 1px rgb(232, 0, 0);
+}
+
 #employee-result {
     max-width: 400px;
     margin-top: 20px;
@@ -149,7 +153,7 @@
     overflow: auto;
 }
 
-#success-notification, #employee-error-notification, #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification {
+#success-notification, #employee-error-notification, #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification, #empty-error-notification {
     display: none;
     max-width: 400px;
     margin: auto;
@@ -159,6 +163,10 @@
 
 #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification {
     margin-top: 20px;
+}
+
+#empty-error-notification {
+    display: block;
 }
 
 .submit-btns {
