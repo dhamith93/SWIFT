@@ -4,9 +4,15 @@
         <p class="control">
             <span class="select is-primary">
                 <select id="org-type">
-                    <option value="fireBrigrade">Fire Brigades</option>
-                    <option value="hospital">Hospitals</option>
-                    <option value="policeStation">Police Stations</option>
+                    <option value="hospital">Hospital</option>
+                    <option value="fire-brigade">Fire Brigade</option>
+                    <option value="ambulance-service">Ambulance Service</option>
+                    <option value="police">Police</option>
+                    <option value="s&r">Search and Rescue</option>
+                    <option value="military">Military</option>
+                    <option value="pc">Provincial Council</option>
+                    <option value="uc">Urban Council</option>
+                    <option value="ps">Pradheshiya Sabha</option>
                 </select>
             </span>
 

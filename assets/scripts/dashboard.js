@@ -159,33 +159,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     var addIncidentForm = document.getElementById('add-incident-form');
+    var addOrganizationForm = document.getElementById('add-organization-form');
 
     if (addIncidentForm) {
         addIncidentForm.addEventListener('submit', (e) => {
             e.preventDefault();
-    
-            let locationVals = document.getElementById('location-list');
-    
-            locationVals.value = '';
-    
-            for (let i = 0; i < locationList.length; i++) {
-                if (locationList[i] !== undefined) {
-                    if (locationVals.value.length > 0)
-                        locationVals.value += '|';
-                    
-                    locationVals.value += locationList[i];
-                }
-            }
-    
-            if (locationVals.value.length == 0) {
-                document.getElementById('location-box').classList.add('box-is-danger');
-                return;
-            }
-    
-            document.getElementById('location-box').classList.remove('box-is-danger');
-    
-            addIncidentForm.submit();
+            checkLocationsAndSubmit(addIncidentForm);
         });
+    }
+
+    if (addOrganizationForm) {
+        addOrganizationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            checkLocationsAndSubmit(addOrganizationForm);
+        });
+    }
+
+    function checkLocationsAndSubmit(form) {
+        let locationVals = document.getElementById('location-list');
+
+        locationVals.value = '';
+
+        for (let i = 0; i < locationList.length; i++) {
+            if (locationList[i] !== undefined) {
+                if (locationVals.value.length > 0)
+                    locationVals.value += '|';
+                
+                locationVals.value += locationList[i];
+            }
+        }
+
+        if (locationVals.value.length == 0) {
+            document.getElementById('location-box').classList.add('box-is-danger');
+            return;
+        }
+
+        document.getElementById('location-box').classList.remove('box-is-danger');
+
+        form.submit();
     }
 
 

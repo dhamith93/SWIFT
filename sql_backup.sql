@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 18, 2018 at 03:18 PM
+-- Generation Time: Dec 23, 2018 at 05:41 PM
 -- Server version: 5.6.38
 -- PHP Version: 7.2.1
 
@@ -99,13 +99,6 @@ CREATE TABLE `employees` (
   `last_logged_in` datetime DEFAULT NULL,
   `is_admin` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `employees`
---
-
-INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
-(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '12345678912345', 'test@test.com', '2018-12-18 20:35:11', 1);
 
 -- --------------------------------------------------------
 
@@ -212,10 +205,10 @@ CREATE TABLE `message_boards` (
 CREATE TABLE `organizations` (
   `id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
-  `type` int(11) NOT NULL,
-  `address` int(11) NOT NULL,
-  `contact` int(11) NOT NULL,
-  `email` int(11) NOT NULL
+  `type` varchar(100) NOT NULL,
+  `address` text NOT NULL,
+  `contact` varchar(15) NOT NULL,
+  `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -259,7 +252,8 @@ CREATE TABLE `responders` (
   `last_name` varchar(255) NOT NULL,
   `contact` varchar(15) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` text NOT NULL
+  `password` text NOT NULL,
+  `is_admin` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -273,7 +267,7 @@ CREATE TABLE `responding_areas` (
   `org_id` int(11) NOT NULL,
   `province` varchar(200) NOT NULL,
   `district` varchar(200) NOT NULL,
-  `city` varchar(255) NOT NULL
+  `town` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -526,7 +520,7 @@ ALTER TABLE `message_boards`
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `press_releases`
@@ -544,13 +538,13 @@ ALTER TABLE `property_damagers`
 -- AUTO_INCREMENT for table `responders`
 --
 ALTER TABLE `responders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `responding_areas`
 --
 ALTER TABLE `responding_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `responding_organizations`

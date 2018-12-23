@@ -34,7 +34,7 @@
                 $this->session->set_flashdata('formData', $formData);
                 redirect('employee/organizations/#add');
             } else {
-                // $this->organization_model->add();
+                $this->organization_model->add();
                 redirect('employee/organizations/#add-success');
             }
         }
