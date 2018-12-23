@@ -280,5 +280,3 @@
             <?php echo form_close(); ?>
         </div>
     </div>
-
-    <?php $this->load->view('dashboard/employee/incident_modal') ?>

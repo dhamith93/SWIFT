@@ -185,9 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         moreBtns.forEach(el => {
             el.addEventListener('click', (e) => {
                 e.preventDefault();
-                // let target = el.dataset.target;
-                // openModal(target);
-                window.location.href = "http://localhost:8888/SWIFT/incident/" + el.id;
+                window.open("http://localhost:8888/SWIFT/incident/" + el.id, '_blank').focus();
             });
         });
     }

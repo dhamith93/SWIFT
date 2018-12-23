@@ -7,7 +7,7 @@
             $data['incident'] = $this->incident_model->getSingleIncident($id); 
 
             $this->load->view('templates/header');
-            $this->load->view('dashboard/single_incident', $data);
+            $this->load->view('incident/single_incident', $data);
         }
 
         public function add() {
