@@ -35,9 +35,6 @@
                 case 'employees':
                     $view = 'dashboard/admin/employees';
                     break;
-                case 'organizations':
-                    $view = 'dashboard/admin/organizations';
-                    break;
                 case 'company':
                     $view = 'dashboard/admin/company';
                     break;
@@ -61,5 +58,6 @@
     </div>
     <script>
         var section = '<?php echo $section; ?>';
+        var view = '<?php echo lcfirst($title); ?>';
     </script>
     <script src="<?php echo base_url(); ?>assets/scripts/dashboard.js"></script>

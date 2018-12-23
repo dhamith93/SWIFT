@@ -203,6 +203,15 @@
     width: unset;
 }
 
+#resp-search-area {
+    max-width: 580px;
+    margin: auto;
+}
+
+#resp-search-area span input {
+    width: 200px;
+}
+
 @media screen and (min-width: 769px), print {
     .navbar-burger {
         display: none;

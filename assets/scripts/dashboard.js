@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
 
         if (section === 'employee') {
-            tabHeaders[2].classList.add('is-active'); // add tabHeader
-            selectedTabContents = document.querySelectorAll('[data-content="2"]'); // add tab
+            let n = (view === 'incidents') ? 2 : 1;
+            tabHeaders[n].classList.add('is-active'); // add tabHeader
+            selectedTabContents = document.querySelectorAll('[data-content="' + n + '"]'); // add tab
         }
         
         activateTab(selectedTabContents);
@@ -104,74 +105,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     var addLocationBtn = document.getElementById('add-location-btn');
-    var locationCount = 0;
-    var locationList = new Array();
 
-    addLocationBtn.addEventListener('click', (e) => {
-        let province = document.getElementById('province').value;
-        let district = document.getElementById('district').value;
-        let town = document.getElementById('town').value;
-        let locations = document.getElementById('locations');
+    if (addLocationBtn) {
+        var locationCount = 0;
+        var locationList = new Array();
+    
+        addLocationBtn.addEventListener('click', (e) => {
+            let province = document.getElementById('province').value;
+            let district = document.getElementById('district').value;
+            let town = document.getElementById('town').value;
+            let locations = document.getElementById('locations');
+    
+            if (!town && view === 'incidents') {
+                document.getElementById('town').classList.add('is-danger');
+                return
+            }
+    
+            document.getElementById('town').classList.remove('is-danger');
+            document.getElementById('location-box').classList.remove('box-is-danger');
 
-        if (!town) {
-            document.getElementById('town').classList.add('is-danger');
-            return
-        }
-
-        document.getElementById('town').classList.remove('is-danger');
-        document.getElementById('location-box').classList.remove('box-is-danger');
-
-        let locationString = province + '>' + district + '>' + town;
-
-        locationList[locationCount] = locationString;
-        
-        locations.innerHTML += '<div id="loc-'+ locationCount +'"><p>' + locationString 
-            + '<button class="delete location-delete" aria-label="close" type="button" style="float:right;" data-target="loc-' 
-            + locationCount +'"></button></p><hr></div>';
-
-        locationCount += 1;
-
-        let locationDelBtns = getAll('.location-delete');
-
-        if (locationDelBtns.length > 0) {
-            locationDelBtns.forEach(el => {
-                el.addEventListener('click', (e) => {
-                    let locationElement = document.getElementById(el.dataset.target);
-                    let arrPos = parseInt(el.dataset.target.substr(4));
-                    delete locationList[arrPos];
-                    locationElement.parentNode.removeChild(locationElement);
+            let locationString;
+            
+            if (district === 'empty') {
+                locationString = province;    
+            } else if (!town) {
+                locationString = province + '>' + district;    
+            } else {
+                locationString = province + '>' + district + '>' + town;
+            }
+    
+            locationList[locationCount] = locationString;
+            
+            locations.innerHTML += '<div id="loc-'+ locationCount +'"><p>' + locationString 
+                + '<button class="delete location-delete" aria-label="close" type="button" style="float:right;" data-target="loc-' 
+                + locationCount +'"></button></p><hr></div>';
+    
+            locationCount += 1;
+    
+            let locationDelBtns = getAll('.location-delete');
+    
+            if (locationDelBtns.length > 0) {
+                locationDelBtns.forEach(el => {
+                    el.addEventListener('click', (e) => {
+                        let locationElement = document.getElementById(el.dataset.target);
+                        let arrPos = parseInt(el.dataset.target.substr(4));
+                        delete locationList[arrPos];
+                        locationElement.parentNode.removeChild(locationElement);
+                    });
                 });
-            });
-        }
-    });
+            }
+        });
+    }
+
 
     var addIncidentForm = document.getElementById('add-incident-form');
 
-    addIncidentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        let locationVals = document.getElementById('location-list');
-
-        locationVals.value = '';
-
-        for (let i = 0; i < locationList.length; i++) {
-            if (locationList[i] !== undefined) {
-                if (locationVals.value.length > 0)
-                    locationVals.value += '|';
-                
-                locationVals.value += locationList[i];
+    if (addIncidentForm) {
+        addIncidentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+    
+            let locationVals = document.getElementById('location-list');
+    
+            locationVals.value = '';
+    
+            for (let i = 0; i < locationList.length; i++) {
+                if (locationList[i] !== undefined) {
+                    if (locationVals.value.length > 0)
+                        locationVals.value += '|';
+                    
+                    locationVals.value += locationList[i];
+                }
             }
-        }
+    
+            if (locationVals.value.length == 0) {
+                document.getElementById('location-box').classList.add('box-is-danger');
+                return;
+            }
+    
+            document.getElementById('location-box').classList.remove('box-is-danger');
+    
+            addIncidentForm.submit();
+        });
+    }
 
-        if (locationVals.value.length == 0) {
-            document.getElementById('location-box').classList.add('box-is-danger');
-            return;
-        }
-
-        document.getElementById('location-box').classList.remove('box-is-danger');
-
-        addIncidentForm.submit();
-    });
 
 
     // Modal | chose to load a different page instead of a modal. Keep commented codes as reference.
