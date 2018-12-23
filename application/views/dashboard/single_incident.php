@@ -397,13 +397,20 @@ hr {
                 <h4 class="subtitle is-4 is-center">Media</h4>
                 <div id="gallary">
                 </div>
-                <a class="button is-success" id="add-responders-btn">
-                    <span class="icon is-small">
-                        <i class="fas fa-plus animated flipInX btn-icon"></i>
-                    </span>
-                    <span>Add Media</span>                    
-                </a>
-                <input type="file" id="mypic" accept="image/*">
+                
+                <div class="file is-primary">
+                    <label class="file-label">
+                    <input class="file-input" type="file" id="mypic" accept="image/*">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Add image
+                            </span>
+                        </span>
+                    </label>
+                </div>
 
             </div>
             <div class="tab" data-content="3">
@@ -645,4 +652,4 @@ hr {
       }
 </script>
 
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiQmUAapRHaBK7KVDwe1K0CvkvtWnaD2A&callback=initMap"></script> -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=[API_KEY]&callback=initMap"></script> -->
