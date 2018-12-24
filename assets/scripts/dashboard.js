@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // if path/to/here#add || path/to/gere#add-success is loaded after adding a new user, display Add tab
     var urlAnchor = window.location.hash.substr(1);
-    if (urlAnchor && (urlAnchor === 'add' || urlAnchor === 'add-success')) {
+    if (urlAnchor && (urlAnchor === 'add' || urlAnchor === 'add-success' || urlAnchor === 'add-error')) {
         unsetTabHeaderIsActive();
 
         let selectedTabContents;
@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (urlAnchor === 'add-success') {
             document.getElementById('success-notification').style.display = 'block';
             window.history.replaceState('', 'Employees', '#add'); // replaces the #add-success with #add
+        }
+
+        if (urlAnchor === 'add-error') {
+            document.getElementById('error-notification').style.display = 'block';
+            window.history.replaceState('', 'Employees', '#add'); // replaces the #add-error with #add
         }
     }
 

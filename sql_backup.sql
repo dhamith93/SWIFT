@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 23, 2018 at 05:41 PM
+-- Generation Time: Dec 24, 2018 at 06:12 AM
 -- Server version: 5.6.38
 -- PHP Version: 7.2.1
 
@@ -99,6 +99,14 @@ CREATE TABLE `employees` (
   `last_logged_in` datetime DEFAULT NULL,
   `is_admin` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
+(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2018-12-24 09:46:05', 1),
+(9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2018-12-24 09:45:55', 0);
 
 -- --------------------------------------------------------
 
@@ -205,11 +213,37 @@ CREATE TABLE `message_boards` (
 CREATE TABLE `organizations` (
   `id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
-  `type` varchar(100) NOT NULL,
+  `type_id` int(11) NOT NULL,
   `address` text NOT NULL,
   `contact` varchar(15) NOT NULL,
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `organization_types`
+--
+
+CREATE TABLE `organization_types` (
+  `id` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `organization_types`
+--
+
+INSERT INTO `organization_types` (`id`, `type`) VALUES
+(1, 'hospital'),
+(2, 'fire-brigade'),
+(3, 'ambulance-service'),
+(4, 'police'),
+(5, 's&r'),
+(6, 'military'),
+(7, 'pc'),
+(8, 'uc'),
+(9, 'ps');
 
 -- --------------------------------------------------------
 
@@ -265,6 +299,7 @@ CREATE TABLE `responders` (
 CREATE TABLE `responding_areas` (
   `id` int(11) NOT NULL,
   `org_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
   `province` varchar(200) NOT NULL,
   `district` varchar(200) NOT NULL,
   `town` varchar(255) NOT NULL
@@ -395,6 +430,13 @@ ALTER TABLE `message_boards`
 -- Indexes for table `organizations`
 --
 ALTER TABLE `organizations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type_id` (`type_id`);
+
+--
+-- Indexes for table `organization_types`
+--
+ALTER TABLE `organization_types`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -448,7 +490,7 @@ ALTER TABLE `system_information`
 -- AUTO_INCREMENT for table `affected_areas`
 --
 ALTER TABLE `affected_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `alerts`
@@ -472,7 +514,7 @@ ALTER TABLE `contact_numbers`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `evacuations`
@@ -502,7 +544,7 @@ ALTER TABLE `hospitalizations`
 -- AUTO_INCREMENT for table `incidents`
 --
 ALTER TABLE `incidents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -520,7 +562,13 @@ ALTER TABLE `message_boards`
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `organization_types`
+--
+ALTER TABLE `organization_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `press_releases`
@@ -538,13 +586,13 @@ ALTER TABLE `property_damagers`
 -- AUTO_INCREMENT for table `responders`
 --
 ALTER TABLE `responders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `responding_areas`
 --
 ALTER TABLE `responding_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `responding_organizations`
@@ -632,6 +680,12 @@ ALTER TABLE `messages`
 --
 ALTER TABLE `message_boards`
   ADD CONSTRAINT `message_boards_ibfk_1` FOREIGN KEY (`inc_id`) REFERENCES `incidents` (`id`);
+
+--
+-- Constraints for table `organizations`
+--
+ALTER TABLE `organizations`
+  ADD CONSTRAINT `organizations_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `organization_types` (`id`);
 
 --
 -- Constraints for table `press_releases`

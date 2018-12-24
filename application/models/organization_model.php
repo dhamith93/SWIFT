@@ -5,9 +5,14 @@
         }
 
         public function add() {
+            $orgTypeId = $this->getOrganizationTypeId($this->input->post('type', true));
+
+            if ($orgTypeId === -1)
+                return false;
+
             $orgData = array(
                 'name' => htmlspecialchars($this->input->post('org-name', true)),
-                'type' => htmlspecialchars($this->input->post('type', true)),
+                'type_id' => $orgTypeId,
                 'address' => htmlspecialchars($this->input->post('address', true)),
                 'contact' => htmlspecialchars($this->input->post('org-contact', true)),
                 'email' => htmlspecialchars($this->input->post('org-email', true))
@@ -22,6 +27,7 @@
             foreach ($locationArray as $location) {
                 $locationData = array(
                     'org_id' => $orgId,
+                    'type_id' => $orgTypeId,
                     'province' => $location[0],
                     'district' => isset($location[1]) ? $location[1] : '',
                     'town' => isset($location[2]) ? $location[2] : '',
@@ -45,6 +51,8 @@
             );
 
             $this->responder_model->add($adminData);
+
+            return true;
         }
 
         function extractLocations($str) {
@@ -58,5 +66,15 @@
             }
 
             return $returnArr;
+        }
+
+        function getOrganizationTypeId($orgType) {
+            $query = $this->db->get_where('organization_types', array('type' => $orgType));
+            $id = $query->row_array()['id'];
+
+            if (empty($id))
+                return -1;
+
+            return $id;
         }
     }

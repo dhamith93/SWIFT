@@ -2,7 +2,7 @@
 <div class="notification is-success" id="success-notification">
     Organization added successfully!
 </div>
-<div class="notification is-danger" id="employee-error-notification">
+<div class="notification is-danger" id="error-notification">
     An error occured when adding the organization! <br>
     Try again.
 </div>

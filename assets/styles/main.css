@@ -153,7 +153,7 @@
     overflow: auto;
 }
 
-#success-notification, #employee-error-notification, #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification, #empty-error-notification {
+#success-notification, #error-notification, #employee-error-notification, #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification, #empty-error-notification {
     display: none;
     max-width: 400px;
     margin: auto;
