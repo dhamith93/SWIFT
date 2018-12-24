@@ -9,12 +9,12 @@
             $hashedPw = password_hash($password, PASSWORD_BCRYPT);
 
             $formData = array(
-                'emp_id' => $this->input->post('emp-id'),
-                'first_name' => $this->input->post('first-name'),
-                'last_name' => $this->input->post('last-name'),
+                'emp_id' => htmlspecialchars($this->input->post('emp-id', true)),
+                'first_name' => htmlspecialchars($this->input->post('first-name', true)),
+                'last_name' => htmlspecialchars($this->input->post('last-name', true)),
                 'password' => $hashedPw,
-                'contact' => $this->input->post('contact'),
-                'email' => $this->input->post('email')
+                'contact' => htmlspecialchars($this->input->post('contact', true)),
+                'email' => htmlspecialchars($this->input->post('email', true))
             );
 
             return $this->db->insert('employees', $formData);

@@ -6,17 +6,17 @@
 
         public function add() {
             $orgData = array(
-                'name' => $this->input->post('org-name'),
-                'type' => $this->input->post('type'),
-                'address' => $this->input->post('address'),
-                'contact' => $this->input->post('org-contact'),
-                'email' => $this->input->post('org-email')
+                'name' => htmlspecialchars($this->input->post('org-name', true)),
+                'type' => htmlspecialchars($this->input->post('type', true)),
+                'address' => htmlspecialchars($this->input->post('address', true)),
+                'contact' => htmlspecialchars($this->input->post('org-contact', true)),
+                'email' => htmlspecialchars($this->input->post('org-email', true))
             );
 
             $this->db->insert('organizations', $orgData);
             $orgId = $this->db->insert_id();
 
-            $locationString = $this->input->post('location-list');
+            $locationString = htmlspecialchars($this->input->post('location-list', true));
             $locationArray = $this->extractLocations($locationString);
 
             foreach ($locationArray as $location) {
@@ -36,11 +36,11 @@
 
             $adminData = array(
                 'org_id' => $orgId,
-                'first_name' => $this->input->post('first-name'),
-                'last_name' => $this->input->post('last-name'),
-                'password' => $hashedPw,
-                'contact' => $this->input->post('contact'),
-                'email' => $this->input->post('email'),
+                'first_name' => htmlspecialchars($this->input->post('first-name')),
+                'last_name' => htmlspecialchars($this->input->post('last-name')),
+                'password' => htmlspecialchars($hashedPw),
+                'contact' => htmlspecialchars($this->input->post('contact')),
+                'email' => htmlspecialchars($this->input->post('email')),
                 'is_admin' => 1
             );
 

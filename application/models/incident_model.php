@@ -5,15 +5,15 @@
         }
 
         public function addIncident() {
-            $locationString = $this->input->post('location-list');
+            $locationString = $this->input->post('location-list', true);
             $locationArray = $this->extractLocations($locationString);
 
             $incidentData = array(
-                'name' => $this->input->post('name'),
-                'type' => $this->input->post('type'),
-                'lat' => $this->input->post('lat'),
-                'lng' => $this->input->post('long'),
-                'hazard_warning' => $this->input->post('warning')
+                'name' => htmlspecialchars($this->input->post('name', true)),
+                'type' => htmlspecialchars($this->input->post('type', true)),
+                'lat' => htmlspecialchars($this->input->post('lat', true)),
+                'lng' => htmlspecialchars($this->input->post('long', true)),
+                'hazard_warning' => htmlspecialchars($this->input->post('warning', true))
             );
 
             $this->db->insert('incidents', $incidentData);
