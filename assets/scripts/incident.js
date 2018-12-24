@@ -65,11 +65,15 @@ function sendXhr(url) {
         xhr.onload = function() {
             let response = xhr.responseText;
             response = JSON.parse(response);
-            fillResultTable(response);
+            if (response['status'] === 'OK') {
+                fillResultTable(response);
+            } else {
+                alert('No records found!');
+            }
         };
     
         xhr.onerror = function() {
-            alert('error');
+            alert('Error searching for organization records!');
         };   
 
         xhr.send();
@@ -80,41 +84,42 @@ function fillResultTable(data) {
     resetTable(resultTable);
 
     Object.keys(data).forEach(key => {
-        let name = data[key]['name'];
-        let type = data[key]['type'];
-        let contact = data[key]['contact'];
-        let address = data[key]['address'];
-
-        let tableRef = resultTable.getElementsByTagName('tbody')[0];
-        let newRow = document.createElement('tr');
+        if (key !== 'status') {
+            let name = data[key]['name'];
+            let type = data[key]['type'];
+            let contact = data[key]['contact'];
+            let address = data[key]['address'];
     
-        let button = document.createElement('button');
-    
-        button.id = key;
-        button.innerHTML = 'Add';
-        button.classList.add('button', 'is-link', 'add-responder-btn');
-    
-        let tr = document.createElement('tr');
-        let cell1 = document.createElement('td');
-        let cell2 = document.createElement('td');
-        let cell3 = document.createElement('td');
-        let cell4 = document.createElement('td');
-        let cell5 = document.createElement('td');
-    
-        cell1.appendChild(document.createTextNode(name));
-        cell2.appendChild(document.createTextNode(type));
-        cell3.appendChild(document.createTextNode(contact));
-        cell4.appendChild(document.createTextNode(address));
-        cell5.appendChild(button);
-    
-        tr.appendChild(cell1);
-        tr.appendChild(cell2);
-        tr.appendChild(cell3);
-        tr.appendChild(cell4);
-        tr.appendChild(cell5);
-    
-        tableRef.appendChild(tr);
+            let tableRef = resultTable.getElementsByTagName('tbody')[0];
+            let newRow = document.createElement('tr');
         
+            let button = document.createElement('button');
+        
+            button.id = key;
+            button.innerHTML = 'Add';
+            button.classList.add('button', 'is-link', 'add-responder-btn');
+        
+            let tr = document.createElement('tr');
+            let cell1 = document.createElement('td');
+            let cell2 = document.createElement('td');
+            let cell3 = document.createElement('td');
+            let cell4 = document.createElement('td');
+            let cell5 = document.createElement('td');
+        
+            cell1.appendChild(document.createTextNode(name));
+            cell2.appendChild(document.createTextNode(type));
+            cell3.appendChild(document.createTextNode(contact));
+            cell4.appendChild(document.createTextNode(address));
+            cell5.appendChild(button);
+        
+            tr.appendChild(cell1);
+            tr.appendChild(cell2);
+            tr.appendChild(cell3);
+            tr.appendChild(cell4);
+            tr.appendChild(cell5);
+        
+            tableRef.appendChild(tr);
+        }
     });
 }
 

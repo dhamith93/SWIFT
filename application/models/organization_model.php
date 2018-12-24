@@ -55,6 +55,35 @@
             return true;
         }
 
+        public function getOrganizations($orgType, $searchValue, $locationType) {
+            $orgTypeId = $this->getOrganizationTypeId($orgType);
+            
+            $query = $this->db->get_where('responding_areas', array($locationType => $searchValue, 'type_id' => $orgTypeId));
+            $result = $query->result();
+
+            $returnArr = array();
+
+            foreach ($result as $row) {
+                $query = $this->db->select('t1.id, t1.name, t1.address, t1.contact, t1.email, t2.type')
+                    ->from('organizations as t1')
+                    ->where('t1.id', $row->org_id)
+                    ->join('organization_types as t2', 't1.type_id = t2.id', 'LEFT')
+                    ->get();
+
+                $r1 = $query->row_array();
+                $returnArr[] = array(
+                    'id' => $r1['id'],
+                    'name' => $r1['name'],
+                    'address' => $r1['address'],
+                    'contact' => $r1['contact'],
+                    'email' => $r1['email'],
+                    'type' => $r1['type']
+                );
+            }
+
+            return $returnArr;
+        }
+
         function extractLocations($str) {
             $arr = explode("|",$str);
             $returnArr = array();

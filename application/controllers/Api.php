@@ -20,32 +20,30 @@ class Api extends REST_Controller {
     public function organizations_get() {
         $this->respondErrorIfNotAuthorized();
 
-        $orgType = $this->get('orgType');
-        $searchValue = $this->get('searchValue');
-        $searchType = $this->get('searchType');
+        $orgType = $this->get('orgType', true);
+        $searchValue = $this->get('searchValue', true);
+        $locationType = $this->get('searchType', true);
 
-        $data = array(
-            'id_1' => array(
-                'name' => '_name',
-                'type' => '_type',
-                'contact' => '_contact',
-                'address' => '_address',
-            ),
-            'id_2' => array(
-                'name' => '_name1',
-                'type' => '_type1',
-                'contact' => '_contact1',
-                'address' => '_address1',
-            ),
-            'id_3' => array(
-                'name' => '_name2',
-                'type' => '_type2',
-                'contact' => '_contact2',
-                'address' => '_address2',
-            )
-        );
+        $data = array();
 
-        if(count($data ) > 0) {
+        if (!empty($searchValue)) {
+            $result = $this->organization_model->getOrganizations($orgType, $searchValue, $locationType);
+
+            foreach ($result as $row) {
+                $data[$row['id']] = array(
+                    'name' => $row['name'],
+                    'type' => $row['type'],
+                    'address' => $row['address'],
+                    'contact' => $row['contact'],
+                    'email' => $row['email']
+                );
+            }
+
+            if (count($data ) > 0)
+                $data['status'] = 'OK';
+        }
+
+        if (count($data ) > 0) {
             $this->response($data, REST_Controller::HTTP_OK);
         } else {
             $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
@@ -58,7 +56,7 @@ class Api extends REST_Controller {
         if(!empty($employee)) {
             $this->response($employee, REST_Controller::HTTP_OK);
         } else {
-            $error = array('message' => 'No record found');
+            $error = array('status' => 'NO_RECORDS');
             $this->response($error, REST_Controller::HTTP_OK);
         }
     }

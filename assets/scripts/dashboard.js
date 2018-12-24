@@ -208,19 +208,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal | chose to load a different page instead of a modal. Keep commented codes as reference.
 
-    var moreBtns = getAll('.more-btn');
+    // var moreBtns = getAll('.more-btn');
     // var rootEl = document.documentElement;
     // var $modals = getAll('.modal');
     // var $modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
 
-    if (moreBtns.length > 0) {
-        moreBtns.forEach(el => {
-            el.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.open("http://localhost:8888/SWIFT/incident/" + el.id, '_blank').focus();
-            });
-        });
-    }
+    // if (moreBtns.length > 0) {
+    //     moreBtns.forEach(el => {
+    //         el.addEventListener('click', (e) => {
+    //             e.preventDefault();
+    //             window.open("http://localhost:8888/SWIFT/incident/" + el.id, '_blank').focus();
+    //         });
+    //     });
+    // }
 
 
     // if ($modalCloses.length > 0) {

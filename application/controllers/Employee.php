@@ -18,6 +18,18 @@
             if (!empty($this->session->flashdata('incidentResult')))
                 $data['incidentResults'] = $this->session->flashdata('incidentResult');
 
+            if (!empty($this->session->flashdata('organizationResult')))
+                $data['organizationResult'] = $this->session->flashdata('organizationResult');
+
+            if (!empty($this->session->flashdata('orgSearchValue')))
+                $data['orgSearchValue'] = $this->session->flashdata('orgSearchValue');
+
+            if (!empty($this->session->flashdata('orgType')))
+                $data['orgType'] = $this->session->flashdata('orgType');
+
+            if (!empty($this->session->flashdata('locationType')))
+                $data['locationType'] = $this->session->flashdata('locationType');
+
             if (!empty($this->session->flashdata('searchValue')))
                 $data['searchValue'] = $this->session->flashdata('searchValue');
             

@@ -5,6 +5,8 @@
         }
 
         public function add() {
+            $this->redirectIfNotAuthorized();
+
             $this->form_validation->set_rules('org-name', 'Organization name', 'required');
             $this->form_validation->set_rules('org-contact', 'Contact number', 'required'); 
             $this->form_validation->set_rules('address', 'Address', 'required'); 
@@ -43,6 +45,29 @@
         }
 
         public function getOrganizationInfo() {
-            echo $this->input->post('name');
+            $this->redirectIfNotAuthorized();
+            
+            $orgType = $this->input->post('org-type', true);
+            $searchValue = $this->input->post('search-value', true);
+            $locationType = $this->input->post('location-type', true);
+
+            if (!empty($searchValue)) {
+                $result = $this->organization_model->getOrganizations($orgType, $searchValue, $locationType);
+    
+                if (count($result) > 0)
+                    $this->session->set_flashdata('organizationResult', $result);
+            }
+
+            $this->session->set_flashdata('orgType', $orgType);
+            $this->session->set_flashdata('orgSearchValue', $searchValue);
+            $this->session->set_flashdata('locationType', $locationType);
+
+            redirect('employee/organizations/');
+        }
+
+        public function redirectIfNotAuthorized() {
+            if (!$this->session->userdata('logged_in') 
+                        || $this->session->userdata('user_type') !== 'Employee') 
+                redirect('login');
         }
     }

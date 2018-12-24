@@ -31,7 +31,7 @@
                 }
                 echo '</td>';
                 echo '<td>';
-                echo '<button class="button is-danger more-btn" id="' . $row['id'] . '" data-target="incident-modal" aria-haspopup="true">More</button>';
+                echo '<a class="button is-danger" href="../../incident/' . $row['id'] . '" target="_blank" aria-haspopup="true">More</a>';
                 echo '</td>';
                 echo '</tr>';
             }
