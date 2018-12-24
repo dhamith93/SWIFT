@@ -19,31 +19,31 @@
 
                 if (!empty($orgType) && !empty($locationType)) {
                     switch ($orgType) {
-                        case 'hospital':
+                        case '1':
                             $hospital = 'selected';
                             break;
-                        case 'fire-brigade':
+                        case '2':
                             $fireBrigade = 'selected';
                             break;
-                        case 'ambulance-service':
+                        case '3':
                             $ambulance = 'selected';
                             break;
-                        case 'police':
+                        case '4':
                             $police = 'selected';
                             break;
-                        case 's&r':
+                        case '5':
                             $sNr = 'selected';
                             break;
-                        case 'military':
+                        case '6':
                             $military = 'selected';
                             break;
-                        case 'pc':
+                        case '7':
                             $pc = 'selected';
                             break;
-                        case 'uc':
+                        case '8':
                             $uc = 'selected';
                             break;
-                        case 'ps':
+                        case '9':
                             $ps = 'selected';
                             break;
                     }
@@ -65,15 +65,15 @@
             <p class="control">
                 <span class="select is-primary">
                     <select name="org-type">
-                        <option value="hospital" <?php echo $hospital; ?>>Hospital</option>
-                        <option value="fire-brigade" <?php echo $fireBrigade; ?>>Fire Brigade</option>
-                        <option value="ambulance-service" <?php echo $ambulance; ?>>Ambulance Service</option>
-                        <option value="police" <?php echo $police; ?>>Police</option>
-                        <option value="s&r" <?php echo $sNr; ?>>Search and Rescue</option>
-                        <option value="military" <?php echo $military; ?>>Military</option>
-                        <option value="pc" <?php echo $pc; ?>>Provincial Council</option>
-                        <option value="uc" <?php echo $uc; ?>>Urban Council</option>
-                        <option value="ps" <?php echo $ps; ?>>Pradheshiya Sabha</option>
+                        <option value="1" <?php echo $hospital; ?>>Hospital</option>
+                        <option value="2" <?php echo $fireBrigade; ?>>Fire Brigade</option>
+                        <option value="3" <?php echo $ambulance; ?>>Ambulance Service</option>
+                        <option value="4" <?php echo $police; ?>>Police</option>
+                        <option value="5" <?php echo $sNr; ?>>Search and Rescue</option>
+                        <option value="6" <?php echo $military; ?>>Military</option>
+                        <option value="7" <?php echo $pc; ?>>Provincial Council</option>
+                        <option value="8" <?php echo $uc; ?>>Urban Council</option>
+                        <option value="9" <?php echo $ps; ?>>Pradheshiya Sabha</option>
                     </select>
                 </span>
 

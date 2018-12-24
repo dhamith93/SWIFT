@@ -5,7 +5,7 @@
         }
 
         public function add() {
-            $orgTypeId = $this->getOrganizationTypeId($this->input->post('type', true));
+            $orgTypeId = $this->input->post('type', true);
 
             if ($orgTypeId === -1)
                 return false;
@@ -56,29 +56,32 @@
         }
 
         public function getOrganizations($orgType, $searchValue, $locationType) {
-            $orgTypeId = $this->getOrganizationTypeId($orgType);
-            
-            $query = $this->db->get_where('responding_areas', array($locationType => $searchValue, 'type_id' => $orgTypeId));
+            $query = $this->db->get_where('responding_areas', array($locationType => $searchValue, 'type_id' => $orgType));
             $result = $query->result();
 
             $returnArr = array();
+            $prevId = '';
 
             foreach ($result as $row) {
-                $query = $this->db->select('t1.id, t1.name, t1.address, t1.contact, t1.email, t2.type')
-                    ->from('organizations as t1')
-                    ->where('t1.id', $row->org_id)
-                    ->join('organization_types as t2', 't1.type_id = t2.id', 'LEFT')
-                    ->get();
+                if ($prevId !== $row->org_id) {
+                    $query = $this->db->select('t1.id, t1.name, t1.address, t1.contact, t1.email, t2.type')
+                        ->from('organizations as t1')
+                        ->where('t1.id', $row->org_id)
+                        ->join('organization_types as t2', 't1.type_id = t2.id', 'LEFT')
+                        ->get();
 
-                $r1 = $query->row_array();
-                $returnArr[] = array(
-                    'id' => $r1['id'],
-                    'name' => $r1['name'],
-                    'address' => $r1['address'],
-                    'contact' => $r1['contact'],
-                    'email' => $r1['email'],
-                    'type' => $r1['type']
-                );
+                    $r1 = $query->row_array();
+
+                    $returnArr[] = array(
+                        'id' => $r1['id'],
+                        'name' => $r1['name'],
+                        'address' => $r1['address'],
+                        'contact' => $r1['contact'],
+                        'email' => $r1['email'],
+                        'type' => $r1['type']
+                    );
+                }
+                $prevId = $row->org_id;
             }
 
             return $returnArr;
@@ -95,15 +98,5 @@
             }
 
             return $returnArr;
-        }
-
-        function getOrganizationTypeId($orgType) {
-            $query = $this->db->get_where('organization_types', array('type' => $orgType));
-            $id = $query->row_array()['id'];
-
-            if (empty($id))
-                return -1;
-
-            return $id;
         }
     }
