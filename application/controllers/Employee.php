@@ -1,7 +1,10 @@
 <?php
     class Employee extends CI_Controller {
-        public function view($page = 'incidents') {
+        public function view($page = 'default') {
             $this->redirectIfNotAuthorized();
+
+            if ($page === 'default')
+                redirect('employee/incidents/');
 
             if (!file_exists(APPPATH.'views/dashboard/employee/'.$page.'.php'))
                 show_404();
