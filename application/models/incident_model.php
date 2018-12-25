@@ -7,6 +7,7 @@
         public function addIncident() {
             $locationString = $this->input->post('location-list', true);
             $locationArray = $this->extractLocations($locationString);
+            $alertReceivers = $this->input->post('alerts-receivers');
 
             $incidentData = array(
                 'name' => htmlspecialchars($this->input->post('name', true)),
@@ -28,6 +29,23 @@
                 );
 
                 $this->db->insert('affected_areas', $locationData);
+                
+                if (!empty($alertReceivers)) {
+                    foreach ($alertReceivers as $receiver) {
+                        if ($receiver !== 'public')
+                            $this->notifyResponders($location[2], $receiver, $incidentId);
+                    }
+                }
+            }
+
+            if (!empty($alertReceivers)) {
+                $alert = array(
+                    'inc_id' => $incidentId,
+                    'content' => htmlspecialchars($this->input->post('alert', true)),
+                    'is_public' => (in_array('public', $alertReceivers)) ? '1' : '0'
+                );
+
+                $this->db->insert('alerts', $alert);
             }
         }
 
@@ -84,6 +102,24 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        function notifyResponders($town, $responderType, $incidentId) {
+            $query = $this->db->get_where('responding_areas', array('town' => $town, 'type_id' => $responderType));
+            $result = $query->result();
+
+            foreach ($result as $row) {
+                $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $row->org_id));
+                if (count($checkQuery->result()) == 0) {
+                    $data = array(
+                        'org_id' => $row->org_id,
+                        'inc_id' => $incidentId
+                    );
+    
+                    echo $row->org_id . '<br>';
+                    $this->db->insert('responding_organizations', $data);
+                }
+            }
+        }
+
         function buildReturnArray($queryResult) {
             $resultArray = array();
 
@@ -110,7 +146,7 @@
         }
 
         function extractLocations($str) {
-            $arr = explode('|', $str);
+            $arr = array_unique(explode('|', $str));
             $returnArr = array();
 
             foreach ($arr as $itm)

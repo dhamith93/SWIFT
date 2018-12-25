@@ -119,7 +119,7 @@
         }
 
         function extractLocations($str) {
-            $arr = explode('|', $str);
+            $arr = array_unique(explode('|', $str));
             $returnArr = array();
 
             foreach ($arr as $itm)
