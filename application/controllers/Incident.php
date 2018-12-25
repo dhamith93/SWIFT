@@ -5,6 +5,7 @@
 
             $data['id'] = $id;
             $data['incident'] = $this->incident_model->getSingleIncident($id); 
+            $data['responders'] = $this->incident_model->getResponders($id);
 
             $this->load->view('templates/header');
             $this->load->view('incident/single_incident', $data);

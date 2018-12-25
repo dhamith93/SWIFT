@@ -102,6 +102,16 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function getResponders($incidentId) {
+            $query = $this->db->select('t1.org_id, t2.id, t2.name, t2.address, t2.contact, t2.email, t3.type')
+                        ->from('responding_organizations as t1')
+                        ->where('t1.inc_id', $incidentId)
+                        ->join('organizations as t2', 't1.org_id = t2.id', 'LEFT')
+                        ->join('organization_types as t3', 't2.type_id = t3.id', 'LEFT')
+                        ->get();
+            return $query->result();
+        }
+
         function notifyResponders($town, $responderType, $incidentId) {
             $query = $this->db->get_where('responding_areas', array('town' => $town, 'type_id' => $responderType));
             $result = $query->result();
