@@ -1,7 +1,18 @@
 <?php
     class Organization extends CI_Controller {
         public function singleOrganizationView($id) {
-            echo $id;
+            $this->redirectIfNotAuthorized();
+
+            $data['id'] = $id;
+            $data['organization'] = $this->organization_model->getOrganization($id);
+            $data['respondingAreas'] = $this->organization_model->getRespondingAreas($id);
+            $data['responders'] = $this->organization_model->getResponders($id);
+            // $data['isOrgAdmin'] = $this->organization_model->isOrgAdmin($id);
+
+            // $data['isOrgAdmin'] = true; // for test
+
+            $this->load->view('templates/header');
+            $this->load->view('organization/single-organization-view', $data);
         }
 
         public function add() {

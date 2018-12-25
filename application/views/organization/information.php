@@ -1,0 +1,196 @@
+<?php echo form_open('organization/add', 'id="add-organization-form"'); ?>
+    <?php
+        $hasData = !empty($organization);
+    ?>
+    <div class="box">
+        <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+                <input class="input" type="text" name="org-name" <?php if ($hasData) echo 'value="'.$organization[0]->name.'"'; ?>>
+            </div>
+        </div>
+
+        <div class="control">
+            <label class="label">Type</label>
+            <div class="select is-fullwidth">
+                <select name="type">
+                    <option value="1">Hospital</option>
+                    <option value="2">Fire Brigade</option>
+                    <option value="3">Ambulance Service</option>
+                    <option value="4">Police</option>
+                    <option value="5">Search and Rescue</option>
+                    <option value="6">Military</option>
+                    <option value="7">Provincial Council</option>
+                    <option value="8">Urban Council</option>
+                    <option value="9">Pradheshiya Sabha</option>
+                </select>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="field">
+            <label class="label">Address</label>
+            <div class="control">
+                <textarea class="textarea" type="text" name="address"><?php if ($hasData) echo $organization[0]->address; ?></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <h5 class="subtitle is-5">Responding Areas</h5>
+
+        <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
+            <thead>
+                <tr>
+                    <th>Province</th>
+                    <th>District</th>
+                    <th>Town</th>
+                    <?php
+                        if (!empty($isOrgAdmin) && $isOrgAdmin)
+                            echo '<th></th>';
+                    ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                    foreach ($respondingAreas as $row) {
+                        echo '<tr>';
+                        echo '<td>' . ucfirst($row->province) . '</td>';
+                        echo '<td>' . ucfirst($row->district) . '</td>';
+                        echo '<td>' . ucfirst($row->town) . '</td>';
+                        if (!empty($isOrgAdmin) && $isOrgAdmin) {
+                            echo '<td>';
+                            echo '<button class="delete location-delete" aria-label="remove" title="remove" type="button" style="float:right;" data-target="loc-' . $row->id . '">';
+                            echo '</td>';
+                        }
+                        echo '</tr>';
+                    }
+                ?>
+            </tbody>
+        </table>
+
+        <br>
+
+        <?php 
+            if (!empty($isOrgAdmin) && $isOrgAdmin) {
+                echo '<a class="button is-success" id="add-area-btn">';
+                echo '    <span class="icon is-small">';
+                echo '        <i class="fas fa-chevron-down animated flipInX btn-icon" id="btn-icon"></i>';
+                echo '    </span>';
+                echo '    <span>Add More</span>';
+                echo '</a>';
+                echo '<br>';
+            }
+        ?>
+        
+
+        <div class="box is-hidden" id="location-box">
+            <div class="control">
+                <label class="label">Province</label>
+                <div class="select is-fullwidth">
+                    <select id="province">
+                        <option value="central">Central</option>
+                        <option value="eastern">Eastern</option>
+                        <option value="north-central">North Central</option>
+                        <option value="north-western">North Western</option>
+                        <option value="northern">Northern</option>
+                        <option value="sabaragamuwa">Sabaragamuwa</option>
+                        <option value="southern">Southern</option>
+                        <option value="uva">Uva</option>
+                        <option value="western">Western</option>
+                    </select>
+                </div>
+            </div>
+            
+            <br>
+
+            <div class="control">
+                <label class="label">District</label>
+                <div class="select is-fullwidth">
+                    <select id="district">
+                        <option value="empty"></option>
+                        <option value="ampara">Ampara</option>
+                        <option value="anuradhapura">Anuradhapura</option>
+                        <option value="badulla">Badulla</option>
+                        <option value="batticaloa">Batticaloa</option>
+                        <option value="colombo">Colombo</option>
+                        <option value="galle">Galle</option>
+                        <option value="gampaha">Gampaha</option>
+                        <option value="hambantota">Hambantota</option>
+                        <option value="jaffna">Jaffna</option>
+                        <option value="kalutara">Kalutara</option>
+                        <option value="kandy">Kandy</option>
+                        <option value="kegalle">Kegalle</option>
+                        <option value="kilinochchi">Kilinochchi</option>
+                        <option value="kurunegala">Kurunegala</option>
+                        <option value="mannar">Mannar</option>
+                        <option value="matale">Matale</option>
+                        <option value="matara">Matara</option>
+                        <option value="monaragala">Monaragala</option>
+                        <option value="mullaitivu">Mullaitivu</option>
+                        <option value="nuwara-eliya">Nuwara Eliya</option>
+                        <option value="polonnaruwa">Polonnaruwa</option>
+                        <option value="puttalam">Puttalam</option>
+                        <option value="ratnapura">Ratnapura</option>
+                        <option value="trincomalee">Trincomalee</option>
+                        <option value="vavuniya">Vavuniya</option>
+                    </select>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="field">
+                <label class="label">Town</label>
+                <div class="control">
+                    <input class="input" type="text" id="town">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control" id="locations"> </div>
+            </div>
+
+            <input type="hidden" name="location-list" id="location-list" value="">
+
+            <div class="field">
+                <button class="button is-link is-rounded" id="add-location-btn" type="button">Add Area</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="field">
+            <label class="label">Contact Number</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" name="org-contact" <?php if ($hasData) echo 'value="'.$organization[0]->contact.'"'; ?>>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-phone"></i>
+                </span>
+            </div>
+        </div>
+            
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="email" name="org-email" <?php if ($hasData) echo 'value="'.$organization[0]->email.'"'; ?>>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+            </div>
+        </div>
+        <br>
+    </div>
+    
+    <br>
+
+    <?php 
+        if (!empty($isOrgAdmin) && $isOrgAdmin) {
+            echo '<div class="field submit-btns">';
+            echo '    <button class="button is-link" type="submit">Update</button>';
+            echo '</div>';
+        }
+    ?>
+
+<?php echo form_close(); ?>

@@ -110,14 +110,11 @@
         }
 
         function extractLocations($str) {
-            $arr = explode("|",$str);
+            $arr = explode('|', $str);
             $returnArr = array();
-            $count = 0;
 
-            foreach ($arr as $itm) {
-                $returnArr[$count] = explode(">",$itm);
-                $count += 1;
-            }
+            foreach ($arr as $itm)
+                $returnArr[] = explode('>', $itm);
 
             return $returnArr;
         }

@@ -87,15 +87,43 @@
             return $returnArr;
         }
 
-        function extractLocations($str) {
-            $arr = explode("|",$str);
-            $returnArr = array();
-            $count = 0;
+        public function getOrganization($orgId) {
+            $query = $this->db->select('t1.id, t1.name, t1.address, t1.contact, t1.email, t2.type')
+                        ->from('organizations as t1')
+                        ->where('t1.id', $orgId)
+                        ->join('organization_types as t2', 't1.type_id = t2.id', 'LEFT')
+                        ->get();
+            return $query->result();
+        }
 
-            foreach ($arr as $itm) {
-                $returnArr[$count] = explode(">",$itm);
-                $count += 1;
-            }
+        public function getRespondingAreas($orgId) {
+            $query = $this->db
+                    ->select('*')
+                    ->from('responding_areas')
+                    ->where('org_id', $orgId)
+                    ->order_by('province', 'asc')
+                    ->order_by('district', 'asc')
+                    ->order_by('town', 'asc')
+                    ->get();
+
+            return $query->result();
+        }
+
+        public function getResponders($orgId) {
+            $query = $this->db
+                    ->select('first_name, last_name, contact, email, is_admin')
+                    ->from('responders')
+                    ->where('org_id', $orgId)
+                    ->get();
+            return $query->result();
+        }
+
+        function extractLocations($str) {
+            $arr = explode('|', $str);
+            $returnArr = array();
+
+            foreach ($arr as $itm)
+                $returnArr[] = explode('>', $itm);
 
             return $returnArr;
         }

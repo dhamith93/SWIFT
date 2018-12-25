@@ -16,7 +16,7 @@
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
-                <input class="input" type="text" name="org-name">
+                <input class="input" type="text" name="org-name" <?php if ($hasFormData) echo 'value="'.$formData['org_name'].'"'; ?>>
             </div>
             <?php
                 if ($hasErrors && isset($errors['org-name'])) {
