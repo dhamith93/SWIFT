@@ -47,3 +47,7 @@ hr {
     overflow: scroll;
     height: 400px;
 }
+
+.input[disabled], .textarea[disabled] {
+    color: #000;
+}

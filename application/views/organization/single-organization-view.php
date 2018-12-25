@@ -1,10 +1,3 @@
-<?php
-    // print_r($organization);
-    // print_r($respondingAreas);
-    // print_r($responders);
-
-?>
-
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/incident.css">
 
 <div class="background"></div>
@@ -27,5 +20,3 @@
     </div>
 
 </div>
-
-<script src="<?php echo base_url(); ?>assets/scripts/organization.js"></script>
