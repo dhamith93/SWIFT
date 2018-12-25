@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 24, 2018 at 06:12 AM
+-- Generation Time: Dec 25, 2018 at 05:28 PM
 -- Server version: 5.6.38
 -- PHP Version: 7.2.1
 
@@ -50,9 +50,9 @@ CREATE TABLE `affected_areas` (
 CREATE TABLE `alerts` (
   `id` int(11) NOT NULL,
   `inc_id` int(11) NOT NULL,
-  `title` varchar(200) NOT NULL,
   `content` text NOT NULL,
-  `published_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `published_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_public` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -105,7 +105,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
-(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2018-12-24 09:46:05', 1),
+(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2018-12-25 20:04:21', 1),
 (9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2018-12-24 09:45:55', 0);
 
 -- --------------------------------------------------------
@@ -235,15 +235,15 @@ CREATE TABLE `organization_types` (
 --
 
 INSERT INTO `organization_types` (`id`, `type`) VALUES
-(1, 'hospital'),
-(2, 'fire-brigade'),
-(3, 'ambulance-service'),
-(4, 'police'),
-(5, 's&r'),
-(6, 'military'),
-(7, 'pc'),
-(8, 'uc'),
-(9, 'ps');
+(1, 'Hospital'),
+(2, 'Fire-brigade'),
+(3, 'Ambulance service'),
+(4, 'Police'),
+(5, 'Search & Rescue'),
+(6, 'Military'),
+(7, 'Provincial Council'),
+(8, 'Urban Council '),
+(9, 'Pradheshiya Sabha');
 
 -- --------------------------------------------------------
 
@@ -466,7 +466,8 @@ ALTER TABLE `responders`
 --
 ALTER TABLE `responding_areas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `org_id` (`org_id`);
+  ADD KEY `org_id` (`org_id`),
+  ADD KEY `type_id` (`type_id`);
 
 --
 -- Indexes for table `responding_organizations`
@@ -490,13 +491,13 @@ ALTER TABLE `system_information`
 -- AUTO_INCREMENT for table `affected_areas`
 --
 ALTER TABLE `affected_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `casualties`
@@ -544,7 +545,7 @@ ALTER TABLE `hospitalizations`
 -- AUTO_INCREMENT for table `incidents`
 --
 ALTER TABLE `incidents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -598,7 +599,7 @@ ALTER TABLE `responding_areas`
 -- AUTO_INCREMENT for table `responding_organizations`
 --
 ALTER TABLE `responding_organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `system_information`
@@ -710,7 +711,8 @@ ALTER TABLE `responders`
 -- Constraints for table `responding_areas`
 --
 ALTER TABLE `responding_areas`
-  ADD CONSTRAINT `responding_areas_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`);
+  ADD CONSTRAINT `responding_areas_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`),
+  ADD CONSTRAINT `responding_areas_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `organization_types` (`id`);
 
 --
 -- Constraints for table `responding_organizations`
