@@ -49,6 +49,46 @@ class Api extends REST_Controller {
             $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
         }
     }
+
+    public function responding_orgs_post() {
+        $orgId = $this->post('orgId', true);
+        $incidentId = $this->post('incidentId', true);
+
+        if ($this->incident_model->responderExists($orgId, $incidentId)) {
+            $data = array('status' => 'ERROR', 'msg' => 'RECORD_EXISTS');
+        } else {
+            if ($this->incident_model->notifyResponder($orgId, $incidentId)) {
+                $data = array('status' => 'OK');
+            } else {
+                $data = array('status' => 'ERROR', 'msg' => 'DB_FAILURE');
+            }
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function responding_orgs_get() {
+        $incidentId = $this->get('incidentId', true);
+
+        $result = $this->incident_model->getResponders($incidentId);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'name' => $row->name,
+                'type' => $row->type,
+                'address' => $row->address,
+                'contact' => $row->contact,
+                'email' => $row->email
+            );
+        }
+
+        if (count($data ) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+    }
     
     public function employee_get() {
         $employeeId = $this->get('emp-id');

@@ -42,6 +42,8 @@
     </table>
 </div>
 
+<br>
+
 <a class="button is-success" id="add-responders-btn">
     <span class="icon is-small">
         <i class="fas fa-chevron-down animated flipInX btn-icon" id="btn-icon"></i>

@@ -1,6 +1,10 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"> -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/incident.css">
 
+<script>
+    var incidentId = <?php echo $id;?>
+</script>
+
 <div class="background"></div>
 
 <div class="container">

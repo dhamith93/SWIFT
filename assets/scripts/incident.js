@@ -27,6 +27,7 @@ var addLocationBtn = document.getElementById('add-area-btn');
 var addRespondersBtn = document.getElementById('add-responders-btn');
 var searchBtn = document.getElementById('search-btn');
 var resultTable = document.getElementById('search-result-table');
+var responderTable = document.getElementById('responders-table');
 
 addLocationBtn.addEventListener('click', (e) => {
     document.getElementById('location-box').classList.toggle('is-hidden');
@@ -46,38 +47,100 @@ searchBtn.addEventListener('click', (e) => {
     if (orgType !== '' && searchValue !== '' && searchType !== '') {
         let url = 'http://localhost:8888/SWIFT/api/organizations/?orgType='+ orgType +
             '&searchValue=' + searchValue + '&searchType=' + searchType;
-        sendXhr(url);
+        sendXhr(url, 'GET', fillResultTable, xhrFailure);
     }
 });
 
-function sendXhr(url) {
-    let xhr = new XMLHttpRequest();    
-    let method = 'GET';
-    if ("withCredentials" in xhr) {
-        xhr.open(method, url, true);
-    } else if (typeof XDomainRequest != "undefined") {
-        xhr = new XDomainRequest();
-        xhr.open(method, url);
-    } else {
-        xhr = null;
-    }
-    if (xhr != null) {
-        xhr.onload = function() {
-            let response = xhr.responseText;
-            response = JSON.parse(response);
-            if (response['status'] === 'OK') {
-                fillResultTable(response);
-            } else {
-                alert('No records found!');
-            }
-        };
-    
-        xhr.onerror = function() {
-            alert('Error searching for organization records!');
-        };   
+function sendXhr(url, method, successCallback, failureCallback, params) {
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
 
-        xhr.send();
+    xhr.onload = () => {
+        let response = JSON.parse(xhr.responseText);
+        if (response['status'] === 'OK') {
+            successCallback(response);
+        } else {
+            failureCallback(response);
+        }
+    };
+
+    xhr.onerror = () => {
+        alert('Error sending request! Please try again.');
+    };   
+
+    if (params)
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    xhr.send(params); 
+}
+
+function xhrFailure(response) {
+    if (response['msg']) {
+        if (response['msg'] === 'DB_FAILURE') {
+            alert('Error adding record! Please try again.');
+        } else if (response['msg'] === 'RECORD_EXISTS') {
+            alert('Record already exists!')
+        }
+    } else {
+        alert('No records found!');
     }
+}
+
+function xhrSuccess() {
+    sendXhr(
+        'http://localhost:8888/SWIFT/api/responding_orgs/?incidentId=' + incidentId, 
+        'GET',
+        (r) => {
+            reloadReponderTable(r);
+        },
+        () => { },
+    );
+}
+
+function reloadReponderTable(data) {
+    resetTable(responderTable);
+    
+    Object.keys(data).forEach(key => {
+        if (key !== 'status') {
+            let name = data[key]['name'];
+            let type = data[key]['type'];
+            let contact = data[key]['contact'];
+            let address = data[key]['address'];
+            let email = data[key]['email'];
+    
+            let tableRef = responderTable.getElementsByTagName('tbody')[0];
+
+            let link = document.createElement('a');
+            link.classList.add('button', 'is-danger');
+            link.innerHTML = 'More';
+            link.href = '../organization/' + key;
+            link.target = '_blank';
+        
+            let tr = document.createElement('tr');
+            let cell1 = document.createElement('td');
+            let cell2 = document.createElement('td');
+            let cell3 = document.createElement('td');
+            let cell4 = document.createElement('td');
+            let cell5 = document.createElement('td');
+            let cell6 = document.createElement('td');
+        
+            cell1.appendChild(document.createTextNode(name));
+            cell2.appendChild(document.createTextNode(type));
+            cell3.appendChild(document.createTextNode(contact));
+            cell4.appendChild(document.createTextNode(address));
+            cell5.appendChild(document.createTextNode(email));
+            cell6.appendChild(link);
+        
+            tr.appendChild(cell1);
+            tr.appendChild(cell2);
+            tr.appendChild(cell3);
+            tr.appendChild(cell4);
+            tr.appendChild(cell5);
+            tr.appendChild(cell6);
+        
+            tableRef.appendChild(tr);
+        }
+    });
 }
 
 function fillResultTable(data) {
@@ -91,7 +154,6 @@ function fillResultTable(data) {
             let address = data[key]['address'];
     
             let tableRef = resultTable.getElementsByTagName('tbody')[0];
-            let newRow = document.createElement('tr');
         
             let button = document.createElement('button');
         
@@ -119,6 +181,20 @@ function fillResultTable(data) {
             tr.appendChild(cell5);
         
             tableRef.appendChild(tr);
+
+            document.getElementById(key).addEventListener('click', (e) => {
+                let params = 'orgId=' + key +'&incidentId=' + incidentId;
+                sendXhr(
+                    'http://localhost:8888/SWIFT/api/responding_orgs/', 
+                    'POST',
+                    (r) => {
+                        alert('Organization added to responders list!');
+                        xhrSuccess();
+                    },
+                    xhrFailure,
+                    params
+                );
+            });
         }
     });
 }

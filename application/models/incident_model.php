@@ -112,22 +112,28 @@
             return $query->result();
         }
 
+        public function notifyResponder($orgId, $incidentId) {
+            $data = array(
+                'inc_id' => $incidentId,
+                'org_id' => $orgId
+            );
+            
+            return $this->db->insert('responding_organizations', $data);
+        }
+
         function notifyResponders($town, $responderType, $incidentId) {
             $query = $this->db->get_where('responding_areas', array('town' => $town, 'type_id' => $responderType));
             $result = $query->result();
 
             foreach ($result as $row) {
-                $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $row->org_id));
-                if (count($checkQuery->result()) == 0) {
-                    $data = array(
-                        'org_id' => $row->org_id,
-                        'inc_id' => $incidentId
-                    );
-    
-                    echo $row->org_id . '<br>';
-                    $this->db->insert('responding_organizations', $data);
-                }
+                if (!$this->responderExists($row->org_id, $incidentId))
+                    $this->notifyResponder($row->org_id, $incidentId);
             }
+        }
+
+        public function responderExists($orgId, $incidentId) {
+            $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $orgId));
+            return (count($checkQuery->result()) > 0);
         }
 
         function buildReturnArray($queryResult) {
