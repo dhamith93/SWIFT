@@ -18,7 +18,7 @@ class Api extends REST_Controller {
     }
 
     public function organizations_get() {
-        $this->respondErrorIfNotAuthorized();
+        $this->respondErrorIfNotAuthorized('Employee');
 
         $orgType = $this->get('orgType', true);
         $searchValue = $this->get('searchValue', true);
@@ -51,6 +51,8 @@ class Api extends REST_Controller {
     }
 
     public function responding_orgs_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+
         $orgId = $this->post('orgId', true);
         $incidentId = $this->post('incidentId', true);
 
@@ -68,6 +70,8 @@ class Api extends REST_Controller {
     }
 
     public function responding_orgs_get() {
+        $this->respondErrorIfNotAuthorized('Employee');
+
         $incidentId = $this->get('incidentId', true);
 
         $result = $this->incident_model->getResponders($incidentId);
@@ -91,6 +95,8 @@ class Api extends REST_Controller {
     }
     
     public function employee_get() {
+        $this->respondErrorIfNotAuthorized('Admin');
+
         $employeeId = $this->get('emp-id');
         $employee = $this->employee_model->getEmployee($employeeId);
         if(!empty($employee)) {
@@ -101,9 +107,9 @@ class Api extends REST_Controller {
         }
     }
 
-    public function respondErrorIfNotAuthorized() {
+    public function respondErrorIfNotAuthorized($userType) {
         if (!$this->session->userdata('logged_in') 
-                    || $this->session->userdata('user_type') !== 'Employee')
+                    || $this->session->userdata('user_type') !== $userType)
             $this->response(array('status' => 'UNAUTHORIZED_ACCESS'), REST_Controller::HTTP_UNAUTHORIZED);
     }
 } 
