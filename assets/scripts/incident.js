@@ -43,21 +43,7 @@ addAlertBtn.addEventListener('click', (e) => {
 
 alertDeleteBtns.forEach(el => {
     el.addEventListener('click', (e) => {
-        params = 'alertId=' + el.dataset.alertId;
-        if (confirm('Do you want to delete this alert?\nYou cannot undo this!')) {
-            sendXhr(
-                'http://localhost:8888/SWIFT/api/alert/', 
-                'DELETE', 
-                (r) => {
-                    alert('Alert deleted!');
-                    hideAlert(el.dataset.alertId);
-                }, 
-                (r) => {
-                    alert('Error deleting alert! Please try again');
-                },
-                params
-            );
-        }
+        deleteAlert(el.dataset.alertId);
     });
 });
 
@@ -142,6 +128,24 @@ function xhrSuccess() {
     );
 }
 
+function deleteAlert(alertId) {
+    params = 'alertId=' + alertId;
+    if (confirm('Do you want to delete this alert?\nYou cannot undo this!')) {
+        sendXhr(
+            'http://localhost:8888/SWIFT/api/alert/', 
+            'DELETE', 
+            (r) => {
+                alert('Alert deleted!');
+                hideAlert(alertId);
+            }, 
+            (r) => {
+                alert('Error deleting alert! Please try again');
+            },
+            params
+        );
+    }
+}
+
 function hideAlert(alertId) {
     document.getElementById('alert-' + alertId).style.display = 'none';
 }
@@ -151,35 +155,42 @@ function reloadAlerts() {
         'http://localhost:8888/SWIFT/api/alert/?incidentId=' + incidentId, 
         'GET',
         (r) => { 
+            console.log(r);
             let mainAlertDiv = document.getElementById('alerts');
 
             while (mainAlertDiv.firstChild)
                 mainAlertDiv.removeChild(mainAlertDiv.firstChild);
 
-            Object.keys(r).forEach(key => {
-                if (key !== 'status') {
-                    let content = r[key]['content'];
+            let keys = Object.keys(r).reverse();
 
+            for(i=0; i< keys.length; i++) {
+                if (keys[i] !== 'status') {
+                    let content = r[keys[i]]['content'];
+    
                     let alertDiv = document.createElement('div');
                     alertDiv.classList.add('alert', 'notification', 'is-danger');
-                    alertDiv.id = 'alert-' + key;
+                    alertDiv.id = 'alert-' + keys[i];
         
                     let button = document.createElement('button');
-
+    
                     button.innerHTML = 'Add';
                     button.classList.add('delete', 'alert-delete-btn');
-                    button.dataset.alertId = key;
+                    button.dataset.alertId = keys[i];
 
+                    button.addEventListener('click', (e) => {
+                        deleteAlert(button.dataset.alertId);
+                    });
+    
                     let p = document.createElement('p');
                     p.innerHTML = content;
-
+    
                     alertDiv.appendChild(button);
                     alertDiv.appendChild(p);
-
+    
                     mainAlertDiv.appendChild(alertDiv);
                     mainAlertDiv.appendChild(document.createElement('br'));
                 }
-            });
+            }
         },
         (r) => {
             alert('Alert added!');

@@ -113,7 +113,12 @@
         }
 
         public function getAlerts($incidentId) {
-            $query = $this->db->get_where('alerts', array('inc_id' => $incidentId));
+            $query = $this->db
+                    ->select('*')
+                    ->from('alerts')
+                    ->where('inc_id', $incidentId)
+                    ->order_by('id', 'desc')
+                    ->get();
             return $query->result();
         }
 
