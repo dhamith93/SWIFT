@@ -95,6 +95,48 @@ class Api extends REST_Controller {
         }
     }
 
+    public function alert_get() {
+        $this->respondErrorIfNotAuthorized('Employee');
+
+        $incidentId = $this->get('incidentId', true);
+
+        $result = $this->incident_model->getAlerts($incidentId);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'content' => $row->content
+            );
+        }
+
+        if (count($data ) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+
+    }
+
+    public function alert_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+
+        $incidentId = $this->post('incidentId', true);
+        $content = $this->post('content', true);
+        $isPublic = $this->post('isPublic', true);
+
+        if ($this->incident_model->addAlert($incidentId, $content, $isPublic)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+        
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
     public function alert_delete() {
         $this->respondErrorIfNotAuthorized('Employee');
         $alertId = $this->delete('alertId', true);

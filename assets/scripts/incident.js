@@ -5,7 +5,9 @@ var addRespondersBtn = document.getElementById('add-responders-btn');
 var searchBtn = document.getElementById('search-btn');
 var resultTable = document.getElementById('search-result-table');
 var responderTable = document.getElementById('responders-table');
+var addAlertBtn = document.getElementById('add-alert-btn');
 var alertDeleteBtns = getAll('.alert-delete-btn');
+var setAlertPublic = document.getElementById('alert-public');
 
 for (let i = 0; i < tabHeaders.length; i++) {
     tabHeaders[i].addEventListener('click', function() {
@@ -15,6 +17,29 @@ for (let i = 0; i < tabHeaders.length; i++) {
         activateTab(selectedTabContents);
     });
 }
+
+addAlertBtn.addEventListener('click', (e) => {
+    let content = document.getElementById('add-alert').value;
+    let isPublic = (setAlertPublic.checked) ? '1' : '0';
+
+    if (content !== '') {
+        let params = 'incidentId=' + incidentId + '&content=' + content + '&isPublic=' + isPublic;
+    
+        if (confirm('Do you want to add this alert?')) {
+            sendXhr(
+                'http://localhost:8888/SWIFT/api/alert/', 
+                'POST', 
+                (r) => {
+                    reloadAlerts();
+                }, 
+                (r) => {
+                    alert('Error adding alert! Please try again');
+                },
+                params
+            );
+        }
+    }
+});
 
 alertDeleteBtns.forEach(el => {
     el.addEventListener('click', (e) => {
@@ -119,6 +144,48 @@ function xhrSuccess() {
 
 function hideAlert(alertId) {
     document.getElementById('alert-' + alertId).style.display = 'none';
+}
+
+function reloadAlerts() {
+    sendXhr(
+        'http://localhost:8888/SWIFT/api/alert/?incidentId=' + incidentId, 
+        'GET',
+        (r) => { 
+            let mainAlertDiv = document.getElementById('alerts');
+
+            while (mainAlertDiv.firstChild)
+                mainAlertDiv.removeChild(mainAlertDiv.firstChild);
+
+            Object.keys(r).forEach(key => {
+                if (key !== 'status') {
+                    let content = r[key]['content'];
+
+                    let alertDiv = document.createElement('div');
+                    alertDiv.classList.add('alert', 'notification', 'is-danger');
+                    alertDiv.id = 'alert-' + key;
+        
+                    let button = document.createElement('button');
+
+                    button.innerHTML = 'Add';
+                    button.classList.add('delete', 'alert-delete-btn');
+                    button.dataset.alertId = key;
+
+                    let p = document.createElement('p');
+                    p.innerHTML = content;
+
+                    alertDiv.appendChild(button);
+                    alertDiv.appendChild(p);
+
+                    mainAlertDiv.appendChild(alertDiv);
+                    mainAlertDiv.appendChild(document.createElement('br'));
+                }
+            });
+        },
+        (r) => {
+            alert('Alert added!');
+            location.reload();
+        },
+    );
 }
 
 function reloadReponderTable(data) {

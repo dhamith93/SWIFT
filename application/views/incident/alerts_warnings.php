@@ -9,14 +9,20 @@
 
             <div class="alert notification is-danger" id="alert-<?php echo $alert->id; ?>">
                 <button class="delete alert-delete-btn" data-alert-id="<?php echo $alert->id; ?>"></button>
-                <?php echo $alert->content; ?>
+                <p><?php echo $alert->content; ?></p>
             </div>
+            <br>
 
             <?php endforeach;?>
         </div>
-        <br>
         <textarea id="add-alert" class="textarea"></textarea>
-        <br>
+
+        <label class="checkbox">
+            <input type="checkbox" id="alert-public">
+            Set public
+        </label>
+
+        <br> <br>
         <button class="button is-link" id="add-alert-btn">Add</button>
     </div>
     <div class="column">

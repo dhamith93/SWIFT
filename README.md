@@ -4,11 +4,11 @@
 - [ ] ADMIN
     - [ ] ADD/UPDATE/REMOVE
         - [x] internal employees
-        - [ ] entities
+        - [x] entities
         - [ ] checklists
         - [ ] tasks for entities
     - [ ] ADD/UPDATE incidents
-    - [ ] Issue alerts
+    - [x] Issue alerts
     - [ ] Handle information from responders in the ground
     - [ ] Create reports
         - [ ] Incident reports

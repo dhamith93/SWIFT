@@ -102,6 +102,16 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function addAlert($incidentId, $content, $isPublic) {
+            $data = array(
+                'inc_id' => $incidentId,
+                'content' => $content,
+                'is_public' => $isPublic
+            );
+
+            return $this->db->insert('alerts', $data);
+        }
+
         public function getAlerts($incidentId) {
             $query = $this->db->get_where('alerts', array('inc_id' => $incidentId));
             return $query->result();
