@@ -94,6 +94,23 @@ class Api extends REST_Controller {
             $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
         }
     }
+
+    public function alert_delete() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $alertId = $this->delete('alertId', true);
+
+        if ($this->incident_model->deleteAlert($alertId)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
     
     public function employee_get() {
         $this->respondErrorIfNotAuthorized('Admin');

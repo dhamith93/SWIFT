@@ -7,8 +7,8 @@
                 foreach ($alerts as $alert):
             ?>
 
-            <div class="notification is-danger">
-                <button class="delete"></button>
+            <div class="alert notification is-danger" id="alert-<?php echo $alert->id; ?>">
+                <button class="delete alert-delete-btn" data-alert-id="<?php echo $alert->id; ?>"></button>
                 <?php echo $alert->content; ?>
             </div>
 

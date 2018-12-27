@@ -1,5 +1,11 @@
 var tabHeaders = document.getElementsByClassName('tab-header');
 var tabs = document.getElementsByClassName('tab');
+var addLocationBtn = document.getElementById('add-area-btn');
+var addRespondersBtn = document.getElementById('add-responders-btn');
+var searchBtn = document.getElementById('search-btn');
+var resultTable = document.getElementById('search-result-table');
+var responderTable = document.getElementById('responders-table');
+var alertDeleteBtns = getAll('.alert-delete-btn');
 
 for (let i = 0; i < tabHeaders.length; i++) {
     tabHeaders[i].addEventListener('click', function() {
@@ -10,24 +16,25 @@ for (let i = 0; i < tabHeaders.length; i++) {
     });
 }
 
-function unsetTabHeaderIsActive() {
-    for (let j = 0; j < tabHeaders.length; j++) {
-        tabHeaders[j].classList.remove('is-active');
-        tabs[j].classList.remove('is-active');
-    }
-}
-
-function activateTab(selectedTabContents) {
-    selectedTabContents.forEach(function(selectedTabContent) {
-        selectedTabContent.classList.add('is-active');
+alertDeleteBtns.forEach(el => {
+    el.addEventListener('click', (e) => {
+        params = 'alertId=' + el.dataset.alertId;
+        if (confirm('Do you want to delete this alert?\nYou cannot undo this!')) {
+            sendXhr(
+                'http://localhost:8888/SWIFT/api/alert/', 
+                'DELETE', 
+                (r) => {
+                    alert('Alert deleted!');
+                    hideAlert(el.dataset.alertId);
+                }, 
+                (r) => {
+                    alert('Error deleting alert! Please try again');
+                },
+                params
+            );
+        }
     });
-}
-
-var addLocationBtn = document.getElementById('add-area-btn');
-var addRespondersBtn = document.getElementById('add-responders-btn');
-var searchBtn = document.getElementById('search-btn');
-var resultTable = document.getElementById('search-result-table');
-var responderTable = document.getElementById('responders-table');
+});
 
 addLocationBtn.addEventListener('click', (e) => {
     document.getElementById('location-box').classList.toggle('is-hidden');
@@ -50,6 +57,19 @@ searchBtn.addEventListener('click', (e) => {
         sendXhr(url, 'GET', fillResultTable, xhrFailure);
     }
 });
+
+function unsetTabHeaderIsActive() {
+    for (let j = 0; j < tabHeaders.length; j++) {
+        tabHeaders[j].classList.remove('is-active');
+        tabs[j].classList.remove('is-active');
+    }
+}
+
+function activateTab(selectedTabContents) {
+    selectedTabContents.forEach(function(selectedTabContent) {
+        selectedTabContent.classList.add('is-active');
+    });
+}
 
 function sendXhr(url, method, successCallback, failureCallback, params) {
     let xhr = new XMLHttpRequest();
@@ -95,6 +115,10 @@ function xhrSuccess() {
         },
         () => { },
     );
+}
+
+function hideAlert(alertId) {
+    document.getElementById('alert-' + alertId).style.display = 'none';
 }
 
 function reloadReponderTable(data) {
@@ -237,3 +261,7 @@ function initMap() {
         }
     });
     }
+
+function getAll(selector) {
+    return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
+}
