@@ -45,7 +45,7 @@ hr {
 #alerts {
     /* display: none; */
     overflow: scroll;
-    height: 400px;
+    max-height: 400px;
 }
 
 .input[disabled], .textarea[disabled] {

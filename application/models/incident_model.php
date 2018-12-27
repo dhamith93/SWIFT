@@ -102,6 +102,16 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function getAlerts($incidentId) {
+            $query = $this->db->get_where('alerts', array('inc_id' => $incidentId));
+            return $query->result();
+        }
+
+        public function getAlertsForPublic($incidentId) {
+            $query = $this->db->get_where('alerts', array('inc_id' => $incidentId, 'is_public' => '1'));
+            return $query->result();
+        }
+
         public function getResponders($incidentId) {
             $query = $this->db->select('t1.org_id, t2.id, t2.name, t2.address, t2.contact, t2.email, t3.type')
                         ->from('responding_organizations as t1')

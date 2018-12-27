@@ -2,24 +2,17 @@
     <div class="column">
         <h4 class="subtitle is-4">Alerts</h4>
         <div id="alerts">
+
+            <?php
+                foreach ($alerts as $alert):
+            ?>
+
             <div class="notification is-danger">
                 <button class="delete"></button>
-                Primar lorem ipsum dolor sit amet, consectetur
-                adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Sit amet,
-                consectetur adipiscing elit
+                <?php echo $alert->content; ?>
             </div>
-            <div class="notification is-danger">
-                <button class="delete"></button>
-                Primar lorem ipsum dolor sit amet, consectetur
-                adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Sit amet,
-                consectetur adipiscing elit
-            </div>
-            <div class="notification is-danger">
-                <button class="delete"></button>
-                Primar lorem ipsum dolor sit amet, consectetur
-                adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Sit amet,
-                consectetur adipiscing elit
-            </div>
+
+            <?php endforeach;?>
         </div>
         <br>
         <textarea id="add-alert" class="textarea"></textarea>

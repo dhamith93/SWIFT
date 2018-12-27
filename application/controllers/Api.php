@@ -7,8 +7,9 @@ class Api extends REST_Controller {
 
     // http://localhost:8888/SWIFT/api/test/
     public function test_get() {
-        $testVar = $this->get('var');
-        $data = array('response' => $testVar);
+        $testVar = $this->get('inc_id');
+        $data = $this->incident_model->getAlerts($testVar);
+        // $data = array('response' => $testVar);
 
         if(count($data ) > 0) {
             $this->response($data, REST_Controller::HTTP_OK);
