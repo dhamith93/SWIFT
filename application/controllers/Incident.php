@@ -7,6 +7,7 @@
             $data['incident'] = $this->incident_model->getSingleIncident($id); 
             $data['responders'] = $this->incident_model->getResponders($id);
             $data['alerts'] = $this->incident_model->getAlerts($id);
+            $data['tasks'] = $this->incident_model->getTasks($id);
 
             $this->load->view('templates/header');
             $this->load->view('incident/single_incident', $data);

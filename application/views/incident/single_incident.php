@@ -58,6 +58,9 @@
         <div class="tab" data-content="4">
         </div>
         <div class="tab" data-content="5">
+            <?php
+                $this->view('incident/tasks');
+            ?>
         </div>
         <div class="tab" data-content="6">
         </div>

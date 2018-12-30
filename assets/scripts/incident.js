@@ -8,6 +8,7 @@ var responderTable = document.getElementById('responders-table');
 var addAlertBtn = document.getElementById('add-alert-btn');
 var alertDeleteBtns = getAll('.alert-delete-btn');
 var setAlertPublic = document.getElementById('alert-public');
+var addTaskBtn = document.getElementById('add-task-btn');
 
 for (let i = 0; i < tabHeaders.length; i++) {
     tabHeaders[i].addEventListener('click', function() {
@@ -69,6 +70,37 @@ searchBtn.addEventListener('click', (e) => {
     }
 });
 
+addTaskBtn.addEventListener('click', (e) => {
+    if (confirm('Do you want to add this task?')) {
+        let taskContent = document.getElementById('task-content').value;
+        let respondingOrgId = document.getElementById('responder-org').value;
+    
+        if (taskContent) {
+            let params = 'incidentId= ' + incidentId + '&taskContent=' + taskContent + '&respongingOrg=' + respondingOrgId;
+            sendXhr(
+                'http://localhost:8888/SWIFT/api/task/',
+                'POST',
+                (r) => {
+                    sendXhr(
+                        'http://localhost:8888/SWIFT/api/task/?incidentId=' + incidentId,
+                        'GET',
+                        (r) => {
+                            reloadTasksTable(r);
+                        },
+                        (r) => { 
+                            alert('Task Added!');
+                        }
+                    );
+                },
+                (r) => { 
+                    xhrFailure(r);
+                },
+                params
+            );
+        }
+    }
+});
+
 function unsetTabHeaderIsActive() {
     for (let j = 0; j < tabHeaders.length; j++) {
         tabHeaders[j].classList.remove('is-active');
@@ -124,7 +156,7 @@ function xhrSuccess() {
         (r) => {
             reloadReponderTable(r);
         },
-        () => { },
+        () => { }
     );
 }
 
@@ -155,7 +187,6 @@ function reloadAlerts() {
         'http://localhost:8888/SWIFT/api/alert/?incidentId=' + incidentId, 
         'GET',
         (r) => { 
-            console.log(r);
             let mainAlertDiv = document.getElementById('alerts');
 
             while (mainAlertDiv.firstChild)
@@ -163,7 +194,7 @@ function reloadAlerts() {
 
             let keys = Object.keys(r).reverse();
 
-            for(i=0; i< keys.length; i++) {
+            for(let i = 0; i< keys.length; i++) {
                 if (keys[i] !== 'status') {
                     let content = r[keys[i]]['content'];
     
@@ -243,6 +274,46 @@ function reloadReponderTable(data) {
             tableRef.appendChild(tr);
         }
     });
+}
+
+function reloadTasksTable(data) {
+    let tasksDiv = document.getElementById('tasks');
+    resetTable(tasksDiv);
+
+    let keys = Object.keys(data).reverse();
+
+    for(let i = 0; i< keys.length; i++) {
+        if (keys[i] !== 'status') {
+            let assignedAt = data[keys[i]]['assigned_at'];
+            let content = data[keys[i]]['content'];
+            let org = data[keys[i]]['org'];
+            let isCompleted = data[keys[i]]['is_completed'];
+            let completedAt = data[keys[i]]['completed_at'];
+
+            let tableRef = tasksDiv.getElementsByTagName('tbody')[0];
+
+            let tr = document.createElement('tr');
+            let cell1 = document.createElement('td');
+            let cell2 = document.createElement('td');
+            let cell3 = document.createElement('td');
+            let cell4 = document.createElement('td');
+            let cell5 = document.createElement('td');
+        
+            cell1.appendChild(document.createTextNode(assignedAt));
+            cell2.appendChild(document.createTextNode(content));
+            cell3.appendChild(document.createTextNode(org));
+            cell4.appendChild(document.createTextNode(isCompleted));
+            cell5.appendChild(document.createTextNode(completedAt));
+        
+            tr.appendChild(cell1);
+            tr.appendChild(cell2);
+            tr.appendChild(cell3);
+            tr.appendChild(cell4);
+            tr.appendChild(cell5);
+        
+            tableRef.appendChild(tr);
+        }
+    }
 }
 
 function fillResultTable(data) {

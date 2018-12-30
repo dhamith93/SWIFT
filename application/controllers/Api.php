@@ -39,12 +39,10 @@ class Api extends REST_Controller {
                     'email' => $row['email']
                 );
             }
-
-            if (count($data ) > 0)
-                $data['status'] = 'OK';
         }
-
-        if (count($data ) > 0) {
+        
+        if (count($data) > 0) {
+            $data['status'] = 'OK';
             $this->response($data, REST_Controller::HTTP_OK);
         } else {
             $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
@@ -87,7 +85,7 @@ class Api extends REST_Controller {
             );
         }
 
-        if (count($data ) > 0) {
+        if (count($data) > 0) {
             $data['status'] = 'OK';
             $this->response($data, REST_Controller::HTTP_OK);
         } else {
@@ -108,7 +106,7 @@ class Api extends REST_Controller {
             );
         }
 
-        if (count($data ) > 0) {
+        if (count($data) > 0) {
             $data['status'] = 'OK';
             $this->response($data, REST_Controller::HTTP_OK);
         } else {
@@ -152,6 +150,39 @@ class Api extends REST_Controller {
         }
 
         $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function task_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $incidentId = $this->post('incidentId', true);
+        $taskContent = $this->post('taskContent', true);
+        $respondingOrgId = $this->post('respongingOrg', true);
+
+        if ($this->incident_model->addTask($incidentId, $respondingOrgId, $taskContent)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function task_get() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $incidentId = $this->get('incidentId');
+
+        $tasks = $this->incident_model->getTasks($incidentId);
+        
+        if (count($tasks) > 0) {
+            $tasks['status'] = 'OK';
+            $this->response($tasks, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
     }
     
     public function employee_get() {

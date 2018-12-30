@@ -161,10 +161,47 @@
             }
         }
 
+        public function addTask($incidentId, $respondingOrgId, $taskContent) {
+            $data = array(
+                'inc_id' => $incidentId,
+                'org_id' => $respondingOrgId,
+                'content' => $taskContent
+            );
+
+            return $this->db->insert('tasks', $data);
+        }
+
+        public function getTasks($incidentId) {
+            $query = $this->db
+                    ->select('*')
+                    ->from('tasks')
+                    ->where('inc_id', $incidentId)
+                    ->order_by('assigned_at', 'desc')
+                    ->get();
+
+            $tasks = $query->result();
+
+            $data = array();
+
+            foreach ($tasks as $task) {
+                $organization = $this->organization_model->getOrganization($task->org_id);
+                $data[$task->id] = array(
+                    'content' => $task->content,
+                    'org' => $organization[0]->name,
+                    'is_completed' => ($task->is_completed === '0') ? 'NO' : 'YES',
+                    'assigned_at' => $task->assigned_at,
+                    'completed_at' => $task->completed_at
+                );
+            }
+
+            return $data;
+        }
+
         public function responderExists($orgId, $incidentId) {
             $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $orgId));
             return (count($checkQuery->result()) > 0);
         }
+
 
         function buildReturnArray($queryResult) {
             $resultArray = array();
