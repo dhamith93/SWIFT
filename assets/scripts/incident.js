@@ -71,11 +71,11 @@ searchBtn.addEventListener('click', (e) => {
 });
 
 addTaskBtn.addEventListener('click', (e) => {
-    if (confirm('Do you want to add this task?')) {
-        let taskContent = document.getElementById('task-content').value;
-        let respondingOrgId = document.getElementById('responder-org').value;
+    let taskContent = document.getElementById('task-content').value;
+    let respondingOrgId = document.getElementById('responder-org').value;
     
-        if (taskContent) {
+    if (taskContent) {
+        if (confirm('Do you want to add this task?')) {
             let params = 'incidentId= ' + incidentId + '&taskContent=' + taskContent + '&respongingOrg=' + respondingOrgId;
             sendXhr(
                 'http://localhost:8888/SWIFT/api/task/',
@@ -314,6 +314,9 @@ function reloadTasksTable(data) {
             tableRef.appendChild(tr);
         }
     }
+
+    document.getElementById('task-content').value = '';
+    document.getElementById('responder-org').value = '';
 }
 
 function fillResultTable(data) {
