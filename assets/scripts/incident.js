@@ -288,7 +288,7 @@ function reloadTasksTable(data) {
             let content = data[keys[i]]['content'];
             let org = data[keys[i]]['org'];
             let isCompleted = data[keys[i]]['is_completed'];
-            let completedAt = data[keys[i]]['completed_at'];
+            let completedAt = (data[keys[i]]['completed_at'] === null) ? '' : data[keys[i]]['completed_at'];
 
             let tableRef = tasksDiv.getElementsByTagName('tbody')[0];
 
@@ -316,7 +316,6 @@ function reloadTasksTable(data) {
     }
 
     document.getElementById('task-content').value = '';
-    document.getElementById('responder-org').value = '';
 }
 
 function fillResultTable(data) {

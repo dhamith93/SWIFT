@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 25, 2018 at 05:28 PM
+-- Generation Time: Dec 30, 2018 at 08:04 PM
 -- Server version: 5.6.38
 -- PHP Version: 7.2.1
 
@@ -105,7 +105,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
-(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2018-12-25 20:04:21', 1),
+(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2018-12-30 23:54:42', 1),
 (9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2018-12-24 09:45:55', 0);
 
 -- --------------------------------------------------------
@@ -329,6 +329,23 @@ CREATE TABLE `system_information` (
   `sub_title` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `inc_id` int(11) NOT NULL,
+  `org_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `is_completed` int(11) NOT NULL DEFAULT '0',
+  `assigned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `completed_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -484,6 +501,14 @@ ALTER TABLE `system_information`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `inc_id` (`inc_id`),
+  ADD KEY `org_id` (`org_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -491,13 +516,13 @@ ALTER TABLE `system_information`
 -- AUTO_INCREMENT for table `affected_areas`
 --
 ALTER TABLE `affected_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `casualties`
@@ -545,7 +570,7 @@ ALTER TABLE `hospitalizations`
 -- AUTO_INCREMENT for table `incidents`
 --
 ALTER TABLE `incidents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -599,13 +624,19 @@ ALTER TABLE `responding_areas`
 -- AUTO_INCREMENT for table `responding_organizations`
 --
 ALTER TABLE `responding_organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `system_information`
 --
 ALTER TABLE `system_information`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables
@@ -720,3 +751,10 @@ ALTER TABLE `responding_areas`
 ALTER TABLE `responding_organizations`
   ADD CONSTRAINT `responding_organizations_ibfk_1` FOREIGN KEY (`inc_id`) REFERENCES `incidents` (`id`),
   ADD CONSTRAINT `responding_organizations_ibfk_2` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`);
+
+--
+-- Constraints for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`inc_id`) REFERENCES `incidents` (`id`),
+  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`);

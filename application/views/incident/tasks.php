@@ -30,12 +30,13 @@
         <tbody>
             <?php 
                 foreach ($tasks as $task) {
+                    $completedAt = ($task['completed_at'] === null) ? '' : $task['completed_at'];
                     echo '<tr>';
                     echo '<td>' . $task['assigned_at'] . '</td>';
                     echo '<td>' . $task['content'] . '</td>';
                     echo '<td>' . $task['org'] . '</td>';
                     echo '<td>' . $task['is_completed'] . '</td>';
-                    echo '<td>' . $task['completed_at'] . '</td>';
+                    echo '<td>' . $completedAt . '</td>';
                     echo '</tr>';
                 }
             ?>
