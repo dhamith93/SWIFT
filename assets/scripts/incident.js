@@ -9,6 +9,22 @@ var addAlertBtn = document.getElementById('add-alert-btn');
 var alertDeleteBtns = getAll('.alert-delete-btn');
 var setAlertPublic = document.getElementById('alert-public');
 var addTaskBtn = document.getElementById('add-task-btn');
+var incidentMedia = getAll('.incident-media');
+var modals = getAll('.modal');
+var modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
+
+var urlAnchor = window.location.hash.substr(1);
+
+if (urlAnchor && (urlAnchor === 'gallery' || urlAnchor === 'gallery-error')) {
+    unsetTabHeaderIsActive();
+    tabHeaders[2].classList.add('is-active');
+    activateTab(document.querySelectorAll('[data-content="2"]'));
+
+    if (urlAnchor === 'gallery-error') 
+        alert('Error adding new media. Please try again.');
+
+    window.history.replaceState('', 'Incident', '#gallery');
+}
 
 for (let i = 0; i < tabHeaders.length; i++) {
     tabHeaders[i].addEventListener('click', function() {
@@ -99,6 +115,12 @@ addTaskBtn.addEventListener('click', (e) => {
             );
         }
     }
+});
+
+incidentMedia.forEach(el => {
+    el.addEventListener('click', (e) => {
+        openModal('media-modal', el.dataset.src, el.dataset.mediaType);
+    });
 });
 
 function unsetTabHeaderIsActive() {
@@ -380,6 +402,70 @@ function resetTable(e) {
     for (let i = length; i > 0; i--)
         elements[0].removeChild(elements[0].childNodes[i]);
 }
+
+function fillFileName(type) {
+    let userMedia;
+    let fileName; 
+
+    if (type === 'image') {
+        userMedia = document.getElementById('user-image');
+        fileName = document.getElementById('image-file-name');
+    } else {
+        userMedia = document.getElementById('user-video');
+        fileName = document.getElementById('video-file-name');
+    }
+
+    fileName.innerHTML = userMedia.value.substr(userMedia.value.lastIndexOf('\\') + 1);
+}
+
+if (modalCloses.length > 0) {
+    modalCloses.forEach(function (el) {
+        el.addEventListener('click', function () {
+            closeModals();
+        });
+    });
+}
+
+function openModal(t, src, type) {
+    let target = document.getElementById(t);
+    let rootEl = document.documentElement;
+
+    let modalVideo = document.getElementById('modal-video');
+    let modalImg = document.getElementById('modal-img');
+    let modalLink = document.getElementById('modal-link');
+
+    if (type === 'image') {
+        modalVideo.classList.add('is-hidden');
+        modalImg.src = src;
+        modalLink.href = src;
+        modalImg.classList.remove('is-hidden');
+    } else {
+        modalImg.classList.add('is-hidden');
+        modalVideo.src = src;
+        modalVideo.classList.remove('is-hidden');
+    }
+
+    rootEl.classList.add('is-clipped');
+    target.classList.add('is-active');
+}
+
+function closeModals() {
+    let rootEl = document.documentElement;
+    rootEl.classList.remove('is-clipped');
+    modals.forEach(function (el) {
+        el.classList.remove('is-active');
+    });
+    document.getElementById('modal-video').pause();
+}
+
+document.addEventListener('keydown', function (event) {
+        let e = event || window.event;
+        if (e.keyCode === 27) {
+        closeModals();
+        closeDropdowns();
+    }
+});
+
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {

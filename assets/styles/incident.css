@@ -51,3 +51,38 @@ hr {
 .input[disabled], .textarea[disabled] {
     color: #000;
 }
+
+#gallery {
+    text-align: center;
+}
+
+#gallery figure {
+    cursor: pointer;
+    display: inline-block;
+    margin: 20px;
+    width: 256px;
+}
+
+#gallery figure img:hover,  #gallery figure video:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
+
+#modal-img {
+    cursor: zoom-in;
+}
+
+#upload {
+    text-align: center;
+}
+
+#upload form {
+    margin-left: 20px !important;
+    margin-bottom: 20px !important;
+    display: inline-block;
+    text-align: center;
+    max-width: unset !important;
+}
+
+.modal video {
+    object-fit: fill;
+}

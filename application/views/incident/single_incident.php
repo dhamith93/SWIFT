@@ -15,7 +15,7 @@
         <ul>
             <li class="tab-header is-active" data-tab="0"><a>Information</a></li>
             <li class="tab-header" data-tab="1"><a>Alerts & Warnings</a></li>
-            <li class="tab-header" data-tab="2"><a>Gallary</a></li>
+            <li class="tab-header" data-tab="2"><a>Gallery</a></li>
             <li class="tab-header" data-tab="3"><a>Responders</a></li>
             <li class="tab-header" data-tab="4"><a>Requests</a></li>
             <li class="tab-header" data-tab="5"><a>Tasks</a></li>
