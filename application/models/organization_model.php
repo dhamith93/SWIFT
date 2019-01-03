@@ -21,7 +21,7 @@
             $this->db->insert('organizations', $orgData);
             $orgId = $this->db->insert_id();
 
-            $locationString = htmlspecialchars($this->input->post('location-list', true));
+            $locationString = $this->input->post('location-list', true);
             $locationArray = $this->extractLocations($locationString);
 
             foreach ($locationArray as $location) {
