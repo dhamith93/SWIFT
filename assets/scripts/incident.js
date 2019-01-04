@@ -44,7 +44,7 @@ addAlertBtn.addEventListener('click', (e) => {
     
         if (confirm('Do you want to add this alert?')) {
             sendXhr(
-                'http://localhost:8888/SWIFT/api/alert/', 
+                'http://localhost/SWIFT/api/alert/', 
                 'POST', 
                 (r) => {
                     reloadAlerts();
@@ -80,7 +80,7 @@ searchBtn.addEventListener('click', (e) => {
     let searchType = document.getElementById('search-type').value;
 
     if (orgType !== '' && searchValue !== '' && searchType !== '') {
-        let url = 'http://localhost:8888/SWIFT/api/organizations/?orgType='+ orgType +
+        let url = 'http://localhost/SWIFT/api/organizations/?orgType='+ orgType +
             '&searchValue=' + searchValue + '&searchType=' + searchType;
         sendXhr(url, 'GET', fillResultTable, xhrFailure);
     }
@@ -94,11 +94,11 @@ addTaskBtn.addEventListener('click', (e) => {
         if (confirm('Do you want to add this task?')) {
             let params = 'incidentId= ' + incidentId + '&taskContent=' + taskContent + '&respongingOrg=' + respondingOrgId;
             sendXhr(
-                'http://localhost:8888/SWIFT/api/task/',
+                'http://localhost/SWIFT/api/task/',
                 'POST',
                 (r) => {
                     sendXhr(
-                        'http://localhost:8888/SWIFT/api/task/?incidentId=' + incidentId,
+                        'http://localhost/SWIFT/api/task/?incidentId=' + incidentId,
                         'GET',
                         (r) => {
                             reloadTasksTable(r);
@@ -173,7 +173,7 @@ function xhrFailure(response) {
 
 function xhrSuccess() {
     sendXhr(
-        'http://localhost:8888/SWIFT/api/responding_orgs/?incidentId=' + incidentId, 
+        'http://localhost/SWIFT/api/responding_orgs/?incidentId=' + incidentId, 
         'GET',
         (r) => {
             reloadReponderTable(r);
@@ -186,7 +186,7 @@ function deleteAlert(alertId) {
     params = 'alertId=' + alertId;
     if (confirm('Do you want to delete this alert?\nYou cannot undo this!')) {
         sendXhr(
-            'http://localhost:8888/SWIFT/api/alert/', 
+            'http://localhost/SWIFT/api/alert/', 
             'DELETE', 
             (r) => {
                 alert('Alert deleted!');
@@ -206,7 +206,7 @@ function hideAlert(alertId) {
 
 function reloadAlerts() {
     sendXhr(
-        'http://localhost:8888/SWIFT/api/alert/?incidentId=' + incidentId, 
+        'http://localhost/SWIFT/api/alert/?incidentId=' + incidentId, 
         'GET',
         (r) => { 
             let mainAlertDiv = document.getElementById('alerts');
@@ -382,7 +382,7 @@ function fillResultTable(data) {
             document.getElementById(key).addEventListener('click', (e) => {
                 let params = 'orgId=' + key +'&incidentId=' + incidentId;
                 sendXhr(
-                    'http://localhost:8888/SWIFT/api/responding_orgs/', 
+                    'http://localhost/SWIFT/api/responding_orgs/', 
                     'POST',
                     (r) => {
                         alert('Organization added to responders list!');
