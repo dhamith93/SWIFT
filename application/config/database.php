@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost:8889',
-	'username' => 'root',
-	'password' => 'root',
+	'hostname' => 'localhost:3306',
+	'username' => 'swiftadmin',
+	'password' => 'admin',
 	'database' => 'swift',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
