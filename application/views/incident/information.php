@@ -28,6 +28,7 @@
         <br> <br>
 
         <div class="box is-hidden" id="location-box">
+            <?php echo form_open('incident/add-location/' . $id, 'id="add-location-form"') ?>
                 <div class="control">
                     <label class="label">Province</label>
                     <div class="select is-fullwidth">
@@ -45,7 +46,7 @@
                     </div>
                 </div>
                 
-                <br>br
+                <br>
 
                 <div class="control">
                     <label class="label">District</label>
@@ -89,13 +90,13 @@
                     </div>
                 </div>
 
-                <div class="field">
-                    <div class="control" id="locations"> </div>
-                </div>
+                <input type="hidden" name="location-string" id="location-string" value="">
+                <input type="hidden" name="alert-orgs" id="alert-orgs" value="FALSE">
 
                 <div class="field">
                     <button class="button is-link" id="add-location-btn">Add Area</button>
                 </div>
+            <?php echo form_close(); ?>
         </div>
     </div>
     <div class="column">

@@ -102,6 +102,33 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function addLocation($incidentId, $locationString, $alertOrgs) {
+            $location = $this->extractLocations($locationString)[0];
+            
+            if (count($location) !== 3)
+                return false;
+                
+            if ($this->locationExists($incidentId, $location))
+                return false;
+
+            $locationData = array(
+                'inc_id' => $incidentId,
+                'province' => $location[0],
+                'district' => $location[1],
+                'town' => $location[2],
+            );
+
+            $this->db->insert('affected_areas', $locationData);
+
+            if ($alertOrgs) {
+                $responders = $this->getResponders($incidentId);
+                foreach ($responders as $responder)
+                    $this->notifyResponders($locationArray[0][2], $responder->type_id, $incidentId);
+            }
+
+            return true;
+        }
+
         public function addAlert($incidentId, $content, $isPublic) {
             $data = array(
                 'inc_id' => $incidentId,
@@ -133,7 +160,7 @@
         }
 
         public function getResponders($incidentId) {
-            $query = $this->db->select('t1.org_id, t2.id, t2.name, t2.address, t2.contact, t2.email, t3.type')
+            $query = $this->db->select('t1.org_id, t2.id, t3.id AS type_id, t2.name, t2.address, t2.contact, t2.email, t3.type')
                         ->from('responding_organizations as t1')
                         ->where('t1.inc_id', $incidentId)
                         ->join('organizations as t2', 't1.org_id = t2.id', 'LEFT')
@@ -199,6 +226,19 @@
 
         public function responderExists($orgId, $incidentId) {
             $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $orgId));
+            return (count($checkQuery->result()) > 0);
+        }
+
+        function locationExists($incidentId, $location) {
+            $checkQuery = $this->db->get_where(
+                'affected_areas', 
+                array(
+                    'inc_id' => $incidentId, 
+                    'province' => $location[0],
+                    'district' => $location[1],
+                    'town' => $location[2]
+                )
+            );
             return (count($checkQuery->result()) > 0);
         }
 

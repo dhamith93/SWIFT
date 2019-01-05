@@ -1,6 +1,7 @@
 var tabHeaders = document.getElementsByClassName('tab-header');
 var tabs = document.getElementsByClassName('tab');
 var addLocationBtn = document.getElementById('add-area-btn');
+var addLocationForm = document.getElementById('add-location-form');
 var addRespondersBtn = document.getElementById('add-responders-btn');
 var searchBtn = document.getElementById('search-btn');
 var resultTable = document.getElementById('search-result-table');
@@ -26,6 +27,11 @@ if (urlAnchor && (urlAnchor === 'gallery' || urlAnchor === 'gallery-error')) {
     window.history.replaceState('', 'Incident', '#gallery');
 }
 
+if (urlAnchor && urlAnchor === 'location-error') {
+    window.history.replaceState('', 'Incident', '#');
+    alert('Error adding new location...\nPlease try again.');
+}
+
 for (let i = 0; i < tabHeaders.length; i++) {
     tabHeaders[i].addEventListener('click', function() {
         unsetTabHeaderIsActive();     
@@ -34,6 +40,26 @@ for (let i = 0; i < tabHeaders.length; i++) {
         activateTab(selectedTabContents);
     });
 }
+
+addLocationForm.addEventListener('submit', (e) => {
+    let province = document.getElementById('area-province').value;
+    let district = document.getElementById('area-district').value;
+    let town = document.getElementById('area-town').value;
+    let locationString = document.getElementById('location-string');
+
+    if (province && district && town) {
+        locationString.value = province + '>' + district + '>' + town;
+        
+        if (confirm('Do you want to add: ' + locationString.value + ' as an affected area?')) {
+            if (confirm('Do you want to alert selected organizations of this new area?'))
+                document.getElementById('alert-orgs').value = 'TRUE';
+
+            e.submit();
+        }
+
+        e.preventDefault();
+    }
+});
 
 addAlertBtn.addEventListener('click', (e) => {
     let content = document.getElementById('add-alert').value;

@@ -82,6 +82,19 @@
             redirect('employee/incidents/#search');
         }
 
+        public function addLocation($id) {
+            $this->redirectIfNotAuthorized();
+
+            $locationString = $this->input->post('location-string');
+            $alertOrgs = ($this->input->post('alert-orgs') === 'TRUE');
+
+            if ($this->incident_model->addLocation($id, $locationString, $alertOrgs)) {
+                redirect('incident/' . $id);
+            } else {
+                redirect('incident/' . $id . '#location-error');
+            }
+        }
+
         public function uploadImage($id) {
             $this->redirectIfNotAuthorized();
             
