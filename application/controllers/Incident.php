@@ -115,7 +115,7 @@
             } else {
                 $image_data = $this->upload->data();
 
-                if ($image_data['image_height'] > 1024 || $image_data['image_width'] > 1024) {
+                if ($image_data['image_height'] > 2000 || $image_data['image_width'] > 2000) {
                     $this->load->library('image_lib');
 
                     $config =  array(
