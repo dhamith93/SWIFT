@@ -1,14 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: Dec 30, 2018 at 08:04 PM
--- Server version: 5.6.38
--- PHP Version: 7.2.1
+-- Host: localhost:3306
+-- Generation Time: Jan 07, 2019 at 04:55 PM
+-- Server version: 5.7.24-0ubuntu0.18.10.1
+-- PHP Version: 7.2.10-0ubuntu1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `swift`
@@ -105,7 +111,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
-(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2018-12-30 23:54:42', 1),
+(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$uoDwT644cgxMPPaNfhbA8.G3ItHy35tWgLyWCnURcTW.NDIiie87W', '+94773630792', 'hewamullage123@gmail.com', '2019-01-07 16:29:43', 1),
 (9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2018-12-24 09:45:55', 0);
 
 -- --------------------------------------------------------
@@ -171,6 +177,8 @@ CREATE TABLE `incidents` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(100) NOT NULL,
+  `date` varchar(10) NOT NULL,
+  `time` varchar(8) NOT NULL,
   `lat` varchar(255) NOT NULL,
   `lng` varchar(255) NOT NULL,
   `hazard_warning` text NOT NULL,
@@ -516,128 +524,107 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `affected_areas`
 --
 ALTER TABLE `affected_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 --
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT for table `casualties`
 --
 ALTER TABLE `casualties`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `contact_numbers`
 --
 ALTER TABLE `contact_numbers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `evacuations`
 --
 ALTER TABLE `evacuations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `hospitalizations`
 --
 ALTER TABLE `hospitalizations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `incidents`
 --
 ALTER TABLE `incidents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `message_boards`
 --
 ALTER TABLE `message_boards`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `organization_types`
 --
 ALTER TABLE `organization_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `press_releases`
 --
 ALTER TABLE `press_releases`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `property_damagers`
 --
 ALTER TABLE `property_damagers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `responders`
 --
 ALTER TABLE `responders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `responding_areas`
 --
 ALTER TABLE `responding_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `responding_organizations`
 --
 ALTER TABLE `responding_organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `system_information`
 --
 ALTER TABLE `system_information`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -758,3 +745,7 @@ ALTER TABLE `responding_organizations`
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`inc_id`) REFERENCES `incidents` (`id`),
   ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

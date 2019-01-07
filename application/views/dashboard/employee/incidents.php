@@ -237,6 +237,17 @@
                     </div>
                 </div>
 
+                <div class="field">
+                    <label class="label">Date and Time</label>
+                    <div class="control">
+                        <input class="input" type="date" name="date">
+                    </div>
+                    <br>
+                    <div class="control">
+                        <input class="input" type="time" name="time">
+                    </div>
+                </div>
+
                 <br>
 
                 <div class="control">

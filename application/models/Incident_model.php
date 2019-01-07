@@ -14,6 +14,8 @@
                 'type' => htmlspecialchars($this->input->post('type', true)),
                 'lat' => htmlspecialchars($this->input->post('lat', true)),
                 'lng' => htmlspecialchars($this->input->post('long', true)),
+                'date' => htmlspecialchars($this->input->post('date', true)),
+                'time' => htmlspecialchars($this->input->post('time', true)),
                 'hazard_warning' => htmlspecialchars($this->input->post('warning', true))
             );
 
@@ -257,6 +259,8 @@
                     'id' => $incident->id,
                     'name' => $incident->name,
                     'type' => $incident->type,
+                    'date' => $incident->date,
+                    'time' => $incident->time,
                     'lng' => $incident->lng,
                     'lat' => $incident->lat,
                     'locations' => $locationArray,

@@ -8,7 +8,17 @@
 <div class="background"></div>
 
 <div class="container">
-    <h1 class="title">Incident: <?php echo ucfirst($incident[$id]['name']); ?></h1>
+    <h1 class="title">
+        Incident: <?php echo ucfirst($incident[$id]['name']); ?>
+        <span class="subtitle is-6">
+            <?php 
+                echo '';
+                echo ucfirst($incident[$id]['date']);
+                echo ' - '; 
+                echo ucfirst($incident[$id]['time']);
+            ?>
+        </span>
+    </h1>
     <h2 class="subtitle is-4">Type: <?php echo ucfirst($incident[$id]['type']); ?></h2>
 
     <div class="tabs is-centered">
