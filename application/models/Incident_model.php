@@ -98,6 +98,21 @@
             return $this->buildReturnArray($query->result());
         }
 
+        public function getCasualties($id) {
+            $query = $this->db->get_where('casualties', array('inc_id' => $id));
+            return $query->result();
+        }
+
+        public function getHospitalizations($id) {
+            $query = $this->db->get_where('hospitalizations', array('inc_id' => $id));
+            return $query->result();
+        }
+
+        public function getPropertyDamages($id) {
+            $query = $this->db->get_where('property_damages', array('inc_id' => $id));
+            return $query->result();
+        }
+
         public function getOngoingIncidents() {
             $query = $this->db->get_where('incidents', array('on_going' => 1));
             $incidentResult = $query->result();
@@ -105,12 +120,19 @@
         }
 
         public function updateCasualties($id) {
+            $checkQuery = $this->db->get_where('casualties', array('inc_id' => $id));
+            
             $data = array(
                 'inc_id' => $id,
                 'deaths' => htmlspecialchars($this->input->post('deaths', true)),
                 'wounded' => htmlspecialchars($this->input->post('wounded', true)),
                 'missing' => htmlspecialchars($this->input->post('missing', true))
             );
+
+            if (count($checkQuery->result()) > 0) {
+                $this->db->where('inc_id', $id);
+                return $this->db->update('casualties', $data);
+            }
 
             return $this->db->insert('casualties', $data);
         }

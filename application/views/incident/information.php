@@ -125,17 +125,17 @@
                     <tr>
                         <td>
                             <div class="control">
-                                <input class="input" type="number" name="deaths">
+                                <input class="input" type="number" name="deaths" value="<?php if (isset($casualties[0])) echo $casualties[0]->deaths; ?>">
                             </div>
                         </td>
                         <td>
                             <div class="control">
-                                <input class="input" type="number" name="wounded">
+                                <input class="input" type="number" name="wounded" value="<?php if (isset($casualties[0])) echo $casualties[0]->wounded; ?>">
                             </div>
                         </td>
                         <td>
                             <div class="control">
-                                <input class="input" type="number" name="missing">
+                                <input class="input" type="number" name="missing" value="<?php if (isset($casualties[0])) echo $casualties[0]->missing; ?>">
                             </div>
                         </td>
                         <td>
@@ -158,10 +158,10 @@
             <tbody>
                 <tr>
                     <td>
-                        xyz
+                    <?php if (isset($hospitalizations[0])) echo $hospitalizations[0]->hospital_id; ?>
                     </td>
                     <td>
-                        88
+                    <?php if (isset($hospitalizations[0])) echo $hospitalizations[0]->count; ?>
                     </td>
                 </tr>
             </tbody>

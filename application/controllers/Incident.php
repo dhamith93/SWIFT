@@ -10,6 +10,9 @@
             $data['responders'] = $this->incident_model->getResponders($id);
             $data['alerts'] = $this->incident_model->getAlerts($id);
             $data['tasks'] = $this->incident_model->getTasks($id);
+            $data['casualties'] = $this->incident_model->getCasualties($id);
+            $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
+            $data['propertyDamages'] = $this->incident_model->getPropertyDamages($id);
             
             if (is_dir('assets/media/' . $id . '/images/'))
                 $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
