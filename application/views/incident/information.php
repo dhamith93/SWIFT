@@ -111,38 +111,40 @@
     <div class="columns">
     <div class="column">
         <h4 class="subtitle is-4">Casualties</h4>
-        <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
-            <thead>
-                <tr>
-                    <th>Deaths</th>
-                    <th>Wounded</th>
-                    <th>Missing</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="deaths">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="wounded">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="missing">
-                        </div>
-                    </td>
-                    <td>
-                        <button class="button is-link" id="update-casualties-btn">Update</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <?php echo form_open('incident/update-casualties/' . $id, 'id="update-casualties-form"') ?>
+            <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
+                <thead>
+                    <tr>
+                        <th>Deaths</th>
+                        <th>Wounded</th>
+                        <th>Missing</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="control">
+                                <input class="input" type="number" name="deaths">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control">
+                                <input class="input" type="number" name="wounded">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control">
+                                <input class="input" type="number" name="missing">
+                            </div>
+                        </td>
+                        <td>
+                            <button class="button is-link" type="submit">Update</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <?php echo form_close(); ?>
     </div>
     <div class="column">
         <h4 class="subtitle is-4">Hospitalizations</h4>

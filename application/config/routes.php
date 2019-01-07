@@ -64,6 +64,7 @@ $route['incident/add'] = 'incident/add';
 $route['incident/search'] = 'incident/getIncidentInfo';
 $route['incident/(:any)'] = 'incident/singleIncidentView/$1';
 $route['incident/add-location/(:any)'] = 'incident/addLocation/$1';
+$route['incident/update-casualties/(:any)'] = 'incident/updateCasualties/$1';
 $route['incident/upload-image/(:any)'] = 'incident/uploadImage/$1';
 $route['incident/upload-video/(:any)'] = 'incident/uploadVideo/$1';
 $route['organization/add'] = 'organization/add';

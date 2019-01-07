@@ -32,6 +32,11 @@ if (urlAnchor && urlAnchor === 'location-error') {
     alert('Error adding new location...\nPlease try again.');
 }
 
+if (urlAnchor && urlAnchor === 'update-error') {
+    window.history.replaceState('', 'Incident', '#');
+    alert('Error updating the incident...\nPlease try again.');
+}
+
 for (let i = 0; i < tabHeaders.length; i++) {
     tabHeaders[i].addEventListener('click', function() {
         unsetTabHeaderIsActive();     

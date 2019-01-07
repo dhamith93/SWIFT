@@ -82,6 +82,22 @@
             redirect('employee/incidents/#search');
         }
 
+        public function updateCasualties($id) {
+            $this->redirectIfNotAuthorized();
+
+            $this->form_validation->set_rules('deaths', 'Deaths', 'required');
+            $this->form_validation->set_rules('wounded', 'Wounded', 'required');
+            $this->form_validation->set_rules('missing', 'Missing', 'required');
+
+            if ($this->form_validation->run() === FALSE) 
+                redirect('incident/' . $id .'#update-error');
+
+            if ($this->incident_model->updateCasualties($id))
+                redirect('incident/' . $id);
+
+            redirect('incident/' . $id .'#update-error');
+        }
+
         public function addLocation($id) {
             $this->redirectIfNotAuthorized();
 

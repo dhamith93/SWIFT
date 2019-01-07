@@ -104,6 +104,17 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function updateCasualties($id) {
+            $data = array(
+                'inc_id' => $id,
+                'deaths' => htmlspecialchars($this->input->post('deaths', true)),
+                'wounded' => htmlspecialchars($this->input->post('wounded', true)),
+                'missing' => htmlspecialchars($this->input->post('missing', true))
+            );
+
+            return $this->db->insert('casualties', $data);
+        }
+
         public function addLocation($incidentId, $locationString, $alertOrgs) {
             $location = $this->extractLocations($locationString)[0];
             
