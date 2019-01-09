@@ -108,8 +108,8 @@
             return $query->result();
         }
 
-        public function getPropertyDamages($id) {
-            $query = $this->db->get_where('property_damages', array('inc_id' => $id));
+        public function getEvacuations($id) {
+            $query = $this->db->get_where('evacuations', array('inc_id' => $id));
             return $query->result();
         }
 
@@ -135,6 +135,29 @@
             }
 
             return $this->db->insert('casualties', $data);
+        }
+
+        public function addEvacuations($id) {
+            $data = array(
+                'inc_id' => $id,
+                'address' => htmlspecialchars($this->input->post('address', true)),
+                'count' => htmlspecialchars($this->input->post('evacuees', true)),
+                'contact' => htmlspecialchars($this->input->post('contact', true))
+            );
+
+            return $this->db->insert('evacuations', $data);
+        }
+
+        public function updateEvacuations($id) {
+            $data = array(
+                'id' => htmlspecialchars($this->input->post('id', true)),
+                'address' => htmlspecialchars($this->input->post('address', true)),
+                'count' => htmlspecialchars($this->input->post('evacuees', true)),
+                'contact' => htmlspecialchars($this->input->post('contact', true))
+            );
+
+            $this->db->where('id', $data['id']);
+            return $this->db->update('evacuations', $data);
         }
 
         public function addLocation($incidentId, $locationString, $alertOrgs) {

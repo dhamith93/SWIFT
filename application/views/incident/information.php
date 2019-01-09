@@ -189,100 +189,52 @@
             </thead>
             <tbody>
                 <tr>
+                <?php if (!empty($evacuations)) foreach ($evacuations as $evac): ?>
+                <?php echo form_open('incident/update-evacuations/' . $id, 'id="update-evacuation-form"') ?>
                     <td>
                         <div class="control">
-                            <input class="input" type="text" id="update-evac-address">
+                            <textarea class="textarea" name="address" cols="30" rows="4"><?php echo $evac->address; ?></textarea>
                         </div>
                     </td>
                     <td>
                         <div class="control">
-                            <input class="input" type="number" id="update-evac-evacuees">
+                            <input class="input" type="number" name="evacuees" value="<?php echo $evac->count; ?>">
                         </div>
                     </td>
                     <td>
                         <div class="control">
-                            <input class="input" type="text" id="update-evac-contact">
+                            <input class="input" type="text" name="contact" value="<?php echo $evac->contact; ?>">
                         </div>
                     </td>
+                    <input type="hidden" name="id" value="<?php echo $evac->id; ?>">
                     <td>
-                        <button class="button is-link" id="update-evac-btn">Update</button>
+                        <button class="button is-link" type="submit">Update</button>
                     </td>
                 </tr>
+                <?php endforeach; ?>
+                <?php echo form_close(); ?>
+                <?php echo form_open('incident/add-evacuations/' . $id, 'id="add-evacuation-form"') ?>
                 <tr>
                     <td>
                         <div class="control">
-                            <input class="input" type="text" id="add-evac-address">
+                            <textarea class="textarea" name="address" cols="30" rows="3"></textarea>
                         </div>
                     </td>
                     <td>
                         <div class="control">
-                            <input class="input" type="number" id="add-evac-evacuees">
+                            <input class="input" type="number" name="evacuees">
                         </div>
                     </td>
                     <td>
                         <div class="control">
-                            <input class="input" type="text" id="add-evac-contact">
+                            <input class="input" type="text" name="contact">
                         </div>
                     </td>
                     <td>
-                        <button class="button is-link" id="add-evac-btn" style="width: 100%;">Add</button>
+                        <button class="button is-link" type="submit" style="width: 100%;">Add</button>
                     </td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="column">
-        <h4 class="subtitle is-4">Property Damages</h4>
-        <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Count</th>
-                    <th>Cost estimate</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="text" id="update-prop-type">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="update-prop-count">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="update-prop-cost">
-                        </div>
-                    </td>
-                    <td>
-                        <button class="button is-link" id="update-property-btn">Update</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="text" id="add-prop-type">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="add-prop-count">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control">
-                            <input class="input" type="number" id="add-prop-cost">
-                        </div>
-                    </td>
-                    <td>
-                        <button class="button is-link" id="add-property-btn" style="width: 100%;">Add</button>
-                    </td>
-                </tr>
+                <?php echo form_close(); ?>
             </tbody>
         </table>
     </div>

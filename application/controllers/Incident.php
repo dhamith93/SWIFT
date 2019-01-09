@@ -12,7 +12,7 @@
             $data['tasks'] = $this->incident_model->getTasks($id);
             $data['casualties'] = $this->incident_model->getCasualties($id);
             $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
-            $data['propertyDamages'] = $this->incident_model->getPropertyDamages($id);
+            $data['evacuations'] = $this->incident_model->getEvacuations($id);
             
             if (is_dir('assets/media/' . $id . '/images/'))
                 $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
@@ -96,6 +96,39 @@
                 redirect('incident/' . $id .'#update-error');
 
             if ($this->incident_model->updateCasualties($id))
+                redirect('incident/' . $id);
+
+            redirect('incident/' . $id .'#update-error');
+        }
+
+        public function addEvacuations($id) {
+            $this->redirectIfNotAuthorized();
+
+            $this->form_validation->set_rules('address', 'Address', 'required');
+            $this->form_validation->set_rules('evacuees', 'Evacuees', 'required');
+            $this->form_validation->set_rules('contact', 'Conact', 'required');
+
+            if ($this->form_validation->run() === FALSE) 
+                redirect('incident/' . $id .'#update-error');
+
+            if ($this->incident_model->addEvacuations($id))
+                redirect('incident/' . $id);
+
+            redirect('incident/' . $id .'#update-error');
+        }
+
+        public function updateEvacuations($id) {
+            $this->redirectIfNotAuthorized();
+
+            $this->form_validation->set_rules('id', 'ID', 'required');
+            $this->form_validation->set_rules('address', 'Address', 'required');
+            $this->form_validation->set_rules('evacuees', 'Evacuees', 'required');
+            $this->form_validation->set_rules('contact', 'Conact', 'required');
+
+            if ($this->form_validation->run() === FALSE) 
+                redirect('incident/' . $id .'#update-error');
+
+            if ($this->incident_model->updateEvacuations($id))
                 redirect('incident/' . $id);
 
             redirect('incident/' . $id .'#update-error');
