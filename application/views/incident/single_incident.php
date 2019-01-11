@@ -1,8 +1,21 @@
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"> -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/incident.css">
 
 <script>
     var incidentId = <?php echo $id;?>
+
+    <?php 
+        if ($incident[$id]['geocodes']) {
+            echo 'var locations = {';
+            foreach ($incident[$id]['geocodes'] as $geocode) {
+                echo $geocode['name'] . ': {';
+                echo '\'lat\':' . $geocode['lat'] . ',';
+                echo '\'lng\':' . $geocode['lng'];
+                echo '},';
+
+            }
+            echo '};';
+        }
+    ?>
 </script>
 
 <div class="background"></div>
@@ -88,4 +101,4 @@
 
 <script src="<?php echo base_url(); ?>assets/scripts/incident.js"></script>
 
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=[API_KEY]&callback=initMap"></script> -->
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo getenv('geocode_api'); ?>&callback=initMap"></script>

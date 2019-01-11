@@ -499,36 +499,28 @@ document.addEventListener('keydown', function (event) {
 
 
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: {lat: -1.397, lng: 100.644}
+    let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 11,
+        center: {lat: 7.8731, lng: 80.7718}
     });
-    var geocoder = new google.maps.Geocoder();
 
-    // geocodeAddress('Kolonnawa, sri lanka', geocoder, map);
-    // geocodeAddress('Wellampitiya, sri lanka', geocoder, map);
-    // geocodeAddress('Kotikawattha, sri lanka', geocoder, map);
-    // geocodeAddress('Angoda, sri lanka', geocoder, map);
-    // document.getElementById('submit').addEventListener('click', function() {
-    //   geocodeAddress(geocoder, map);
-    // });
-    }
-
-    function geocodeAddress(address, geocoder, resultsMap) {
-    // var address = document.getElementById('address').value;
-    // var address = 'colombo, sri lanka';
-    geocoder.geocode({'address': address}, function(results, status) {
-        if (status === 'OK') {
-        resultsMap.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: resultsMap,
-            position: results[0].geometry.location
+    if (locations) {
+        Object.keys(locations).map((k, i) => {
+            let marker = new google.maps.Marker({
+                map: map,
+                position: locations[k],
+                title: k,
+                label: {
+                    color: 'black',
+                    fontWeight: 'bold',
+                    text: k
+                }
+            });
+            let center = new google.maps.LatLng(locations[k]['lat'], locations[k]['lng']);
+            map.panTo(center);
         });
-        } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-        }
-    });
     }
+}
 
 function getAll(selector) {
     return Array.prototype.slice.call(document.querySelectorAll(selector), 0);

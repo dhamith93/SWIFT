@@ -316,9 +316,16 @@
             foreach ($queryResult as $incident) {
                 $query = $this->db->get_where('affected_areas', array('inc_id' => $incident->id));
                 $locationArray = array();
+                $geocodes = array();
 
-                foreach ($query->result() as $location) 
+                foreach ($query->result() as $location) {
                     $locationArray[] = $location->province.' > '.$location->district.' > '.$location->town;
+                    $geocodes[] = array(
+                        'name' => $location->town,
+                        'lat' => $location->lat,
+                        'lng' => $location->lng
+                    );
+                }
 
                 $resultArray[$incident->id] = array(
                     'id' => $incident->id,
@@ -329,6 +336,7 @@
                     'lng' => $incident->lng,
                     'lat' => $incident->lat,
                     'locations' => $locationArray,
+                    'geocodes' => $geocodes,
                     'on_going' => $incident->on_going,
                     'warning' => $incident->hazard_warning
                 );
