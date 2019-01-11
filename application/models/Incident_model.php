@@ -120,7 +120,12 @@
         }
 
         public function getPressReleases($id) {
-            $query = $this->db->get_where('press_releases', array('inc_id' => $id));
+            $query = $this->db
+                    ->select('id, title, published_date, is_published')
+                    ->from('press_releases')
+                    ->where('inc_id', $id)
+                    ->order_by('published_date', 'desc')
+                    ->get();
             return $query->result();
         }
 
