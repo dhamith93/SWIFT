@@ -229,11 +229,11 @@
                 <div class="field">
                     <label class="label">GPS Location</label>
                     <div class="control">
-                        <input class="input" type="text" name="long" placeholder="Longtitude">
+                        <input class="input" type="text" name="lat" placeholder="Latitude">
                     </div>
                     <br>
                     <div class="control">
-                        <input class="input" type="text" name="lat" placeholder="Latitude">
+                        <input class="input" type="text" name="long" placeholder="Longtitude">
                     </div>
                 </div>
 

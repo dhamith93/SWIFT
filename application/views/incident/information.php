@@ -101,6 +101,12 @@
     </div>
     <div class="column">
         <div id="map" style="width:100%;height:400px;"></div>
+        <?php 
+            if (!empty($incident[$id]['lat']) && !empty($incident[$id]['lng'])) {
+                echo '<p><strong>Lat:</strong> ' . $incident[$id]['lat'] . ' | <strong>Lng:</strong> ' . $incident[$id]['lng'] . '</p>';
+                echo '<button class="button is-warning" id="locate-btn">Load exact location</button>';
+            }
+        ?>
     </div>
     </div>
 

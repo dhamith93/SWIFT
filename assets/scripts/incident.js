@@ -10,6 +10,7 @@ var addAlertBtn = document.getElementById('add-alert-btn');
 var alertDeleteBtns = getAll('.alert-delete-btn');
 var setAlertPublic = document.getElementById('alert-public');
 var addTaskBtn = document.getElementById('add-task-btn');
+var locateBtn = document.getElementById('locate-btn');
 var incidentMedia = getAll('.incident-media');
 var modals = getAll('.modal');
 var modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
@@ -497,11 +498,29 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
+if (locateBtn) {
+    locateBtn.addEventListener('click', (e) => {
+        let map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: lat, lng: lng}
+        });
+
+        let marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(lat, lng),
+            label: {
+                color: 'black',
+                fontWeight: 'bold',
+                text: lat + ', ' + lng
+            }
+        });
+    });
+}
 
 function initMap() {
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
-        center: {lat: 7.8731, lng: 80.7718}
+        center: {lat: lat, lng: lng}
     });
 
     if (locations) {
@@ -516,7 +535,7 @@ function initMap() {
                     text: k
                 }
             });
-            let center = new google.maps.LatLng(locations[k]['lat'], locations[k]['lng']);
+            let center = locations[k];
             map.panTo(center);
         });
     }
