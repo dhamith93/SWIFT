@@ -25,6 +25,11 @@
             return $query->result();
         }
 
+        public function getEmployee($empId) {
+            $query = $this->db->get_where('employees', array('emp_id' => $empId));
+            return $query->result();
+        }
+
         public function deleteEmployee($empId) {
             $this->db->where('emp_id', $empId);
             $this->db->delete('employees');

@@ -77,6 +77,7 @@
         <?php 
             if ($this->session->userdata('user_type') === 'Employee') {
                 echo '<div class="tab" data-content="7">';
+                $this->view('incident/press_releases');
                 echo '</div>';
             }
         ?>

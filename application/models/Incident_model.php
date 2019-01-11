@@ -119,6 +119,10 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function getPressReleases($id) {
+            $query = $this->db->get_where('press_releases', array('inc_id' => $id));
+        }
+
         public function updateCasualties($id) {
             $checkQuery = $this->db->get_where('casualties', array('inc_id' => $id));
             

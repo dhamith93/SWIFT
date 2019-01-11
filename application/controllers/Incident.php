@@ -13,6 +13,7 @@
             $data['casualties'] = $this->incident_model->getCasualties($id);
             $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
             $data['evacuations'] = $this->incident_model->getEvacuations($id);
+            $data['pressReleases'] = $this->incident_model->getPressReleases($id);
             
             if (is_dir('assets/media/' . $id . '/images/'))
                 $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);

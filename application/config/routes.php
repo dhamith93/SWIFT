@@ -58,6 +58,7 @@ $route['admin/add-employee'] = 'admin/addEmployee';
 $route['admin/get-employee'] = 'admin/getEmployeeInfo';
 $route['admin/delete-employee'] = 'admin/deleteEmployee';
 $route['admin/(:any)'] = 'admin/view/$1';
+$route['article/add/(:any)'] = 'article/add/$1';
 $route['employee'] = 'employee/view';
 $route['employee/(:any)'] = 'employee/view/$1';
 $route['incident/add'] = 'incident/add';

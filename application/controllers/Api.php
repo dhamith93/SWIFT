@@ -184,6 +184,46 @@ class Api extends REST_Controller {
             $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
         }
     }
+
+    public function article_save_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $incidentId = $this->post('incidentId', true);
+        $articleId = $this->post('articleId', true);
+        $title = $this->post('title', true);
+        $content = $this->post('content', true);
+        $articleId = $this->article_model->save($incidentId, $title, $content, $articleId);
+
+        if ($articleId > 0) {
+            $data = array(
+                'status' => 'OK',
+                'articleId' => $articleId
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR',
+                'articleId' => $articleId
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function article_publish_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $articleId = $this->post('articleId', true);
+
+        if ($this->article_model->publish($articleId)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
     
     public function employee_get() {
         $this->respondErrorIfNotAuthorized('Admin');
