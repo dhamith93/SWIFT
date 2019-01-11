@@ -22,23 +22,7 @@
             $this->db->insert('incidents', $incidentData);
             $incidentId = $this->db->insert_id();
 
-            foreach ($locationArray as $location) {
-                $locationData = array(
-                    'inc_id' => $incidentId,
-                    'province' => $location[0],
-                    'district' => $location[1],
-                    'town' => $location[2],
-                );
-
-                $this->db->insert('affected_areas', $locationData);
-                
-                if (!empty($alertReceivers)) {
-                    foreach ($alertReceivers as $receiver) {
-                        if ($receiver !== 'public')
-                            $this->notifyResponders($location[2], $receiver, $incidentId);
-                    }
-                }
-            }
+            $this->addLocation($incidentId, $locationString, !empty($alertReceivers), $alertReceivers);
 
             if (!empty($alertReceivers)) {
                 $alert = array(
@@ -170,30 +154,45 @@
             return $this->db->update('evacuations', $data);
         }
 
-        public function addLocation($incidentId, $locationString, $alertOrgs) {
-            $location = $this->extractLocations($locationString)[0];
+        public function addLocation($incidentId, $locationString, $alertOrgs, $responders = NULL) {
+            $locations = $this->extractLocations($locationString);
             
-            if (count($location) !== 3)
-                return false;
-                
-            if ($this->locationExists($incidentId, $location))
-                return false;
+            foreach ($locations as $location) {
+                if (count($location) !== 3)
+                    return false;
+                    
+                if ($this->locationExists($incidentId, $location))
+                    return false;
 
-            $locationData = array(
-                'inc_id' => $incidentId,
-                'province' => $location[0],
-                'district' => $location[1],
-                'town' => $location[2],
-            );
+                $this->load->helper('map_helper');
 
-            $this->db->insert('affected_areas', $locationData);
+                $geocode = getGeoCode($location);
 
-            if ($alertOrgs) {
-                $responders = $this->getResponders($incidentId);
-                foreach ($responders as $responder)
-                    $this->notifyResponders($locationArray[0][2], $responder->type_id, $incidentId);
+                $locationData = array(
+                    'inc_id' => $incidentId,
+                    'province' => $location[0],
+                    'district' => $location[1],
+                    'town' => $location[2],
+                    'lat' => $geocode->lat,
+                    'lng' => $geocode->lng
+                );
+
+                $this->db->insert('affected_areas', $locationData);
+
+                if ($alertOrgs) {
+                    if ($responders === NULL) {
+                        $responders = $this->getResponders($incidentId);
+                        foreach ($responders as $responder)
+                               $this->notifyResponders($location[2], $responder->type_id, $incidentId);
+                    } else {
+                        foreach ($responders as $responder) {
+                            if ($responder !== 'public')
+                                $this->notifyResponders($location[2], $responder, $incidentId);
+                        }
+                    }
+                }
             }
-
+            
             return true;
         }
 
