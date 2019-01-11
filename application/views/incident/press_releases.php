@@ -23,16 +23,16 @@
                     echo '</td>';
                     echo '<td>';
                     if ($row->is_published === '0') {
-                        echo '<button class="button publishBtn" data-article-id="' . $row->id  . '">Publish</button>';
+                        echo '<button class="button is-warning publishBtn" data-article-id="' . $row->id  . '">Publish</button>';
                     } else {
-                        echo '<button class="button unPublishBtn" data-article-id="' . $row->id  . '">Unpublish</button>';
+                        echo '<button class="button is-danger unPublishBtn" data-article-id="' . $row->id  . '">Unpublish</button>';
                     }
                     echo '</td>';
                     echo '<td>';
-                    echo '<button class="button editArticleBtn" data-article-id="' . $row->id  . '">Edit</button>';
+                    echo '<button class="button is-link editArticleBtn" data-article-id="' . $row->id  . '">Edit</button>';
                     echo '</td>';
                     echo '<td>';
-                    echo '<button class="button deleteArticleBtn" data-article-id="' . $row->id  . '">Delete</button>';
+                    echo '<button class="button is-danger deleteArticleBtn" data-article-id="' . $row->id  . '">Delete</button>';
                     echo '</td>';
                     echo '</tr>';    
                 }

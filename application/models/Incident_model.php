@@ -121,6 +121,7 @@
 
         public function getPressReleases($id) {
             $query = $this->db->get_where('press_releases', array('inc_id' => $id));
+            return $query->result();
         }
 
         public function updateCasualties($id) {
