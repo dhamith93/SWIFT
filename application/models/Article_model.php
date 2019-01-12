@@ -4,6 +4,11 @@
             $this->load->database();
         }
 
+        public function get($articleId) {
+            $query = $this->db->get_where('press_releases', array('id' => $articleId));
+            return $query->row();
+        }
+
         public function save($incidentId, $title, $content, $articleId) {
             if ($articleId > -1) {
                 $data = array(

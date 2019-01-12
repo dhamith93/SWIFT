@@ -25,14 +25,14 @@
                 echo $row->published_date;
                 echo '</td>';
                 echo '<td>';
-                echo '<button class="button is-warning publish-btn" id="pub-' . $row->id .'" data-article-id="' . $row->id  . '" style="display: '.$publishBtnDisplay.';">Publish</button>';
-                echo '<button class="button is-danger unpublish-btn" id="unpub-' . $row->id .'" data-article-id="' . $row->id  . '" style="display: '.$unpublishBtnDisplay.';">Unpublish</button>';
+                echo '<button class="button is-warning publish-btn" id="pub-'.$row->id.'" data-article-id="'.$row->id.'" style="display: '.$publishBtnDisplay.';">Publish</button>';
+                echo '<button class="button is-danger unpublish-btn" id="unpub-'.$row->id.'" data-article-id="'.$row->id.'" style="display: '.$unpublishBtnDisplay.';">Unpublish</button>';
                 echo '</td>';
                 echo '<td>';
-                echo '<button class="button is-link edit-btn" data-article-id="' . $row->id  . '">Edit</button>';
+                echo '<a class="button is-link" href="../article/edit/'.$row->id.'?incId='.$id.'">Edit</a>';
                 echo '</td>';
                 echo '<td>';
-                echo '<button class="button is-danger delete-btn" data-article-id="' . $row->id  . '">Delete</button>';
+                echo '<button class="button is-danger delete-btn" data-article-id="'.$row->id.'">Delete</button>';
                 echo '</td>';
                 echo '</tr>';    
             }

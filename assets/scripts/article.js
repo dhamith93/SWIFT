@@ -22,22 +22,18 @@ var editor = CKEDITOR.replace('editor', {
     removeButtons : 'Subscript,Superscript,Source,SpecialChar,About,Styles'
 });
 
-var articleSaved = false;
-var articleId = -1;
-
 document.getElementById('save-btn').addEventListener('click', (e) => {
     let title = document.getElementById('title').value;
     let content = CKEDITOR.instances.editor.getData();
     
     if (title && content) {
-        let params = 'title=' + title + '&content=' + content + '&incidentId=' + id + '&articleId=' + articleId;
+        let params = 'title=' + title + '&content=' + encodeURIComponent(content) + '&incidentId=' + id + '&articleId=' + articleId;
         sendXhr(
             'http://localhost/SWIFT/api/article_save/',
             'POST',
             (r) => {
                 alert('Press release saved!');
                 articleId = r['articleId'];
-                articleSaved = true;
             },
             () => {
                 alert('Failed to save the press release!\nPlease try again.');
@@ -52,7 +48,7 @@ document.getElementById('publish-btn').addEventListener('click', (e) => {
     let content = CKEDITOR.instances.editor.getData();
 
     if (title && content) {
-        let params = 'title=' + title + '&content=' + content + '&incidentId=' + id + '&articleId=' + articleId;
+        let params = 'title=' + title + '&content=' + encodeURIComponent(content) + '&incidentId=' + id + '&articleId=' + articleId;
         sendXhr(
             'http://localhost/SWIFT/api/article_save/',
             'POST',
@@ -102,6 +98,8 @@ images.forEach((el) => {
 function sendXhr(url, method, successCallback, failureCallback, params) {
     let xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
+    xhr.setRequestHeader('Content-Length', params.length);
+    xhr.setRequestHeader('Connection', 'close');
 
     xhr.onload = () => {
         let response = JSON.parse(xhr.responseText);

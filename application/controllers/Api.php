@@ -188,9 +188,9 @@ class Api extends REST_Controller {
     public function article_save_post() {
         $this->respondErrorIfNotAuthorized('Employee');
         $incidentId = $this->post('incidentId', true);
-        $articleId = $this->post('articleId', true);
+        $articleId = (int) $this->post('articleId', true);
         $title = $this->post('title', true);
-        $content = $this->post('content', true);
+        $content = $this->post('content');
         $articleId = $this->article_model->save($incidentId, $title, $content, $articleId);
 
         if ($articleId > 0) {

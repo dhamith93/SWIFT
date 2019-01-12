@@ -22,9 +22,9 @@ figure img:hover {
 
 <div class="container"> 
     <br><br>
-    <input class="input" type="text" id="title" placeholder="Title">
+    <input class="input" type="text" id="title" placeholder="Title" value="<?php if (!empty($article)) echo $article->title; ?>">
     <br><br>
-    <textarea name="content" id="editor"></textarea>
+    <textarea name="content" id="editor"><?php if (!empty($article)) echo $article->content; ?></textarea>
     <br><br>
     <button class="button is-primary" id="img-btn">Insert Image</button>
     <button class="button is-danger" id="save-btn">Save</button>
@@ -49,9 +49,6 @@ figure img:hover {
                 echo '        </button>';
                 echo '    </p>';
                 echo '</div> ';
-
-                // echo '<input class="input" type="text" id="img-url" placeholder="URL">';
-                // echo '<button class="button is-primary" id="copy-btn">Copy image URL</button>';
                 
                 foreach ($images as $image) {
                     $src = base_url() . 'assets/media/' . $id . '/images/' . $image;
@@ -71,6 +68,13 @@ figure img:hover {
 
 <script>
     var id = <?php echo $id; ?>;
+    <?php 
+        if (!empty($article)) {
+            echo 'var articleId = '.$article->id.';';
+        } else {
+            echo 'var articleId = -1;';
+        }
+    ?>
 </script>
 
 <script defer src="<?php echo base_url(); ?>assets/scripts/article.js"></script>
