@@ -36,41 +36,56 @@
         }
 
         public function getIncidents($searchValue, $searchType, $onlyOngoing) {
+            $ongoing = ($onlyOngoing ) ? 1 : 0;
 
             if ($searchType === 'name' || $searchType === 'type') {
                 if ($onlyOngoing === '-1') {
-                    $query = $this->db->get_where('incidents', array($searchType => $searchValue));
+                    $query = $this->db
+                            ->select('*')
+                            ->from('incidents')
+                            ->where($searchType, $searchValue)
+                            ->order_by('id', 'desc')
+                            ->get();
                 } else {
-                    $ongoing = ($onlyOngoing ) ? 1 : 0;
-                    $query = $this->db->get_where('incidents', array($searchType => $searchValue, 'on_going' => $ongoing));
+                    $query = $this->db
+                            ->select('*')
+                            ->from('incidents')
+                            ->where($searchType, $searchValue)
+                            ->where('on_going', $ongoing)
+                            ->order_by('id', 'desc')
+                            ->get();
                 }
     
                 return $this->buildReturnArray($query->result());
             } 
-
-            $query = $this->db->get_where('affected_areas', array($searchType => $searchValue));
+            
+            $query = $this->db
+                            ->select('*')
+                            ->from('affected_areas')
+                            ->where($searchType, $searchValue)
+                            ->order_by('id', 'desc')
+                            ->get();
             $locationResult = $query->result();
             $resultArray = array();
 
             foreach ($locationResult as $location) {
-                $query = $this->db->get_where('incidents', array('id' => $location->inc_id));
-                $result = $query->row();
-                $locationString = $location->province.' > '.$location->district.' > '.$location->town;
+                $query = $this->db->get_where('incidents', array('id' => $location->inc_id, 'on_going' => $ongoing));
+                $results = $query->result();
 
-                if (!isset($resultArray[$result->id])) {
-                    $resultArray[$result->id] = array(
-                        'id' => $result->id,
-                        'name' => $result->name,
-                        'type' => $result->name,
-                        'lng' => $result->lng,
-                        'lat' => $result->lat,
-                        'locations' => array($locationString),
-                        'on_going' => $result->on_going,
-                        'warning' => $result->hazard_warning
-                    );
-                    $count += 1;
-                } else {
-                    $resultArray[$result->id]['locations'][] = $locationString;
+                foreach ($results as $result) {
+                    $locations = $this->getLocationStrings($result->id);
+                    if (!isset($resultArray[$result->id])) {
+                        $resultArray[$result->id] = array(
+                            'id' => $result->id,
+                            'name' => $result->name,
+                            'type' => $result->name,
+                            'lng' => $result->lng,
+                            'lat' => $result->lat,
+                            'locations' => $locations,
+                            'on_going' => $result->on_going,
+                            'warning' => $result->hazard_warning
+                        );
+                    }
                 }
             }
 
@@ -98,7 +113,12 @@
         }
 
         public function getOngoingIncidents() {
-            $query = $this->db->get_where('incidents', array('on_going' => 1));
+            $query = $this->db
+                    ->select('*')
+                    ->from('incidents')
+                    ->where('on_going', 1)
+                    ->order_by('id', 'desc')
+                    ->get();
             $incidentResult = $query->result();
             return $this->buildReturnArray($incidentResult);
         }
@@ -111,6 +131,16 @@
                     ->order_by('published_date', 'desc')
                     ->get();
             return $query->result();
+        }
+
+        public function getLocationStrings($id) {
+            $query = $this->db->get_where('affected_areas', array('inc_id' => $id));
+            $locationArray = array();
+
+            foreach ($query->result() as $row)
+                $locationArray[] = $row->province . ' > ' . $row->district . ' > ' . $row->town;
+
+            return $locationArray;            
         }
 
         public function updateCasualties($id) {
