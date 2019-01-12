@@ -13,6 +13,10 @@ var addTaskBtn = document.getElementById('add-task-btn');
 var locateBtn = document.getElementById('locate-btn');
 var incidentMedia = getAll('.incident-media');
 var modals = getAll('.modal');
+var publishBtns = getAll('.publish-btn');
+var unPublishBtns = getAll('.unpublish-btn');
+var editBtns = getAll('.edit-btn');
+var deleteBtns = getAll('.delete-btn');
 var modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
 
 var urlAnchor = window.location.hash.substr(1);
@@ -152,6 +156,78 @@ addTaskBtn.addEventListener('click', (e) => {
 incidentMedia.forEach(el => {
     el.addEventListener('click', (e) => {
         openModal('media-modal', el.dataset.src, el.dataset.mediaType);
+    });
+});
+
+publishBtns.forEach(el => {
+    el.addEventListener('click', (e) => {
+        let articleId = el.dataset.articleId;
+        
+        if (confirm('Do you want to publish this article?')) {
+            let params = 'articleId= ' + articleId;
+            sendXhr(
+                'http://localhost/SWIFT/api/article_publish/',
+                'POST',
+                (r) => {
+                    document.getElementById('pub-' + articleId).style.display = 'none';
+                    document.getElementById('unpub-' + articleId).style.display = 'block';
+                },
+                (r) => { 
+                    alert('Error publishing the article. Please try again.');
+                },
+                params
+            );
+        }
+    });
+});
+
+unPublishBtns.forEach(el => {
+    el.addEventListener('click', (e) => {
+        let articleId = el.dataset.articleId;
+
+        if (confirm('Do you want to unpublish this article?')) {
+            let params = 'articleId= ' + articleId;
+            sendXhr(
+                'http://localhost/SWIFT/api/article_unpublish/',
+                'POST',
+                (r) => {
+                    document.getElementById('pub-' + articleId).style.display = 'block';
+                    document.getElementById('unpub-' + articleId).style.display = 'none';
+                },
+                (r) => { 
+                    alert('Error unpublishing the article. Please try again.');
+                },
+                params
+            );
+        }
+    });
+});
+
+editBtns.forEach(el => {
+    el.addEventListener('click', (e) => {
+        let articleId = el.dataset.articleId;
+        console.log(articleId);
+    });
+});
+
+deleteBtns.forEach(el => {
+    el.addEventListener('click', (e) => {
+        let articleId = el.dataset.articleId;
+        
+        if (confirm('Do you want to delete this article?')) {
+            let params = 'articleId= ' + articleId;
+            sendXhr(
+                'http://localhost/SWIFT/api/article/',
+                'DELETE',
+                (r) => {
+                    document.getElementById('article-' + articleId).remove();
+                },
+                (r) => { 
+                    alert('Error deleting the article. Please try again.');
+                },
+                params
+            );
+        }        
     });
 });
 

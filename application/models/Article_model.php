@@ -36,6 +36,11 @@
             $this->db->where('id', $articleId);
             return $this->db->update('press_releases', array('is_published' => '0'));
         }
+
+        public function delete($articleId) {
+            $this->db->where('id', $articleId);
+            return $this->db->delete('press_releases');
+        }
     }
 
 

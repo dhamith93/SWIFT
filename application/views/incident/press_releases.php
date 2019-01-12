@@ -15,7 +15,9 @@
             echo '</thead>';
             echo '<tbody>';
             foreach ($pressReleases as $row) {
-                echo '<tr>';
+                $publishBtnDisplay = ($row->is_published === '0') ? 'block' : 'none';
+                $unpublishBtnDisplay = ($row->is_published === '1') ? 'block' : 'none';
+                echo '<tr id="article-'.$row->id.'">';
                 echo '<td>';
                 echo $row->title;
                 echo '</td>';
@@ -23,17 +25,14 @@
                 echo $row->published_date;
                 echo '</td>';
                 echo '<td>';
-                if ($row->is_published === '0') {
-                    echo '<button class="button is-warning publishBtn" data-article-id="' . $row->id  . '">Publish</button>';
-                } else {
-                    echo '<button class="button is-danger unPublishBtn" data-article-id="' . $row->id  . '">Unpublish</button>';
-                }
+                echo '<button class="button is-warning publish-btn" id="pub-' . $row->id .'" data-article-id="' . $row->id  . '" style="display: '.$publishBtnDisplay.';">Publish</button>';
+                echo '<button class="button is-danger unpublish-btn" id="unpub-' . $row->id .'" data-article-id="' . $row->id  . '" style="display: '.$unpublishBtnDisplay.';">Unpublish</button>';
                 echo '</td>';
                 echo '<td>';
-                echo '<button class="button is-link editArticleBtn" data-article-id="' . $row->id  . '">Edit</button>';
+                echo '<button class="button is-link edit-btn" data-article-id="' . $row->id  . '">Edit</button>';
                 echo '</td>';
                 echo '<td>';
-                echo '<button class="button is-danger deleteArticleBtn" data-article-id="' . $row->id  . '">Delete</button>';
+                echo '<button class="button is-danger delete-btn" data-article-id="' . $row->id  . '">Delete</button>';
                 echo '</td>';
                 echo '</tr>';    
             }

@@ -224,6 +224,40 @@ class Api extends REST_Controller {
 
         $this->response($data, REST_Controller::HTTP_OK);
     }
+
+    public function article_unpublish_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $articleId = $this->post('articleId', true);
+
+        if ($this->article_model->unPublish($articleId)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function article_delete() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $articleId = $this->delete('articleId', true);
+
+        if ($this->article_model->delete($articleId)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
     
     public function employee_get() {
         $this->respondErrorIfNotAuthorized('Admin');
