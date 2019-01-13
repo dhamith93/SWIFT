@@ -267,12 +267,31 @@
         }
 
         public function notifyResponder($orgId, $incidentId) {
+            $this->load->helper('phone_number_helper');
+            $this->load->helper('sms_helper');
+            $this->load->helper('email_helper');
+
+            $query = $this->db->get_where('responders', array('org_id' => $orgId, 'is_admin' => 1));
+            $result = $query->row();
+            $orgAdminContact = convertToInternational($result->contact);
+            $orgAdminEmail = $result->email;
+            $orgAdminName = $result->first_name . ' ' . $result->last_name;
+
             $data = array(
                 'inc_id' => $incidentId,
                 'org_id' => $orgId
             );
             
-            return $this->db->insert('responding_organizations', $data);
+            $success = $this->db->insert('responding_organizations', $data);
+
+            if ($success) {
+                if ($orgAdminContact !== 'INVALID OR NOT SUPPORTED')
+                    sendSms($orgAdminContact, 'ALERT: New incided assigned. Login to your dashboard and continue.');
+
+                sendEmail($orgAdminEmail, $orgAdminName, 'New Incident Alert From SWIFT', 'ALERT: New incided assigned. Login to your dashboard and continue.');
+            }
+
+            return $success;
         }
 
         function notifyResponders($town, $responderType, $incidentId) {

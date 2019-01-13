@@ -1,11 +1,11 @@
 <?php
     if (!defined('BASEPATH')) exit('No direct script access allowed');
-
-    $url = 'http://localhost:5050';
-    // $key = 'somekey';
-    $key = 'emulate'; // for testing
-
+    
     function sendSms($receiver, $msg) {
+        $url = 'http://localhost:5050';
+        $key = 'horseshoe';
+        // $key = 'emulate'; // for testing
+
         $postFields = [
             'rec' => $receiver,
             'msg' => $msg,
