@@ -49,6 +49,33 @@
             $this->load->view('templates/footer');
         }
 
+        public function changePassword() {
+            $this->form_validation->set_rules('current', 'Current password', 'trim|required');
+            $this->form_validation->set_rules('new', 'New password', 'trim|required');
+            $this->form_validation->set_rules('new-confirm', 'New password confirm', 'trim|required|matches[new]'); 
+
+            if ($this->form_validation->run() === FALSE) {
+                $this->session->set_flashdata('errors', $this->form_validation->error_array());
+                $this->session->set_flashdata('formData', $formData);
+                redirect('employee/settings/');
+            } 
+
+            $username = $this->session->userdata('username');
+            $password = $this->input->post('current');
+            $newPassword = $this->input->post('new');
+            
+            if (!$this->employee_model->verifyUser($username, $password)) {
+                $this->session->set_flashdata('errors', array('current' => 'invalid'));
+                redirect('employee/settings/');
+            }
+
+            if ($this->employee_model->changePassword($username, $newPassword))
+                redirect('employee/settings/#password-changed');
+
+            redirect('employee/settings/#password-change-error');
+            
+        }
+
         public function redirectIfNotAuthorized() {
             if (!$this->session->userdata('logged_in') 
                         || $this->session->userdata('user_type') !== 'Employee') 

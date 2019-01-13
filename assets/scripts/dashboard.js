@@ -62,6 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.replaceState('', 'Employees', '#');
     }
 
+    if (urlAnchor && urlAnchor === 'password-changed') {
+        alert('Password updated successfully!');
+        window.history.replaceState('', 'Employees', '#');
+    }
+
+    if (urlAnchor && urlAnchor === 'password-change-error') {
+        alert('Your password did not updated!\nPlease use your old password and try again.');
+        window.history.replaceState('', 'Employees', '#');
+    }
 
     for (let i = 0; i < tabHeaders.length; i++) {
         tabHeaders[i].addEventListener('click', function() {

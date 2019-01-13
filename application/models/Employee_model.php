@@ -46,6 +46,13 @@
             return password_verify($password, $hash);
         }
 
+        public function changePassword($username, $password) {
+            $hashedPw = password_hash($password, PASSWORD_BCRYPT);
+
+            $this->db->where('emp_id', $username);
+            return $this->db->update('employees', array('password' => $hashedPw));
+        }
+
         public function setLoginDateTime($empId, $dateTime) {
             $this->db->where('emp_id', $empId);
             return $this->db->update('employees', array('last_logged_in' => $dateTime));
