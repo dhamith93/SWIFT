@@ -1,4 +1,6 @@
 <?php 
+    if (!defined('BASEPATH')) exit('No direct script access allowed');
+
     function getGeoCode($address) {
         $addressStr = rawurlencode($address[2] . ',' . $address[1]);
         $apiKey = getenv('geocode_api');

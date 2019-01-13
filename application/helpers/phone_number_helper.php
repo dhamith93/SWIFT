@@ -1,4 +1,6 @@
 <?php 
+    if (!defined('BASEPATH')) exit('No direct script access allowed');
+
     function convertToInternational($input) {
         if (preg_match('/^(07)([0-9]{8})$/', $input)) {
             return '+94'.ltrim($input, '0');

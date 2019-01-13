@@ -1,4 +1,6 @@
 <?php
+    if (!defined('BASEPATH')) exit('No direct script access allowed');
+
     $url = 'http://localhost:5050';
     // $key = 'somekey';
     $key = 'emulate'; // for testing
