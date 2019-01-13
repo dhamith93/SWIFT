@@ -286,9 +286,9 @@
 
             if ($success) {
                 if ($orgAdminContact !== 'INVALID OR NOT SUPPORTED')
-                    sendSms($orgAdminContact, 'ALERT: New incided assigned. Login to your dashboard and continue.');
+                    sendSms($orgAdminContact, 'ALERT: New incident assigned. Login to your dashboard and continue.');
 
-                sendEmail($orgAdminEmail, $orgAdminName, 'New Incident Alert From SWIFT', 'ALERT: New incided assigned. Login to your dashboard and continue.');
+                sendEmail($orgAdminEmail, $orgAdminName, 'New Incident Alert From SWIFT', 'ALERT: New incident assigned. Login to your dashboard and continue.');
             }
 
             return $success;
