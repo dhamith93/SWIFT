@@ -39,7 +39,7 @@
                     $view = 'dashboard/admin/company';
                     break;
                 case 'settings':
-                    $view = ($section === 'admin') ? 'dashboard/admin/settings' : 'dashboard/employee/settings';
+                    $view = 'dashboard/employee/settings';
                     break;
                 case 'incidents':
                     $view = 'dashboard/employee/incidents';
