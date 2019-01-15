@@ -100,28 +100,8 @@
 
         function changeCompanyInfo() {
             $this->redirectIfNotAuthorized();
-            
-            $name = $this->input->post('name');
-            $slogan = $this->input->post('slogan');
-            $address = $this->input->post('address');
-            $email = $this->input->post('email');
-            $contact1 = $this->input->post('contact_1');
-            $contact2 = $this->input->post('contact_2');
-            $contact3 = $this->input->post('contact_3');
-            $contact4 = $this->input->post('contact_4');
-            $contact5 = $this->input->post('contact_5');
 
-            $data = array(
-                'name' => $name,
-                'slogan' => $slogan,
-                'address' => $address,
-                'email' => $email,
-                'contact_1' => $contact1,
-                'contact_2' => $contact2,
-                'contact_3' => $contact3,
-                'contact_4' => $contact4,
-                'contact_5' => $contact5 
-            );
+            $this->company_model->updateInfo();
 
             if((isset($_FILES['logo']) && $_FILES['logo']['size'] > 0)
                 || (isset($_FILES['cover']) && $_FILES['cover']['size'] > 0)) {
@@ -172,7 +152,6 @@
                 }                
             }
 
-            $this->company_model->updateInfo($data);
             redirect('admin/company');
         }
 
