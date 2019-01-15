@@ -6,9 +6,9 @@
             if (!file_exists(APPPATH.'views/dashboard/admin/'.$page.'.php'))
                 show_404();
             
-
             $data['title'] = ucfirst($page);
             $data['section'] = 'admin';
+            $data['companyInfo'] = $this->company_model->getInfo();
 
             if (!empty($this->session->flashdata('errors')))
                 $data['errors'] = $this->session->flashdata('errors');
@@ -96,6 +96,84 @@
                 redirect('admin/employees/#delete-success');
 
             redirect('admin/employees/#delete-error');
+        }
+
+        function changeCompanyInfo() {
+            $this->redirectIfNotAuthorized();
+            
+            $name = $this->input->post('name');
+            $slogan = $this->input->post('slogan');
+            $address = $this->input->post('address');
+            $email = $this->input->post('email');
+            $contact1 = $this->input->post('contact_1');
+            $contact2 = $this->input->post('contact_2');
+            $contact3 = $this->input->post('contact_3');
+            $contact4 = $this->input->post('contact_4');
+            $contact5 = $this->input->post('contact_5');
+
+            $data = array(
+                'name' => $name,
+                'slogan' => $slogan,
+                'address' => $address,
+                'email' => $email,
+                'contact_1' => $contact1,
+                'contact_2' => $contact2,
+                'contact_3' => $contact3,
+                'contact_4' => $contact4,
+                'contact_5' => $contact5 
+            );
+
+            if((isset($_FILES['logo']) && $_FILES['logo']['size'] > 0)
+                || (isset($_FILES['cover']) && $_FILES['cover']['size'] > 0)) {
+
+                $config['upload_path'] = './assets/images/';
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['overwrite'] = true;
+                $config['max_size'] = 256000;
+                $config['max_width'] = 5000;
+                $config['max_height'] = 5000;
+    
+                if (isset($_FILES['logo'])) {
+                    $config['file_name'] = 'logo.png';
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('logo')) {
+                        echo $this->upload->display_errors();
+                    } else {
+                        $image_data = $this->upload->data();
+    
+                        if ($image_data['image_height'] > 128 || $image_data['image_width'] > 128) {
+                            $this->load->library('image_lib');
+    
+                            $config =  array(
+                                'image_library'   => 'gd2',
+                                'source_image'    =>  $image_data['full_path'],
+                                'maintain_ratio'  =>  TRUE,
+                                'width'           =>  128,
+                                'height'          =>  128,
+                            );
+            
+                            $this->image_lib->clear();
+                            $this->image_lib->initialize($config);
+                            $this->image_lib->resize();
+                        }
+                    }
+                }
+                
+                if (isset($_FILES['cover'])) {
+                    $config['file_name'] = 'cover.png';
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('cover')) {
+                        echo $this->upload->display_errors();
+                    } else {
+                        $image_data = $this->upload->data();
+                    }
+                }                
+            }
+
+            $this->company_model->updateInfo($data);
+            redirect('admin/company');
         }
 
         function redirectIfNotAuthorized() {

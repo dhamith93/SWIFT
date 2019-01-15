@@ -39,7 +39,7 @@
             ?>
         </div>
 
-        <button class="button" type="submit">Change</button>
+        <button class="button is-danger" type="submit">Change</button>
 
         <?php echo form_close(); ?>
     </div>

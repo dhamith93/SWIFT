@@ -137,5 +137,6 @@ $autoload['model'] = array(
                         'incident_model', 
                         'organization_model', 
                         'responder_model', 
-                        'article_model'
+                        'article_model',
+                        'company_model'
                     );
