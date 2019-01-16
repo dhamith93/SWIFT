@@ -152,6 +152,25 @@ class Api extends REST_Controller {
         $this->response($data, REST_Controller::HTTP_OK);
     }
 
+    public function warning_post() {
+        $this->respondErrorIfNotAuthorized('Employee');
+
+        $incidentId = $this->post('incidentId', true);
+        $warning = $this->post('warning', true);
+
+        if ($this->incident_model->updateWarning($incidentId, $warning)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
     public function task_post() {
         $this->respondErrorIfNotAuthorized('Employee');
         $incidentId = $this->post('incidentId', true);

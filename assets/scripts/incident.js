@@ -99,6 +99,25 @@ alertDeleteBtns.forEach(el => {
     });
 });
 
+if (updateWarningBtn) {
+    updateWarningBtn.addEventListener('click', (e) => {
+        if (confirm('Do you want to update the warning?')) {
+            let warning = document.getElementById('warning').value;
+            let params = 'incidentId= ' + incidentId + '&warning=' + warning;
+
+            sendXhr(
+                'http://localhost/SWIFT/api/warning/',
+                'POST',
+                (r) => {},
+                (r) => { 
+                    alert('Error updating the warning. Please try again.');
+                },
+                params
+            );
+        }
+    });
+}
+
 if (addLocationBtn) {
     addLocationBtn.addEventListener('click', (e) => {
         document.getElementById('location-box').classList.toggle('is-hidden');

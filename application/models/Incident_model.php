@@ -256,6 +256,11 @@
             return $this->db->delete('alerts'); 
         }
 
+        public function updateWarning($incidentId, $warning) {
+            $this->db->where('id', $incidentId);
+            return $this->db->update('incidents', array('hazard_warning' => $warning));
+        }
+
         public function getResponders($incidentId) {
             $query = $this->db->select('t1.org_id, t2.id, t3.id AS type_id, t2.name, t2.address, t2.contact, t2.email, t3.type')
                         ->from('responding_organizations as t1')

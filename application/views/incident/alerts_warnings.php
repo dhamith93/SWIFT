@@ -28,7 +28,7 @@
         </div>
         <div class="column">
             <h4 class="subtitle is-4">Hazard warnings</h4>
-                <textarea class="textarea"><?php echo $incident[$id]['warning']; ?></textarea>
+                <textarea class="textarea" id="warning"><?php echo $incident[$id]['warning']; ?></textarea>
                 <br>
                 <button class="button is-link" id="update-warning-btn">Update</button>
         </div>
