@@ -20,39 +20,62 @@
 
                 if ($section === 'employee')
                     $this->view('templates/employee-nav');
+
+                if ($section === 'organization')
+                    $this->view('templates/organization-nav');
             ?>
         </div>
         <div class="column is-four-fifths dashboard-selected-column">
-                <!-- <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
-                    <div class="navbar-brand">
-                        <h1 class="navbar-item title is-5">
-                            <?php //echo $title; ?>
-                        </h1>
-                    </div>
-                </nav> -->
         <?php
-            switch (lcfirst($title)) {
-                case 'employees':
-                    $view = 'dashboard/admin/employees';
-                    break;
-                case 'company':
-                    $view = 'dashboard/admin/company';
-                    break;
-                case 'settings':
-                    $view = 'dashboard/employee/settings';
-                    break;
-                case 'incidents':
-                    $view = 'dashboard/employee/incidents';
-                    break;
-                case 'organizations':
-                    $view = 'dashboard/employee/organizations';
-                    break;
-                default:
-                    $view = ($section === 'admin') ? 'dashboard/admin/employees' : 'dashboard/employee/incidents';
-                    break;
+            if ($section === 'admin' || $section === 'employee') {
+                switch (lcfirst($title)) {
+                    case 'employees':
+                        $view = 'dashboard/admin/employees';
+                        break;
+                    case 'company':
+                        $view = 'dashboard/admin/company';
+                        break;
+                    case 'settings':
+                        $view = 'dashboard/employee/settings';
+                        break;
+                    case 'incidents':
+                        $view = 'dashboard/employee/incidents';
+                        break;
+                    case 'organizations':
+                        $view = 'dashboard/employee/organizations';
+                        break;
+                    default:
+                        $view = ($section === 'admin') ? 'dashboard/admin/employees' : 'dashboard/employee/incidents';
+                        break;
+                }
             }
 
-            $this->view($view);
+            if ($section === 'organization') {
+                switch (lcfirst($title)) {
+                    case 'incidents':
+                        $view = 'dashboard/organization/incidents';
+                        break;
+                    case 'alerts':
+                        $view = 'dashboard/organization/alerts';
+                        break;
+                    case 'tasks':
+                        $view = 'dashboard/organization/tasks';
+                        break;
+                    case 'responders':
+                        $view = 'dashboard/organization/responders';
+                        break;
+                    case 'settings':
+                        $view = 'dashboard/organization/settings';
+                        break;
+                    default:
+                        $view = ($section === 'admin') ? 'dashboard/admin/employees' : 'dashboard/employee/incidents';
+                        break;
+                }
+
+            }
+
+            if (!empty($view))
+                $this->view($view);
         ?>
     </div>
     </div>

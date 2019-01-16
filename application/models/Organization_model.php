@@ -128,6 +128,11 @@
             return password_verify($password, $hash);
         }
 
+        public function getOrgId($email) {
+            $query = $this->db->get_where('responders', array('email' => $email));
+            return $query->row_array()['org_id'];
+        }
+
         function extractLocations($str) {
             $arr = array_unique(explode('|', $str));
             $returnArr = array();

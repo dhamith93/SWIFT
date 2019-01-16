@@ -1,7 +1,26 @@
 <?php
     class Organization extends CI_Controller {
+        public function view($page = null) {
+            $this->redirectIfNotAuthorized('Organization');
+
+            if ($page === null)
+                redirect('organization/incidents');
+
+            
+            $orgId = $this->session->userdata('org_id');
+
+            $data['title'] = ucfirst($page);
+            $data['section'] = 'organization';
+            $data['orgId'] = $orgId;
+            $data['incidents'] = $this->incident_model->getOngoingIncidentsOf($orgId);
+
+            $this->load->view('templates/header');
+            $this->load->view('dashboard/dashboard', $data);
+            $this->load->view('templates/footer');
+        }
+
         public function singleOrganizationView($id) {
-            $this->redirectIfNotAuthorized();
+            $this->redirectIfNotAuthorized('Employee');
 
             $data['id'] = $id;
             $data['organization'] = $this->organization_model->getOrganization($id);
@@ -16,7 +35,7 @@
         }
 
         public function add() {
-            $this->redirectIfNotAuthorized();
+            $this->redirectIfNotAuthorized('Employee');
 
             $this->form_validation->set_rules('org-name', 'Organization name', 'required');
             $this->form_validation->set_rules('org-contact', 'Contact number', 'required'); 
@@ -56,7 +75,7 @@
         }
 
         public function getOrganizationInfo() {
-            $this->redirectIfNotAuthorized();
+            $this->redirectIfNotAuthorized('Employee');
             
             $orgType = $this->input->post('org-type', true);
             $searchValue = $this->input->post('search-value', true);
@@ -76,9 +95,9 @@
             redirect('employee/organizations/');
         }
 
-        public function redirectIfNotAuthorized() {
+        public function redirectIfNotAuthorized($userType) {
             if (!$this->session->userdata('logged_in') 
-                        || $this->session->userdata('user_type') !== 'Employee') 
+                        || $this->session->userdata('user_type') !== $userType) 
                 redirect('login');
         }
     }

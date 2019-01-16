@@ -136,7 +136,7 @@
                 echo $row['email'];
                 echo '</td>';
                 echo '<td>';
-                echo '<a class="button is-danger" href="../../organization/' . $row['id'] . '" target="_blank" aria-haspopup="true">More</a>';
+                echo '<a class="button is-danger" href="../../org/' . $row['id'] . '" target="_blank" aria-haspopup="true">More</a>';
                 echo '</td>';
                 echo '</tr>';    
             }

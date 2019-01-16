@@ -123,6 +123,19 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function getOngoingIncidentsOf($orgId) {            
+            $query = $this->db->select('*')
+                        ->from('responding_organizations as t1')
+                        ->where('t1.org_id', $orgId)
+                        ->join('incidents as t2', 't1.inc_id = t2.id', 'LEFT')
+                        ->where('t2.on_going', '1')
+                        ->order_by('t2.id', 'desc')
+                        ->get();
+
+            $incidentResult = $query->result();
+            return $this->buildReturnArray($incidentResult);
+        }
+
         public function getPressReleases($id) {
             $query = $this->db
                     ->select('id, title, published_date, is_published')
@@ -378,7 +391,7 @@
                 $geocodes = array();
 
                 foreach ($query->result() as $location) {
-                    $locationArray[] = $location->province.' > '.$location->district.' > '.$location->town;
+                    $locationArray[] = ucfirst($location->province).' > '.ucfirst($location->district).' > '.ucfirst($location->town);
                     $geocodes[] = array(
                         'name' => $location->town,
                         'lat' => $location->lat,

@@ -1,10 +1,10 @@
 <?php
     class Incident extends CI_Controller {
         public function view($id, $page = null) {
+            $this->redirectIfNotAuthorized();
+
             if ($page === null)
                 redirect('incident/'.$id.'/information');
-
-            $this->redirectIfNotAuthorized();
 
             $this->load->helper('directory');
 
