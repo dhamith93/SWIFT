@@ -91,6 +91,15 @@
             redirect('employee/incidents/#search');
         }
 
+        public function markComplete($id) {
+            $this->redirectIfNotAuthorized();
+
+            if ($this->incident_model->markComplete($id))
+                redirect('incident/' . $id .'/information/');
+
+            redirect('incident/' . $id .'/information/#update-error');
+        }
+
         public function updateCasualties($id) {
             $this->redirectIfNotAuthorized();
 

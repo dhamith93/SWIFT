@@ -143,6 +143,11 @@
             return $locationArray;            
         }
 
+        public function markComplete($id) {
+            $this->db->where('id', $id);
+            return $this->db->update('incidents', array('on_going' => '0'));
+        }
+
         public function updateCasualties($id) {
             $checkQuery = $this->db->get_where('casualties', array('inc_id' => $id));
             
