@@ -1,4 +1,17 @@
 <div class="section">
+    <h1 class="subtitle">
+        Incident: <?php echo ucfirst($incident[$id]['name']); ?>
+    </h1>
+    <h2 class="subtitle">Type: <?php echo ucfirst($incident[$id]['type']); ?></h2>
+    <h2 class="subtitle is-6"> Date & Time occured: 
+        <?php 
+            echo '';
+            echo ucfirst($incident[$id]['date']);
+            echo ' -- '; 
+            echo ucfirst($incident[$id]['time']);
+        ?>
+        Hrs.
+    </h2>
     <h4 class="subtitle is-4">Affected Areas</h4>
     <div class="columns">
         <div class="column">
@@ -249,3 +262,53 @@
         <br>
     </div>
 </div>
+
+<script>
+
+    <?php 
+        if ($incident[$id]['geocodes']) {
+            if (!empty($incident[$id]['lat']) && !empty($incident[$id]['lng'])) {
+                echo 'var lat = ' . $incident[$id]['lat'] . ';';
+                echo 'var lng = ' . $incident[$id]['lng'] . ';';
+            } else {
+                echo 'var lat = 7.8731;';
+                echo 'var lng = 80.7718;';
+            }
+            
+            echo 'var locations = {';
+            foreach ($incident[$id]['geocodes'] as $geocode) {
+                echo $geocode['name'] . ': {';
+                echo '\'lat\':' . $geocode['lat'] . ',';
+                echo '\'lng\':' . $geocode['lng'];
+                echo '},';
+            }
+            echo '};';
+        }
+    ?>
+
+function initMap() {
+    let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 11,
+        center: {lat: lat, lng: lng}
+    });
+
+    if (locations) {
+        Object.keys(locations).map((k, i) => {
+            let marker = new google.maps.Marker({
+                map: map,
+                position: locations[k],
+                title: k,
+                label: {
+                    color: 'black',
+                    fontWeight: 'bold',
+                    text: k
+                }
+            });
+            let center = locations[k];
+            map.panTo(center);
+        });
+    }
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo getenv('geocode_api'); ?>&callback=initMap"></script>

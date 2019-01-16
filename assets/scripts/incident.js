@@ -606,30 +606,6 @@ if (locateBtn) {
     });
 }
 
-function initMap() {
-    let map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11,
-        center: {lat: lat, lng: lng}
-    });
-
-    if (locations) {
-        Object.keys(locations).map((k, i) => {
-            let marker = new google.maps.Marker({
-                map: map,
-                position: locations[k],
-                title: k,
-                label: {
-                    color: 'black',
-                    fontWeight: 'bold',
-                    text: k
-                }
-            });
-            let center = locations[k];
-            map.panTo(center);
-        });
-    }
-}
-
 function getAll(selector) {
     return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }

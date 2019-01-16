@@ -27,30 +27,7 @@
 
             $this->load->view('templates/header');
             $this->load->view('incident/incident', $data);
-        }
-        public function singleIncidentView($id) {
-            $this->redirectIfNotAuthorized();
-
-            $this->load->helper('directory');
-
-            $data['id'] = $id;
-            $data['incident'] = $this->incident_model->getSingleIncident($id); 
-            $data['responders'] = $this->incident_model->getResponders($id);
-            $data['alerts'] = $this->incident_model->getAlerts($id);
-            $data['tasks'] = $this->incident_model->getTasks($id);
-            $data['casualties'] = $this->incident_model->getCasualties($id);
-            $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
-            $data['evacuations'] = $this->incident_model->getEvacuations($id);
-            $data['pressReleases'] = $this->incident_model->getPressReleases($id);
-            
-            if (is_dir('assets/media/' . $id . '/images/'))
-                $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
-
-            if (is_dir('assets/media/' . $id . '/videos/'))
-                $data['videos'] = directory_map('./assets/media/' . $id . '/videos/', 1);
-
-            $this->load->view('templates/header');
-            $this->load->view('incident/single_incident', $data);
+            $this->load->view('templates/footer');         
         }
 
         public function add() {

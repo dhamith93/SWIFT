@@ -65,27 +65,5 @@
 </div>
 <script>
     var incidentId = <?php echo $id; ?>;
-
-    <?php 
-        if ($incident[$id]['geocodes']) {
-            if (!empty($incident[$id]['lat']) && !empty($incident[$id]['lng'])) {
-                echo 'var lat = ' . $incident[$id]['lat'] . ';';
-                echo 'var lng = ' . $incident[$id]['lng'] . ';';
-            } else {
-                echo 'var lat = 7.8731;';
-                echo 'var lng = 80.7718;';
-            }
-            
-            echo 'var locations = {';
-            foreach ($incident[$id]['geocodes'] as $geocode) {
-                echo $geocode['name'] . ': {';
-                echo '\'lat\':' . $geocode['lat'] . ',';
-                echo '\'lng\':' . $geocode['lng'];
-                echo '},';
-            }
-            echo '};';
-        }
-    ?>
 </script>
 <script src="<?php echo base_url(); ?>assets/scripts/incident.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo getenv('geocode_api'); ?>&callback=initMap"></script>
