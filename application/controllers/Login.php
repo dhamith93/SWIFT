@@ -37,10 +37,8 @@
                     $verified = $this->employee_model->verifyUser($username, $password);
                     break;
                 case 'Organization':
-                    // $verified = $this->employee_model->verifyUser($username, $password);
-                    break;
                 case 'Responder':
-                    // $verified = $this->employee_model->verifyUser($username, $password);
+                    $verified = $this->organization_model->verifyUser($username, $password);
                     break;
                 default:
                     break;
@@ -51,7 +49,7 @@
                     'username' => $username,
                     'logged_in' => true,
                     'user_type' => $accountType,
-                    'is_admin' => true // TODO: change this
+                    'is_admin' => $this->employee_model->isAdmin($username) ? true : false
                 );
                 
                 $this->session->set_userdata($userData);
@@ -62,10 +60,10 @@
                         redirect('employee');
                         break;
                     case 'Organization':
-                        // $verified = $this->employee_model->verifyUser($username, $password);
+                        redirect('organization');
                         break;
                     case 'Responder':
-                        // $verified = $this->employee_model->verifyUser($username, $password);
+                        redirect('responder');
                         break;
                     default:
                         redirect('login');

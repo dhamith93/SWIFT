@@ -118,6 +118,16 @@
             return $query->result();
         }
 
+        public function verifyUser($email, $password) {
+            $query = $this->db->get_where('responders', array('email' => $email));
+            $hash = $query->row_array()['password'];
+            
+            if (empty($hash)) 
+                return false;
+            
+            return password_verify($password, $hash);
+        }
+
         function extractLocations($str) {
             $arr = array_unique(explode('|', $str));
             $returnArr = array();

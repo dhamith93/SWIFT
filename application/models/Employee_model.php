@@ -53,6 +53,11 @@
             return $this->db->update('employees', array('password' => $hashedPw));
         }
 
+        public function isAdmin($username) {
+            $query = $this->db->get_where('employees', array('emp_id' => $username));
+            return $query->row_array()['is_admin'] === '1';
+        }
+
         public function setLoginDateTime($empId, $dateTime) {
             $this->db->where('emp_id', $empId);
             return $this->db->update('employees', array('last_logged_in' => $dateTime));
