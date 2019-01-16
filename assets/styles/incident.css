@@ -19,6 +19,10 @@
     min-height: 500px;
 }
 
+.section {
+    margin-right: 50px !important;
+}
+
 h4 {
     text-align: center;
     text-decoration: underline;

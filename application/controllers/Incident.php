@@ -1,5 +1,33 @@
 <?php
     class Incident extends CI_Controller {
+        public function view($id, $page = null) {
+            if ($page === null)
+                redirect('incident/'.$id.'/information');
+
+            $this->redirectIfNotAuthorized();
+
+            $this->load->helper('directory');
+
+            $data['id'] = $id;
+            $data['title'] = $page;
+            $data['incident'] = $this->incident_model->getSingleIncident($id); 
+            $data['responders'] = $this->incident_model->getResponders($id);
+            $data['alerts'] = $this->incident_model->getAlerts($id);
+            $data['tasks'] = $this->incident_model->getTasks($id);
+            $data['casualties'] = $this->incident_model->getCasualties($id);
+            $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
+            $data['evacuations'] = $this->incident_model->getEvacuations($id);
+            $data['pressReleases'] = $this->incident_model->getPressReleases($id);
+            
+            if (is_dir('assets/media/' . $id . '/images/'))
+                $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
+
+            if (is_dir('assets/media/' . $id . '/videos/'))
+                $data['videos'] = directory_map('./assets/media/' . $id . '/videos/', 1);
+
+            $this->load->view('templates/header');
+            $this->load->view('incident/incident', $data);
+        }
         public function singleIncidentView($id) {
             $this->redirectIfNotAuthorized();
 
@@ -99,7 +127,7 @@
             if ($this->incident_model->updateCasualties($id))
                 redirect('incident/' . $id);
 
-            redirect('incident/' . $id .'#update-error');
+            redirect('incident/' . $id .'/information/#update-error');
         }
 
         public function addEvacuations($id) {
@@ -115,7 +143,7 @@
             if ($this->incident_model->addEvacuations($id))
                 redirect('incident/' . $id);
 
-            redirect('incident/' . $id .'#update-error');
+            redirect('incident/' . $id .'/information/#update-error');
         }
 
         public function updateEvacuations($id) {
@@ -132,7 +160,7 @@
             if ($this->incident_model->updateEvacuations($id))
                 redirect('incident/' . $id);
 
-            redirect('incident/' . $id .'#update-error');
+            redirect('incident/' . $id .'/information/#update-error');
         }
 
         public function addLocation($id) {
@@ -144,7 +172,7 @@
             if ($this->incident_model->addLocation($id, $locationString, $alertOrgs)) {
                 redirect('incident/' . $id);
             } else {
-                redirect('incident/' . $id . '#location-error');
+                redirect('incident/' . $id . '/information/#location-error');
             }
         }
 
@@ -164,7 +192,7 @@
 
             if (!$this->upload->do_upload('user-image')) {
                 // $error = array('error' => $this->upload->display_errors());
-                redirect('incident/' . $id .'#gallery-error');
+                redirect('incident/' . $id .'/media/#gallery-error');
             } else {
                 $image_data = $this->upload->data();
 
@@ -184,7 +212,7 @@
                     $this->image_lib->resize();
                 }
 
-                redirect('incident/' . $id .'#gallery');
+                redirect('incident/' . $id .'/media');
             }
         }
 
@@ -203,10 +231,10 @@
 
             if (!$this->upload->do_upload('user-video')) {
                 // $error = array('error' => $this->upload->display_errors());
-                redirect('incident/' . $id .'#gallery-error');
+                redirect('incident/' . $id .'/media/#gallery-error');
             } else {
                 $image_data = $this->upload->data();
-                redirect('incident/' . $id .'#gallery');
+                redirect('incident/' . $id .'/media');
             }
         }
 

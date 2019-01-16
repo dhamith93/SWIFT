@@ -1,5 +1,14 @@
-var tabHeaders = document.getElementsByClassName('tab-header');
-var tabs = document.getElementsByClassName('tab');
+var navbarBurgers = getAll('.navbar-burger');
+if (navbarBurgers.length > 0) {
+    navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+            let dashboardNav = document.getElementById('dashboard-nav');
+            dashboardNav.classList.toggle('dashboard-nav-active');
+            el.classList.toggle('is-active');
+        });
+    });
+}
+
 var addLocationBtn = document.getElementById('add-area-btn');
 var addLocationForm = document.getElementById('add-location-form');
 var addRespondersBtn = document.getElementById('add-responders-btn');
@@ -9,6 +18,7 @@ var responderTable = document.getElementById('responders-table');
 var addAlertBtn = document.getElementById('add-alert-btn');
 var alertDeleteBtns = getAll('.alert-delete-btn');
 var setAlertPublic = document.getElementById('alert-public');
+var updateWarningBtn = document.getElementById('update-warning-btn');
 var addTaskBtn = document.getElementById('add-task-btn');
 var locateBtn = document.getElementById('locate-btn');
 var incidentMedia = getAll('.incident-media');
@@ -21,15 +31,9 @@ var modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .del
 
 var urlAnchor = window.location.hash.substr(1);
 
-if (urlAnchor && (urlAnchor === 'gallery' || urlAnchor === 'gallery-error')) {
-    unsetTabHeaderIsActive();
-    tabHeaders[2].classList.add('is-active');
-    activateTab(document.querySelectorAll('[data-content="2"]'));
-
-    if (urlAnchor === 'gallery-error') 
-        alert('Error adding new media. Please try again.');
-
-    window.history.replaceState('', 'Incident', '#gallery');
+if (urlAnchor && urlAnchor === 'gallery-error') {
+    window.history.replaceState('', 'Incident', '#');
+    alert('Error adding new media. Please try again.');
 }
 
 if (urlAnchor && urlAnchor === 'location-error') {
@@ -42,57 +46,52 @@ if (urlAnchor && urlAnchor === 'update-error') {
     alert('Error updating the incident...\nPlease try again.');
 }
 
-for (let i = 0; i < tabHeaders.length; i++) {
-    tabHeaders[i].addEventListener('click', function() {
-        unsetTabHeaderIsActive();     
-        this.classList.add('is-active');
-        let selectedTabContents = document.querySelectorAll('[data-content="' + this.dataset.tab + '"]');
-        activateTab(selectedTabContents);
+if (addLocationForm) {
+    addLocationForm.addEventListener('submit', (e) => {
+        let province = document.getElementById('area-province').value;
+        let district = document.getElementById('area-district').value;
+        let town = document.getElementById('area-town').value;
+        let locationString = document.getElementById('location-string');
+    
+        if (province && district && town) {
+            locationString.value = province + '>' + district + '>' + town;
+            
+            if (confirm('Do you want to add: ' + locationString.value + ' as an affected area?')) {
+                if (confirm('Do you want to alert selected organizations of this new area?'))
+                    document.getElementById('alert-orgs').value = 'TRUE';
+    
+                e.submit();
+            }
+    
+            e.preventDefault();
+        }
     });
 }
 
-addLocationForm.addEventListener('submit', (e) => {
-    let province = document.getElementById('area-province').value;
-    let district = document.getElementById('area-district').value;
-    let town = document.getElementById('area-town').value;
-    let locationString = document.getElementById('location-string');
-
-    if (province && district && town) {
-        locationString.value = province + '>' + district + '>' + town;
-        
-        if (confirm('Do you want to add: ' + locationString.value + ' as an affected area?')) {
-            if (confirm('Do you want to alert selected organizations of this new area?'))
-                document.getElementById('alert-orgs').value = 'TRUE';
-
-            e.submit();
-        }
-
-        e.preventDefault();
-    }
-});
-
-addAlertBtn.addEventListener('click', (e) => {
-    let content = document.getElementById('add-alert').value;
-    let isPublic = (setAlertPublic.checked) ? '1' : '0';
-
-    if (content !== '') {
-        let params = 'incidentId=' + incidentId + '&content=' + content + '&isPublic=' + isPublic;
+if (addAlertBtn) {
+    addAlertBtn.addEventListener('click', (e) => {
+        let content = document.getElementById('add-alert').value;
+        let isPublic = (setAlertPublic.checked) ? '1' : '0';
     
-        if (confirm('Do you want to add this alert?')) {
-            sendXhr(
-                'http://localhost/SWIFT/api/alert/', 
-                'POST', 
-                (r) => {
-                    reloadAlerts();
-                }, 
-                (r) => {
-                    alert('Error adding alert! Please try again');
-                },
-                params
-            );
+        if (content !== '') {
+            let params = 'incidentId=' + incidentId + '&content=' + content + '&isPublic=' + isPublic;
+        
+            if (confirm('Do you want to add this alert?')) {
+                sendXhr(
+                    'http://localhost/SWIFT/api/alert/', 
+                    'POST', 
+                    (r) => {
+                        reloadAlerts();
+                    }, 
+                    (r) => {
+                        alert('Error adding alert! Please try again');
+                    },
+                    params
+                );
+            }
         }
-    }
-});
+    });
+}
 
 alertDeleteBtns.forEach(el => {
     el.addEventListener('click', (e) => {
@@ -100,58 +99,66 @@ alertDeleteBtns.forEach(el => {
     });
 });
 
-addLocationBtn.addEventListener('click', (e) => {
-    document.getElementById('location-box').classList.toggle('is-hidden');
-    document.getElementById('btn-icon').classList.toggle('fa-chevron-down');
-    document.getElementById('btn-icon').classList.toggle('fa-chevron-up');
-});
+if (addLocationBtn) {
+    addLocationBtn.addEventListener('click', (e) => {
+        document.getElementById('location-box').classList.toggle('is-hidden');
+        document.getElementById('btn-icon').classList.toggle('fa-chevron-down');
+        document.getElementById('btn-icon').classList.toggle('fa-chevron-up');
+    });
+}
 
-addRespondersBtn.addEventListener('click', (e) => {
-    document.getElementById('search-area').classList.toggle('is-hidden');
-});
+if (addRespondersBtn) {
+    addRespondersBtn.addEventListener('click', (e) => {
+        document.getElementById('search-area').classList.toggle('is-hidden');
+    });
+}
 
-searchBtn.addEventListener('click', (e) => {
-    let orgType = document.getElementById('org-type').value;
-    let searchValue = document.getElementById('search-value').value;
-    let searchType = document.getElementById('search-type').value;
-
-    if (orgType !== '' && searchValue !== '' && searchType !== '') {
-        let url = 'http://localhost/SWIFT/api/organizations/?orgType='+ orgType +
-            '&searchValue=' + searchValue + '&searchType=' + searchType;
-        sendXhr(url, 'GET', fillResultTable, xhrFailure);
-    }
-});
-
-addTaskBtn.addEventListener('click', (e) => {
-    let taskContent = document.getElementById('task-content').value;
-    let respondingOrgId = document.getElementById('responder-org').value;
+if (searchBtn) {
+    searchBtn.addEventListener('click', (e) => {
+        let orgType = document.getElementById('org-type').value;
+        let searchValue = document.getElementById('search-value').value;
+        let searchType = document.getElementById('search-type').value;
     
-    if (taskContent) {
-        if (confirm('Do you want to add this task?')) {
-            let params = 'incidentId= ' + incidentId + '&taskContent=' + taskContent + '&respongingOrg=' + respondingOrgId;
-            sendXhr(
-                'http://localhost/SWIFT/api/task/',
-                'POST',
-                (r) => {
-                    sendXhr(
-                        'http://localhost/SWIFT/api/task/?incidentId=' + incidentId,
-                        'GET',
-                        (r) => {
-                            reloadTasksTable(r);
-                        },
-                        (r) => { 
-                            alert('Task Added!');
-                        }
-                    );
-                },
-                (r) => { 
-                    xhrFailure(r);
-                },
-                params
-            );
+        if (orgType !== '' && searchValue !== '' && searchType !== '') {
+            let url = 'http://localhost/SWIFT/api/organizations/?orgType='+ orgType +
+                '&searchValue=' + searchValue + '&searchType=' + searchType;
+            sendXhr(url, 'GET', fillResultTable, xhrFailure);
         }
-    }
-});
+    });
+}
+
+if (addTaskBtn) {
+    addTaskBtn.addEventListener('click', (e) => {
+        let taskContent = document.getElementById('task-content').value;
+        let respondingOrgId = document.getElementById('responder-org').value;
+        
+        if (taskContent) {
+            if (confirm('Do you want to add this task?')) {
+                let params = 'incidentId= ' + incidentId + '&taskContent=' + taskContent + '&respongingOrg=' + respondingOrgId;
+                sendXhr(
+                    'http://localhost/SWIFT/api/task/',
+                    'POST',
+                    (r) => {
+                        sendXhr(
+                            'http://localhost/SWIFT/api/task/?incidentId=' + incidentId,
+                            'GET',
+                            (r) => {
+                                reloadTasksTable(r);
+                            },
+                            (r) => { 
+                                alert('Task Added!');
+                            }
+                        );
+                    },
+                    (r) => { 
+                        xhrFailure(r);
+                    },
+                    params
+                );
+            }
+        }
+    });
+}
 
 incidentMedia.forEach(el => {
     el.addEventListener('click', (e) => {
@@ -230,19 +237,6 @@ deleteBtns.forEach(el => {
         }        
     });
 });
-
-function unsetTabHeaderIsActive() {
-    for (let j = 0; j < tabHeaders.length; j++) {
-        tabHeaders[j].classList.remove('is-active');
-        tabs[j].classList.remove('is-active');
-    }
-}
-
-function activateTab(selectedTabContents) {
-    selectedTabContents.forEach(function(selectedTabContent) {
-        selectedTabContent.classList.add('is-active');
-    });
-}
 
 function sendXhr(url, method, successCallback, failureCallback, params) {
     let xhr = new XMLHttpRequest();
