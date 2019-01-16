@@ -269,6 +269,19 @@
             return $query->result();
         }
 
+        public function getAlertsFor($orgId) {
+            $query = $this->db->select('t3.name, t2.id, t2.inc_id, t2.content, t2.published_date')
+                        ->from('responding_organizations as t1')
+                        ->where('t1.org_id', $orgId)
+                        ->join('alerts as t2', 't1.inc_id = t2.inc_id', 'LEFT')
+                        ->join('incidents as t3', 't2.inc_id = t3.id', 'LEFT')
+                        ->where('t3.on_going', '1')
+                        ->order_by('t3.id', 'desc')
+                        ->get();
+
+            return $query->result();
+        }
+
         public function deleteAlert($alertId) {
             $this->db->where('id', $alertId);
             return $this->db->delete('alerts'); 

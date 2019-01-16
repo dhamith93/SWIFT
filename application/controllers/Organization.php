@@ -13,6 +13,7 @@
             $data['section'] = 'organization';
             $data['orgId'] = $orgId;
             $data['incidents'] = $this->incident_model->getOngoingIncidentsOf($orgId);
+            $data['alerts'] = $this->incident_model->getAlertsFor($orgId);
 
             $this->load->view('templates/header');
             $this->load->view('dashboard/dashboard', $data);
