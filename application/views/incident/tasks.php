@@ -17,8 +17,14 @@
 
     <hr>
 
-    <div class="box">
-        <table class="table is-bordered is-striped is-narrow is-hoverable" id="tasks" style="margin: auto;">
+        <?php
+            $display = '';
+            if (empty($tasks)) {
+                echo '<p style="text-align: center;">No tasks for this incident yet...</p>';
+                $display = 'none';
+            }
+        ?>
+        <table class="table is-bordered is-striped is-narrow is-hoverable" id="tasks-table" style="margin: auto; display: <?php echo $display; ?>;">
             <thead>
                 <tr>
                     <th>Date Assigned</th>
@@ -43,5 +49,5 @@
                 ?>
             </tbody>
         </table>
-    </div>
+    
 </div>

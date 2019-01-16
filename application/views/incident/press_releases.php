@@ -4,7 +4,7 @@
 
         <?php 
             if (!empty($pressReleases)) {
-                echo '<table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;" id="responders-table">';
+                echo '<table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;" id="press-releases-table">';
                 echo '<thead>';
                 echo '    <tr>';
                 echo '        <th>Title</th>';

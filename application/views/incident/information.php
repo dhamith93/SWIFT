@@ -1,18 +1,49 @@
 <div class="section">
-    <h1 class="subtitle">
-        Incident: <?php echo ucfirst($incident[$id]['name']); ?>
-    </h1>
-    <h2 class="subtitle">Type: <?php echo ucfirst($incident[$id]['type']); ?></h2>
-    <h2 class="subtitle is-6"> Date & Time occured: 
-        <?php 
-            echo '';
-            echo ucfirst($incident[$id]['date']);
-            echo ' -- '; 
-            echo ucfirst($incident[$id]['time']);
-        ?>
-        Hrs.
-    </h2>
-    <h4 class="subtitle is-4">Affected Areas</h4>
+    <table class="table" style="width: 800px; margin: auto;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Date & time occured</th>
+                <th>On going</th>
+                <?php 
+                    if ($incident[$id]['on_going'] === '1')
+                        echo '<th></th>';
+                ?>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class=>
+                <td><?php echo ucfirst($incident[$id]['name']); ?></td>
+                <td><?php echo ucfirst($incident[$id]['type']); ?></td>
+                <td>
+                    <?php
+                        echo ucfirst($incident[$id]['date']);
+                        echo ' -- '; 
+                        echo ucfirst($incident[$id]['time']);
+                    ?>
+                </td>
+                <?php 
+                    if ($incident[$id]['on_going'] === '1')  {
+                        echo '<td>YES</td>';
+                        echo '<td>';
+                        echo form_open('incident/mark-complete/' . $id);
+                        echo '<button type="submit" class="button">Mark complete</button>';
+                        echo form_close();
+                        echo '</td>';
+                    } else {
+                        echo '<td>NO</td>';
+                    }
+                ?>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <h4 class="subtitle is-5">Affected Areas</h4>
     <div class="columns">
         <div class="column">
             <hr>
@@ -130,7 +161,7 @@
 
         <div class="columns">
         <div class="column">
-            <h4 class="subtitle is-4">Casualties</h4>
+            <h4 class="subtitle is-5">Casualties</h4>
             <?php echo form_open('incident/update-casualties/' . $id, 'id="update-casualties-form"') ?>
                 <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
                     <thead>
@@ -167,7 +198,7 @@
             <?php echo form_close(); ?>
         </div>
         <div class="column">
-            <h4 class="subtitle is-4">Hospitalizations</h4>
+            <h4 class="subtitle is-5">Hospitalizations</h4>
             <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
                 <thead>
                     <tr>
@@ -197,7 +228,7 @@
 
         <div class="columns">
         <div class="column">
-            <h4 class="subtitle is-4">Evacuations</h4>
+            <h4 class="subtitle is-5">Evacuations</h4>
             <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
                 <thead>
                     <tr>

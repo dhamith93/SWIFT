@@ -420,7 +420,8 @@ function reloadReponderTable(data) {
 }
 
 function reloadTasksTable(data) {
-    let tasksDiv = document.getElementById('tasks');
+    let tasksDiv = document.getElementById('tasks-table');
+    tasksDiv.style.display = '';
     resetTable(tasksDiv);
 
     let keys = Object.keys(data).reverse();
