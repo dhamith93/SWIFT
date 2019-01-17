@@ -376,16 +376,29 @@
             return $data;
         }
 
-        public function getTasksFor($orgId) {
-            $query = $this->db->select('t3.name, t2.id, t2.inc_id, t2.content, t2.is_completed, t2.completed_at, t2.assigned_at')
-                        ->from('responding_organizations as t1')
-                        ->where('t1.org_id', $orgId)
-                        ->join('tasks as t2', 't1.inc_id = t2.inc_id', 'LEFT')
-                        ->join('incidents as t3', 't2.inc_id = t3.id', 'LEFT')
-                        ->where('t3.on_going', '1')
-                        ->where('t2.is_completed', '0')
-                        ->order_by('t2.id', 'desc')
-                        ->get();
+        public function getTasksFor($orgId, $incidentId = null) {
+            if ($incidentId === null) {
+                $query = $this->db->select('t3.name, t2.id, t2.inc_id, t2.content, t2.is_completed, t2.completed_at, t2.assigned_at')
+                            ->from('responding_organizations as t1')
+                            ->where('t1.org_id', $orgId)
+                            ->join('tasks as t2', 't1.inc_id = t2.inc_id', 'LEFT')
+                            ->join('incidents as t3', 't2.inc_id = t3.id', 'LEFT')
+                            ->where('t3.on_going', '1')
+                            ->where('t2.is_completed', '0')
+                            ->order_by('t2.id', 'desc')
+                            ->get();
+            } else {
+                $query = $this->db->select('t3.name, t2.id, t2.inc_id, t2.content, t2.is_completed, t2.completed_at, t2.assigned_at')
+                            ->from('responding_organizations as t1')
+                            ->where('t1.org_id', $orgId)
+                            ->where('t1.inc_id', $incidentId)
+                            ->join('tasks as t2', 't1.inc_id = t2.inc_id', 'LEFT')
+                            ->join('incidents as t3', 't2.inc_id = t3.id', 'LEFT')
+                            ->where('t3.on_going', '1')
+                            ->where('t2.is_completed', '0')
+                            ->order_by('t2.id', 'desc')
+                            ->get();
+            }
 
             return $query->result();
         }

@@ -21,6 +21,33 @@
             $this->load->view('templates/footer');
         }
 
+        public function incidentView($id, $page = null) {
+            if ($page === null)
+                redirect('organization/incident/'.$id.'/information');
+
+            $this->load->helper('directory');
+
+            $orgId = $this->session->userdata('org_id');
+            $data['id'] = $id;
+            $data['title'] = $page;
+            $data['incident'] = $this->incident_model->getSingleIncident($id);
+            $data['alerts'] = $this->incident_model->getAlerts($id);
+            $data['tasks'] = $this->incident_model->getTasksFor($orgId, $id);
+            $data['casualties'] = $this->incident_model->getCasualties($id);
+            $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
+            $data['evacuations'] = $this->incident_model->getEvacuations($id);
+            
+            if (is_dir('assets/media/' . $id . '/images/'))
+                $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
+
+            if (is_dir('assets/media/' . $id . '/videos/'))
+                $data['videos'] = directory_map('./assets/media/' . $id . '/videos/', 1);
+
+            $this->load->view('templates/header');
+            $this->load->view('dashboard/organization/incident/incident', $data);
+            $this->load->view('templates/footer'); 
+        }
+
         public function singleOrganizationView($id) {
             $this->redirectIfNotAuthorized('Employee');
 
