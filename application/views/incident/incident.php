@@ -21,13 +21,6 @@
             ?>
         </div>
         <div class="column is-four-fifths dashboard-selected-column">
-                <!-- <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
-                    <div class="navbar-brand">
-                        <h1 class="navbar-item title is-5">
-                            <?php //echo $title; ?>
-                        </h1>
-                    </div>
-                </nav> -->
         <?php
             switch (lcfirst($title)) {
                 case 'information':

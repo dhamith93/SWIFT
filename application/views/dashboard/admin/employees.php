@@ -60,7 +60,7 @@
                             Try again.
                         </div>
 
-                        <table class="table is-bordered is-striped is-narrow is-hoverable" style="display:<?php echo $displayOpt; ?>;">
+                        <table class="table is-bordered is-striped is-hoverable" style="display:<?php echo $displayOpt; ?>;">
                             <thead>
                                 <tr>
                                 <th>Employee ID</th>

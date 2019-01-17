@@ -5,6 +5,7 @@ var imgUrl = document.getElementById('img-url');
 var copyBtn = document.getElementById('copy-btn');
 
 var editor = CKEDITOR.replace('editor', {
+    height: 600,
     toolbarGroups : [
         { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
         { name: 'links', groups: [ 'links' ] },

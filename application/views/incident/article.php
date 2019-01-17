@@ -1,4 +1,7 @@
 <style>
+body {
+    background-color: unset;
+}
 figure {
     cursor: pointer;
     display: inline-block !important;
@@ -21,14 +24,17 @@ figure img:hover {
 
 
 <div class="container"> 
-    <br><br>
+    <br>
+    <div style="text-align:right;">
+        <button class="button is-primary" id="img-btn">Insert Image</button>
+        <button class="button is-danger" id="save-btn">Save</button>
+        <button class="button is-link" id="publish-btn">Publish</button>
+    </div>
+    <br>
     <input class="input" type="text" id="title" placeholder="Title" value="<?php if (!empty($article)) echo $article->title; ?>">
-    <br><br>
+    <br> <br>
     <textarea name="content" id="editor"><?php if (!empty($article)) echo $article->content; ?></textarea>
-    <br><br>
-    <button class="button is-primary" id="img-btn">Insert Image</button>
-    <button class="button is-danger" id="save-btn">Save</button>
-    <button class="button is-link" id="publish-btn">Publish</button>
+    <br> <br>
 
     <script src="/assets/ckeditor/ckeditor.js"></script>
 </div>

@@ -30,38 +30,40 @@
             </div>
         </div>
 
-        <div class="field">
-            <div class="file is-info">
-                <label class="file-label">
-                    <input class="file-input" type="file" name="logo" id="logo">
-                    <span class="file-cta">
-                        <span class="file-icon">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label">
-                            Select Logo
-                        </span>
-                    </span>
-                    <span class="file-name" id="logo-name"></span>
-                </label>
-            </div>
-        </div>
-
-        <div class="field">
-            <div class="file is-info">
-                <label class="file-label">
-                    <input class="file-input" type="file" name="cover" id="cover">
-                    <span class="file-cta">
-                        <span class="file-icon">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label">
-                            Select Cover Image
-                        </span>
-                    </span>
-                    <span class="file-name" id="cover-name"></span>
-                </label>
-            </div>
+        <div style="display:flex">            
+                <div class="field" style="margin-right:15px;">
+                    <div class="file is-info">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="logo" id="logo">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Select Logo
+                                </span>
+                            </span>
+                            <span class="file-name" id="logo-name"></span>
+                        </label>
+                    </div>
+                </div>
+        
+                <div class="field">
+                    <div class="file is-info">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="cover" id="cover">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Select Cover Image
+                                </span>
+                            </span>
+                            <span class="file-name" id="cover-name"></span>
+                        </label>
+                    </div>
+                </div>
         </div>
 
         <div class="field">

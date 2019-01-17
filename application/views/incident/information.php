@@ -44,7 +44,7 @@
     <br>
 
     <h4 class="subtitle is-5">Affected Areas</h4>
-    <div class="columns">
+    <div class="columns" style="background-color: #fff;">
         <div class="column">
             <hr>
             <?php 
@@ -52,10 +52,7 @@
                 foreach ($incident[$id]['locations'] as $location):
             ?>
                 <div id="loc-<?php echo $locationCount;?>">
-                    <p> <?php echo $location;?>
-                        <button class="delete location-delete" aria-label="close" type="button" style="float:right;" data-target="loc-<?php echo $locationCount;?>">
-                        </button>
-                    </p>
+                    <p> <?php echo $location;?> </p>
                     <hr>
                 </div>
 

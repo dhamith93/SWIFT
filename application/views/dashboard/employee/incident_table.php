@@ -1,4 +1,4 @@
-<table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
+<table class="table is-bordered is-striped is-hoverable" style="margin: auto;">
     <thead>
         <tr>
             <th>Name</th>

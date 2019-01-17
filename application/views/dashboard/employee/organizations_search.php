@@ -106,7 +106,7 @@
     <?php 
         if (!empty($organizationResult)) {
             echo '<div class="result">';
-            echo '    <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;" id="search-result-table">';
+            echo '    <table class="table is-bordered is-striped is-hoverable" style="margin: auto;" id="search-result-table">';
             echo '        <thead>';
             echo '            <tr>';
             echo '                <th>Name</th>';

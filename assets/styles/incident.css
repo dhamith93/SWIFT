@@ -53,6 +53,10 @@ hr {
     max-height: 400px;
 }
 
+.alert p {
+    color: #fff;
+}
+
 .input[disabled], .textarea[disabled] {
     color: #000;
 }
@@ -74,6 +78,10 @@ hr {
 
 #modal-img {
     cursor: zoom-in;
+}
+
+.file-name {
+    background-color: #fff;
 }
 
 #upload {
