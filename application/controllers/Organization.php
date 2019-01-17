@@ -14,6 +14,7 @@
             $data['orgId'] = $orgId;
             $data['incidents'] = $this->incident_model->getOngoingIncidentsOf($orgId);
             $data['alerts'] = $this->incident_model->getAlertsFor($orgId);
+            $data['tasks'] = $this->incident_model->getTasksFor($orgId);
 
             $this->load->view('templates/header');
             $this->load->view('dashboard/dashboard', $data);
@@ -94,6 +95,16 @@
             $this->session->set_flashdata('locationType', $locationType);
 
             redirect('employee/organizations/');
+        }
+
+        public function markTaskCompleted($taskId) {
+            $this->redirectIfNotAuthorized('Organization');
+            $orgId = $this->session->userdata('org_id');
+
+            if ($this->incident_model->markTaskCompleted($taskId, $orgId))
+                redirect('organization/tasks');
+
+            redirect('organization/tasks#update-error');
         }
 
         public function redirectIfNotAuthorized($userType) {

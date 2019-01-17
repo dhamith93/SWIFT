@@ -376,6 +376,26 @@
             return $data;
         }
 
+        public function getTasksFor($orgId) {
+            $query = $this->db->select('t3.name, t2.id, t2.inc_id, t2.content, t2.is_completed, t2.completed_at, t2.assigned_at')
+                        ->from('responding_organizations as t1')
+                        ->where('t1.org_id', $orgId)
+                        ->join('tasks as t2', 't1.inc_id = t2.inc_id', 'LEFT')
+                        ->join('incidents as t3', 't2.inc_id = t3.id', 'LEFT')
+                        ->where('t3.on_going', '1')
+                        ->where('t2.is_completed', '0')
+                        ->order_by('t2.id', 'desc')
+                        ->get();
+
+            return $query->result();
+        }
+
+        public function markTaskCompleted($taskId, $orgId) {
+            $this->db->where('id', $taskId);
+            $this->db->where('org_id', $orgId);
+            return $this->db->update('tasks', array('is_completed'=> '1'));
+        }
+
         public function responderExists($orgId, $incidentId) {
             $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $orgId));
             return (count($checkQuery->result()) > 0);

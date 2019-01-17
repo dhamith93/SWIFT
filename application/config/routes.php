@@ -77,6 +77,7 @@ $route['incident/(:any)/(:any)'] = 'incident/view/$1/$2';
 $route['incident/(:any)'] = 'incident/view/$1';
 $route['organization/add'] = 'organization/add';
 $route['organization/search'] = 'organization/getOrganizationInfo';
+$route['organization/mark-task-complete/(:any)'] = 'organization/markTaskCompleted/$1';
 $route['organization'] = 'organization/view';
 $route['organization/(:any)'] = 'organization/view/$1';
 $route['org/(:any)'] = 'organization/singleOrganizationView/$1';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 16, 2019 at 12:19 PM
+-- Generation Time: Jan 17, 2019 at 11:12 AM
 -- Server version: 5.7.24-0ubuntu0.18.10.1
 -- PHP Version: 7.2.10-0ubuntu1
 
@@ -107,7 +107,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
-(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$P5VhaacDbHBSYP.Z2241WOPHlpXswB.yUo55ZA1ZupCynPrubtU0O', '+94773635658', 'hewamullage123@gmail.com', '2019-01-16 12:14:28', 1),
+(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$P5VhaacDbHBSYP.Z2241WOPHlpXswB.yUo55ZA1ZupCynPrubtU0O', '+94773654321', 'hewamullage123@gmail.com', '2019-01-16 17:34:17', 1),
 (9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2019-01-16 12:16:26', 0);
 
 -- --------------------------------------------------------
@@ -316,6 +316,18 @@ CREATE TABLE `tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Triggers `tasks`
+--
+DELIMITER $$
+CREATE TRIGGER `tasks_BEFORE_UPDATE` BEFORE UPDATE ON `tasks` FOR EACH ROW BEGIN
+	if NEW.completed_at <=> OLD.completed_at THEN
+		SET NEW.completed_at = current_timestamp();
+	END if;
+END
+$$
+DELIMITER ;
+
+--
 -- Indexes for dumped tables
 --
 
@@ -512,7 +524,7 @@ ALTER TABLE `organization_types`
 -- AUTO_INCREMENT for table `press_releases`
 --
 ALTER TABLE `press_releases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `property_damages`
 --
@@ -537,7 +549,7 @@ ALTER TABLE `responding_organizations`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --
