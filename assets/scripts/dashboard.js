@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
             tabHeaders[n].classList.add('is-active'); // add tabHeader
             selectedTabContents = document.querySelectorAll('[data-content="' + n + '"]'); // add tab
         }
+
+        if (section === 'organization') {
+            let n = 1;
+            tabHeaders[n].classList.add('is-active'); // add tabHeader
+            selectedTabContents = document.querySelectorAll('[data-content="' + n + '"]'); // add tab
+        }
         
         activateTab(selectedTabContents);
 
@@ -53,12 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (urlAnchor && urlAnchor === 'delete-success') {
-        document.getElementById('employee-delete-success-notification').style.display = 'block';
+        document.getElementById('delete-success-notification').style.display = 'block';
         window.history.replaceState('', 'Employees', '#');
     }
 
     if (urlAnchor && urlAnchor === 'delete-error') {
-        document.getElementById('employee-delete-error-notification').style.display = 'block';
+        document.getElementById('delete-error-notification').style.display = 'block';
         window.history.replaceState('', 'Employees', '#');
     }
 
@@ -112,6 +118,32 @@ document.addEventListener('DOMContentLoaded', () => {
             el.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (confirm("Do you want to delete the employee record? This can't be undone!")) {
+                   el.submit();
+                }
+            });
+        });
+    }
+
+    var makeResponderAdminForms = getAll('.make-responder-admin-form');
+
+    if (makeResponderAdminForms.length > 0) {
+        makeResponderAdminForms.forEach(el => {
+            el.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (confirm("Do you want to make this responder admin?\nYou will lose admin privileges! And you will be logged out!")) {
+                   el.submit();
+                }
+            });
+        });
+    }
+
+    var deleteResponderForms = getAll('.delete-responder-form');
+
+    if (deleteResponderForms.length > 0) {
+        deleteResponderForms.forEach(el => {
+            el.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (confirm("Do you want to delete the responder record? This can't be undone!")) {
                    el.submit();
                 }
             });

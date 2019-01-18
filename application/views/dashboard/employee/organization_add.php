@@ -201,6 +201,20 @@
             ?>
         </div>
         <div class="field">
+            <label class="label">Position</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" name="position" <?php if ($hasFormData) echo 'value="'.$formData['position'].'"'; ?>>
+                <span class="icon is-small is-left">
+                <i class="fas fa-address-card"></i>
+                </span>
+            </div>
+            <?php
+                if ($hasErrors && isset($errors['position'])) {
+                    echo '<p class="help is-danger">Position of the employee in the organization is required!</p>';
+                }
+            ?>
+        </div>
+        <div class="field">
             <label class="label">Password</label>
             <div class="control has-icons-left has-icons-right">
                 <input class="input" type="password" name="password">

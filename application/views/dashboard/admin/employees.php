@@ -52,10 +52,10 @@
                         <div class="notification is-danger" id="no-record-notification">
                             No records found!
                         </div>
-                        <div class="notification is-success" id="employee-delete-success-notification">
+                        <div class="notification is-success" id="delete-success-notification">
                             Employee record deleted successfully!
                         </div>
-                        <div class="notification is-danger" id="employee-delete-error-notification">
+                        <div class="notification is-danger" id="delete-error-notification">
                             An error occured when deleting employee! <br>
                             Try again.
                         </div>

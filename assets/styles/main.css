@@ -172,7 +172,8 @@ body {
     overflow: auto;
 }
 
-#success-notification, #error-notification, #employee-error-notification, #no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification, #empty-error-notification {
+#success-notification, #error-notification, #employee-error-notification, 
+#no-record-notification, #delete-success-notification, #delete-error-notification, #empty-error-notification {
     display: none;
     max-width: 400px;
     margin: auto;
@@ -180,7 +181,7 @@ body {
     text-align: center;
 }
 
-#no-record-notification, #employee-delete-success-notification, #employee-delete-error-notification {
+#no-record-notification, #delete-success-notification, #delete-error-notification {
     margin-top: 20px;
 }
 

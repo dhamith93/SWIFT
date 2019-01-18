@@ -16,6 +16,21 @@
             $data['alerts'] = $this->incident_model->getAlertsFor($orgId);
             $data['tasks'] = $this->incident_model->getTasksFor($orgId);
 
+            if (!empty($this->session->flashdata('errors')))
+                $data['errors'] = $this->session->flashdata('errors');
+
+            if (!empty($this->session->flashdata('formData')))
+                $data['formData'] = $this->session->flashdata('formData');
+
+            if (!empty($this->session->flashdata('responderResult')))
+                $data['responderResult'] = $this->session->flashdata('responderResult');
+
+            if (!empty($this->session->flashdata('searchValue')))
+                $data['searchValue'] = $this->session->flashdata('searchValue');
+            
+            if (!empty($this->session->flashdata('searchType')))
+                $data['searchType'] = $this->session->flashdata('searchType');
+
             $this->load->view('templates/header');
             $this->load->view('dashboard/dashboard', $data);
             $this->load->view('templates/footer');
@@ -55,9 +70,6 @@
             $data['organization'] = $this->organization_model->getOrganization($id);
             $data['respondingAreas'] = $this->organization_model->getRespondingAreas($id);
             $data['responders'] = $this->organization_model->getResponders($id);
-            // $data['isOrgAdmin'] = $this->organization_model->isOrgAdmin($id);
-
-            // $data['isOrgAdmin'] = true; // for test
 
             $this->load->view('templates/header');
             $this->load->view('organization/single-organization-view', $data);
@@ -75,6 +87,7 @@
             $this->form_validation->set_rules('last-name', 'Last name', 'required');
             $this->form_validation->set_rules('password', 'Password', 'trim|required');
             $this->form_validation->set_rules('password2', 'Password confirm', 'trim|required|matches[password]');
+            $this->form_validation->set_rules('position', 'Position', 'required');
             $this->form_validation->set_rules('contact', 'Admin contact number', 'required'); 
             $this->form_validation->set_rules('email', 'Admin email', 'trim|required|valid_email'); 
 
@@ -86,6 +99,7 @@
                     'org_email' => $this->input->post('org-email'),
                     'first_name' => $this->input->post('first-name'),
                     'last_name' => $this->input->post('last-name'),
+                    'position' => $this->input->post('position'),
                     'password' => $this->input->post('password'),
                     'password2' => $this->input->post('password2'),
                     'contact' => $this->input->post('contact'),
@@ -95,12 +109,94 @@
                 $this->session->set_flashdata('formData', $formData);
                 redirect('employee/organizations/#add');
             } else {
-                if ($this->organization_model->add()) {
+                if ($this->organization_model->add())
                     redirect('employee/organizations/#add-success');
-                } else {
-                    redirect('employee/organizations/#add-error');
-                }
+                    
+                redirect('employee/organizations/#add-error');
             }
+        }
+
+        public function addResponder() {
+            $this->redirectIfNotAuthorized('Organization');
+
+            $this->form_validation->set_rules('org-id', 'Organization ID', 'required');
+            $this->form_validation->set_rules('first-name', 'First name', 'required');
+            $this->form_validation->set_rules('last-name', 'Last name', 'required');
+            $this->form_validation->set_rules('position', 'Position', 'required');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required');
+            $this->form_validation->set_rules('password2', 'Password confirm', 'trim|required|matches[password]');
+            $this->form_validation->set_rules('contact', 'Admin contact number', 'required'); 
+            $this->form_validation->set_rules('email', 'Admin email', 'trim|required|valid_email');
+
+            if ($this->form_validation->run() === FALSE) {                
+                $formData = array(
+                    'org_name' => $this->input->post('org-id'),
+                    'first_name' => $this->input->post('first-name'),
+                    'last_name' => $this->input->post('last-name'),
+                    'password' => $this->input->post('password'),
+                    'password2' => $this->input->post('password2'),
+                    'position' => $this->input->post('position'),
+                    'contact' => $this->input->post('contact'),
+                    'email' => $this->input->post('email')
+                );
+                $this->session->set_flashdata('errors', $this->form_validation->error_array());
+                $this->session->set_flashdata('formData', $formData);
+                redirect('organization/responders/#add');
+            } else {
+                $orgId = $this->input->post('org-id');
+                if ($this->responder_model->add($orgId))
+                    redirect('organization/responders/#add-success');
+
+                redirect('organization/responders/#add-error');
+            }
+        }
+
+        public function getResponderInfo() {
+            $this->redirectIfNotAuthorized('Organization');
+
+            $searchValue = $this->input->post('search-value');
+            $searchType = $this->input->post('search-type');
+            $orgId = $this->input->post('org-id');
+
+            $this->session->set_flashdata('searchValue', $searchValue);
+            $this->session->set_flashdata('searchType', $searchType);
+
+            if (empty($searchValue) || empty($orgId))
+                redirect('organization/responders/');
+
+            $searchType = str_replace('-', '_', $searchType);
+
+            $responders = $this->responder_model->getResponders($orgId, $searchValue, $searchType);
+
+            if (empty($responders))
+                redirect('organization/responders/#no-record');
+
+            $this->session->set_flashdata('responderResult', $responders);
+            redirect('organization/responders/');
+        }
+
+        public function makeAdmin() {
+            $this->redirectIfNotAuthorized('Organization');
+
+            $responderId = $this->input->post('responder-id');
+            $orgId = $this->input->post('org-id');
+
+            if ($this->responder_model->makeAdmin($orgId, $responderId))
+                redirect('logout');
+
+            redirect('organization/responders/#delete-error');
+        }
+
+        public function deleteResponder() {
+            $this->redirectIfNotAuthorized('Organization');
+
+            $responderId = $this->input->post('responder-id');
+
+            if ($this->responder_model->delete($responderId))
+                redirect('organization/responders/#delete-success');
+
+            redirect('organization/responders/#delete-error');
+
         }
 
         public function getOrganizationInfo() {

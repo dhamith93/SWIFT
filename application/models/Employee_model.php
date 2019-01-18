@@ -32,8 +32,7 @@
 
         public function deleteEmployee($empId) {
             $this->db->where('emp_id', $empId);
-            $this->db->delete('employees');
-            return true;
+            return $this->db->delete('employees');
         }
 
         public function verifyUser($username, $password) {

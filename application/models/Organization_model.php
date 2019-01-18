@@ -35,24 +35,8 @@
 
                 $this->db->insert('responding_areas', $locationData);
             }
-            
 
-            $password = $this->input->post('password');
-            $hashedPw = password_hash($password, PASSWORD_BCRYPT);
-
-            $adminData = array(
-                'org_id' => $orgId,
-                'first_name' => htmlspecialchars($this->input->post('first-name')),
-                'last_name' => htmlspecialchars($this->input->post('last-name')),
-                'password' => htmlspecialchars($hashedPw),
-                'contact' => htmlspecialchars($this->input->post('contact')),
-                'email' => htmlspecialchars($this->input->post('email')),
-                'is_admin' => 1
-            );
-
-            $this->responder_model->add($adminData);
-
-            return true;
+            return $this->responder_model->add($orgId, 1);
         }
 
         public function getOrganizations($orgType, $searchValue, $locationType) {
