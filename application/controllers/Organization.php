@@ -12,9 +12,15 @@
             $data['title'] = ucfirst($page);
             $data['section'] = 'organization';
             $data['orgId'] = $orgId;
-            $data['incidents'] = $this->incident_model->getOngoingIncidentsOf($orgId);
-            $data['alerts'] = $this->incident_model->getAlertsFor($orgId);
-            $data['tasks'] = $this->incident_model->getTasksFor($orgId);
+
+            if ($page === 'incidents')
+                $data['incidents'] = $this->incident_model->getOngoingIncidentsOf($orgId);
+
+            if ($page === 'alerts')
+                $data['alerts'] = $this->incident_model->getAlertsFor($orgId);
+
+            if ($page === 'tasks')
+                $data['tasks'] = $this->incident_model->getTasksFor($orgId);
 
             if (!empty($this->session->flashdata('errors')))
                 $data['errors'] = $this->session->flashdata('errors');
@@ -37,6 +43,8 @@
         }
 
         public function incidentView($id, $page = null) {
+            $this->redirectIfNotAuthorized('Organization');
+
             if ($page === null)
                 redirect('organization/incident/'.$id.'/information');
 
@@ -47,18 +55,32 @@
             $data['orgId'] = $orgId;
             $data['title'] = $page;
             $data['incident'] = $this->incident_model->getSingleIncident($id);
-            $data['alerts'] = $this->incident_model->getAlerts($id);
-            $data['responders'] = $this->responder_model->getRespondersOf($id, $orgId);
-            $data['tasks'] = $this->incident_model->getTasksFor($orgId, $id);
-            $data['casualties'] = $this->incident_model->getCasualties($id);
-            $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
-            $data['evacuations'] = $this->incident_model->getEvacuations($id);
             
-            if (is_dir('assets/media/' . $id . '/images/'))
-                $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
+            if ($page === 'information') {
+                $data['casualties'] = $this->incident_model->getCasualties($id);
+                $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
+                $data['evacuations'] = $this->incident_model->getEvacuations($id);
+            }
 
-            if (is_dir('assets/media/' . $id . '/videos/'))
-                $data['videos'] = directory_map('./assets/media/' . $id . '/videos/', 1);
+            if ($page === 'alerts-warnings')
+                $data['alerts'] = $this->incident_model->getAlerts($id);
+
+            if ($page === 'responders') 
+                $data['responders'] = $this->responder_model->getRespondersOf($id, $orgId);
+        
+            if ($page === 'tasks') {
+                $data['tasks'] = $this->incident_model->getTasksFor($orgId, $id);
+                $data['responders'] = $this->responder_model->getRespondersOf($id, $orgId);
+            }
+
+            if ($page === 'media') {
+                if (is_dir('assets/media/' . $id . '/images/'))
+                    $data['images'] = directory_map('./assets/media/' . $id . '/images/', 1);
+    
+                if (is_dir('assets/media/' . $id . '/videos/'))
+                    $data['videos'] = directory_map('./assets/media/' . $id . '/videos/', 1);
+            }
+            
 
             $this->load->view('templates/header');
             $this->load->view('dashboard/organization/incident/incident', $data);
@@ -187,6 +209,16 @@
                 redirect('logout');
 
             redirect('organization/responders/#delete-error');
+        }
+
+        public function assignTask() {
+            $taskId = $this->input->post('task-id');
+            $responderId = $this->input->post('responder-id');
+            $incidentId = $this->input->post('incident-id');
+
+            $this->incident_model->assignTask($taskId, $responderId);
+
+            redirect('organization/incident/'.$incidentId.'/tasks/');
         }
 
         public function deleteResponder() {

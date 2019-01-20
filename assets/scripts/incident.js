@@ -28,6 +28,7 @@ const unPublishBtns = getAll('.unpublish-btn');
 const editBtns = getAll('.edit-btn');
 const deleteBtns = getAll('.delete-btn');
 const searchRespondersBtn = document.getElementById('search-responders-btn');
+const assignedTaskBtns = getAll('.task-assign-btn');
 const modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
 
 const urlAnchor = window.location.hash.substr(1);
@@ -281,6 +282,17 @@ if (searchRespondersBtn) {
         }
     });
 }
+
+assignedTaskBtns.forEach(el => {
+    el.addEventListener('click', (e) => {
+        openModal('responders-modal');
+        let elements = getAll('.task-id');
+
+        elements.forEach(el1 => {
+            el1.value = el.dataset.taskId;
+        });
+    });
+});
 
 function sendXhr(url, method, successCallback, failureCallback, params) {
     let xhr = new XMLHttpRequest();
@@ -674,23 +686,25 @@ if (modalCloses.length > 0) {
     });
 }
 
-function openModal(t, src, type) {
+function openModal(t, src = null, type = null) {
     let target = document.getElementById(t);
     let rootEl = document.documentElement;
 
-    let modalVideo = document.getElementById('modal-video');
-    let modalImg = document.getElementById('modal-img');
-    let modalLink = document.getElementById('modal-link');
-
-    if (type === 'image') {
-        modalVideo.classList.add('is-hidden');
-        modalImg.src = src;
-        modalLink.href = src;
-        modalImg.classList.remove('is-hidden');
-    } else {
-        modalImg.classList.add('is-hidden');
-        modalVideo.src = src;
-        modalVideo.classList.remove('is-hidden');
+    if (src && type) {
+        let modalVideo = document.getElementById('modal-video');
+        let modalImg = document.getElementById('modal-img');
+        let modalLink = document.getElementById('modal-link');
+    
+        if (type === 'image') {
+            modalVideo.classList.add('is-hidden');
+            modalImg.src = src;
+            modalLink.href = src;
+            modalImg.classList.remove('is-hidden');
+        } else {
+            modalImg.classList.add('is-hidden');
+            modalVideo.src = src;
+            modalVideo.classList.remove('is-hidden');
+        }
     }
 
     rootEl.classList.add('is-clipped');

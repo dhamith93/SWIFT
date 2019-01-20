@@ -80,6 +80,7 @@ $route['organization/add-responder'] = 'organization/addResponder';
 $route['organization/get-responders'] = 'organization/getResponderInfo';
 $route['organization/delete-responder'] = 'organization/deleteResponder';
 $route['organization/make-admin'] = 'organization/makeAdmin';
+$route['organization/assign-task'] = 'organization/assignTask';
 $route['organization/search'] = 'organization/getOrganizationInfo';
 $route['organization/incident/(:any)/(:any)'] = 'organization/incidentView/$1/$2';
 $route['organization/incident/(:any)'] = 'organization/incidentView/$1';
