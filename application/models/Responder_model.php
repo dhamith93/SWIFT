@@ -27,6 +27,20 @@
             return $query->result();
         }
 
+        public function getRespondersOf($incidentId, $orgId) {
+            $query = $this->db->get_where('responders', array('org_id' => $orgId, 'responding_to' => (int) $incidentId));
+            return $query->result();
+        }
+
+        public function getAvailableRespondersOf($orgId, $searchType, $searchValue) {
+            if ($searchType === 'all') {
+                $query = $this->db->get_where('responders', array('org_id' => $orgId, 'is_available' => '1'));
+            } else {
+                $query = $this->db->get_where('responders', array('org_id' => $orgId, 'is_available' => '1', $searchType => $searchValue));
+            }
+            return $query->result();
+        }
+
         public function makeAdmin($orgId, $responderId) {
             $this->db->where('is_admin', '1');
             $this->db->where('org_id', $orgId);
@@ -36,6 +50,11 @@
             }
 
             return false;
+        }
+
+        public function assignToIncident($incidentId, $responderId) {
+            $this->db->where('id', $responderId);
+            return $this->db->update('responders', array('responding_to'=> $incidentId, 'is_available' => '0'));
         }
 
         public function delete($responderId) {

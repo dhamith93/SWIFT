@@ -2,6 +2,7 @@
     <ul>
         <li class="vert-nav-item" id="information"><a href="<?php echo base_url(); ?>organization/incident/<?php echo $id.'/'; ?>information">Information</a></li>
         <li class="vert-nav-item" id="alerts-warnings"><a href="<?php echo base_url(); ?>organization/incident/<?php echo $id.'/'; ?>alerts-warnings">Alerts & Warnings</a></li>
+        <li class="vert-nav-item" id="responders"><a href="<?php echo base_url(); ?>organization/incident/<?php echo $id.'/'; ?>responders">Responders</a></li>
         <li class="vert-nav-item" id="media"><a href="<?php echo base_url(); ?>organization/incident/<?php echo $id.'/'; ?>media">Media</a></li>
         <li class="vert-nav-item" id="requests"><a href="<?php echo base_url(); ?>organization/incident/<?php echo $id.'/'; ?>requests">Requests</a></li>
         <li class="vert-nav-item" id="tasks"><a href="<?php echo base_url(); ?>organization/incident/<?php echo $id.'/'; ?>tasks">Tasks</a></li>

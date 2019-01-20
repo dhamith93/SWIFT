@@ -1,50 +1,4 @@
 <div class="section">
-    <div class="result">
-        <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;" id="responders-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Address</th>
-                    <th>Contact</th>
-                    <th>Email</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-
-            <?php 
-                if (!empty($responders)) {        
-                    foreach ($responders as $row) {
-                        echo '<tr>';
-                        echo '<td>';
-                        echo $row->name;
-                        echo '</td>';
-                        echo '<td>';
-                        echo $row->type;
-                        echo '</td>';
-                        echo '<td>';
-                        echo $row->address;
-                        echo '</td>';
-                        echo '<td>';
-                        echo $row->contact;
-                        echo '</td>';
-                        echo '<td>';
-                        echo $row->email;
-                        echo '</td>';
-                        echo '<td>';
-                        echo '<a class="button is-danger" href="../organization/' . $row->id . '" target="_blank" aria-haspopup="true">More</a>';
-                        echo '</td>';
-                        echo '</tr>';    
-                    }
-                }    
-            ?>
-            </tbody>
-        </table>
-    </div>
-
-    <br>
-
     <a class="button is-success" id="add-responders-btn">
         <span class="icon is-small">
             <i class="fas fa-chevron-down animated flipInX btn-icon" id="btn-icon"></i>
@@ -96,7 +50,7 @@
         <br>
 
         <div class="result">
-            <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;" id="search-result-table">
+            <table class="table is-bordered is-striped is-hoverable" style="margin: auto;" id="search-result-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -111,4 +65,50 @@
             </table>
         </div>
     </div>
+    <hr>
+    <div class="result">
+        <table class="table is-bordered is-striped is-hoverable" style="margin: auto;" id="responders-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php 
+                if (!empty($responders)) {        
+                    foreach ($responders as $row) {
+                        echo '<tr>';
+                        echo '<td>';
+                        echo $row->name;
+                        echo '</td>';
+                        echo '<td>';
+                        echo $row->type;
+                        echo '</td>';
+                        echo '<td>';
+                        echo $row->address;
+                        echo '</td>';
+                        echo '<td>';
+                        echo $row->contact;
+                        echo '</td>';
+                        echo '<td>';
+                        echo $row->email;
+                        echo '</td>';
+                        echo '<td>';
+                        echo '<a class="button is-danger" href="../../org/' . $row->id . '" target="_blank" aria-haspopup="true">More</a>';
+                        echo '</td>';
+                        echo '</tr>';    
+                    }
+                }    
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
 </div>

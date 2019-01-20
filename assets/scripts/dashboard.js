@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    var tabHeaders = document.getElementsByClassName('tab-header');
-    var tabs = document.getElementsByClassName('tab');
+    const tabHeaders = document.getElementsByClassName('tab-header');
+    const tabs = document.getElementsByClassName('tab');
 
     // if path/to/here#add || path/to/gere#add-success is loaded after adding a new user, display Add tab
-    var urlAnchor = window.location.hash.substr(1);
+    const urlAnchor = window.location.hash.substr(1);
     if (urlAnchor && (urlAnchor === 'add' || urlAnchor === 'add-success' || urlAnchor === 'add-error')) {
         unsetTabHeaderIsActive();
 
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    var deleteEmpForms = getAll('.delete-emp-form');
+    const deleteEmpForms = getAll('.delete-emp-form');
 
     if (deleteEmpForms.length > 0) {
         deleteEmpForms.forEach(el => {
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    var makeResponderAdminForms = getAll('.make-responder-admin-form');
+    const makeResponderAdminForms = getAll('.make-responder-admin-form');
 
     if (makeResponderAdminForms.length > 0) {
         makeResponderAdminForms.forEach(el => {
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    var deleteResponderForms = getAll('.delete-responder-form');
+    const deleteResponderForms = getAll('.delete-responder-form');
 
     if (deleteResponderForms.length > 0) {
         deleteResponderForms.forEach(el => {
@@ -150,11 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    var addLocationBtn = document.getElementById('add-location-btn');
+    const addLocationBtn = document.getElementById('add-location-btn');
 
     if (addLocationBtn) {
-        var locationCount = 0;
-        var locationList = new Array();
+        const locationCount = 0;
+        const locationList = new Array();
     
         addLocationBtn.addEventListener('click', (e) => {
             let province = document.getElementById('province').value;
@@ -204,8 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    var addIncidentForm = document.getElementById('add-incident-form');
-    var addOrganizationForm = document.getElementById('add-organization-form');
+    const addIncidentForm = document.getElementById('add-incident-form');
+    const addOrganizationForm = document.getElementById('add-organization-form');
 
     if (addIncidentForm) {
         addIncidentForm.addEventListener('submit', (e) => {

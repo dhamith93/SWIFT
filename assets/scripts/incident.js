@@ -1,4 +1,4 @@
-var navbarBurgers = getAll('.navbar-burger');
+const navbarBurgers = getAll('.navbar-burger');
 if (navbarBurgers.length > 0) {
     navbarBurgers.forEach( el => {
         el.addEventListener('click', () => {
@@ -9,27 +9,28 @@ if (navbarBurgers.length > 0) {
     });
 }
 
-var addLocationBtn = document.getElementById('add-area-btn');
-var addLocationForm = document.getElementById('add-location-form');
-var addRespondersBtn = document.getElementById('add-responders-btn');
-var searchBtn = document.getElementById('search-btn');
-var resultTable = document.getElementById('search-result-table');
-var responderTable = document.getElementById('responders-table');
-var addAlertBtn = document.getElementById('add-alert-btn');
-var alertDeleteBtns = getAll('.alert-delete-btn');
-var setAlertPublic = document.getElementById('alert-public');
-var updateWarningBtn = document.getElementById('update-warning-btn');
-var addTaskBtn = document.getElementById('add-task-btn');
-var locateBtn = document.getElementById('locate-btn');
-var incidentMedia = getAll('.incident-media');
-var modals = getAll('.modal');
-var publishBtns = getAll('.publish-btn');
-var unPublishBtns = getAll('.unpublish-btn');
-var editBtns = getAll('.edit-btn');
-var deleteBtns = getAll('.delete-btn');
-var modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
+const addLocationBtn = document.getElementById('add-area-btn');
+const addLocationForm = document.getElementById('add-location-form');
+const addRespondersBtn = document.getElementById('add-responders-btn');
+const searchBtn = document.getElementById('search-btn');
+const resultTable = document.getElementById('search-result-table');
+const responderTable = document.getElementById('responders-table');
+const addAlertBtn = document.getElementById('add-alert-btn');
+const alertDeleteBtns = getAll('.alert-delete-btn');
+const setAlertPublic = document.getElementById('alert-public');
+const updateWarningBtn = document.getElementById('update-warning-btn');
+const addTaskBtn = document.getElementById('add-task-btn');
+const locateBtn = document.getElementById('locate-btn');
+const incidentMedia = getAll('.incident-media');
+const modals = getAll('.modal');
+const publishBtns = getAll('.publish-btn');
+const unPublishBtns = getAll('.unpublish-btn');
+const editBtns = getAll('.edit-btn');
+const deleteBtns = getAll('.delete-btn');
+const searchRespondersBtn = document.getElementById('search-responders-btn');
+const modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
 
-var urlAnchor = window.location.hash.substr(1);
+const urlAnchor = window.location.hash.substr(1);
 
 if (urlAnchor && urlAnchor === 'gallery-error') {
     window.history.replaceState('', 'Incident', '#');
@@ -257,6 +258,30 @@ deleteBtns.forEach(el => {
     });
 });
 
+if (searchRespondersBtn) {
+    searchRespondersBtn.addEventListener('click', (e) => {
+        let searchType = document.getElementById('resp-search-type').value;
+        let searchValue = document.getElementById('resp-search-value').value;
+
+        if (searchType === 'all' || (searchType && searchValue)) {
+            if (searchType === 'all')
+                searchValue = 'all';
+
+            sendXhr(
+                'http://localhost/SWIFT/api/org_responders/?orgId=' + orgId + '&searchType=' + searchType + '&searchValue=' + searchValue,
+                'GET',
+                (r) => {                 
+                    fillOrgResultTable(r);
+                 },
+                (r) => {
+                    response['status'] !== 'NO_RECORDS'
+                        alert('Cannot retrieve search result...');
+                },
+            )
+        }
+    });
+}
+
 function sendXhr(url, method, successCallback, failureCallback, params) {
     let xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
@@ -389,7 +414,7 @@ function reloadReponderTable(data) {
             let link = document.createElement('a');
             link.classList.add('button', 'is-danger');
             link.innerHTML = 'More';
-            link.href = '../organization/' + key;
+            link.href = '../../org/' + key;
             link.target = '_blank';
         
             let tr = document.createElement('tr');
@@ -413,6 +438,107 @@ function reloadReponderTable(data) {
             tr.appendChild(cell4);
             tr.appendChild(cell5);
             tr.appendChild(cell6);
+        
+            tableRef.appendChild(tr);
+        }
+    });
+}
+
+function fillOrgResultTable(data) {
+    resetTable(resultTable);
+    
+    Object.keys(data).forEach(key => {
+        if (key !== 'status') {
+            let firstName = data[key]['first_name'];
+            let lastName = data[key]['last_name'];
+            let position = data[key]['position'];
+            let contact = data[key]['contact'];
+            let email = data[key]['email'];
+    
+            let tableRef = resultTable.getElementsByTagName('tbody')[0];
+    
+            let button = document.createElement('button');
+        
+            button.id = key;
+            button.innerHTML = 'Add';
+            button.classList.add('button', 'is-link', 'add-org-responder-btn');
+    
+            button.addEventListener('click', (e) => {
+                if (confirm('Do you want to add this responder to the incident?')) {
+                    let params = 'incidentId= ' + incidentId + '&responderId=' + key;
+                    sendXhr(
+                        'http://localhost/SWIFT/api/add_responder/',
+                        'POST',
+                        (r) => {
+                            sendXhr(
+                                'http://localhost/SWIFT/api/org_responder/?orgId=' + orgId + '&searchType=id&searchValue=' + key,
+                                'GET',
+                                (r) => { addToOrgResponderTable(r); },
+                                (r) => {},
+                            )
+                        },
+                        (r) => { alert('Error unpublishing the article. Please try again.'); },
+                        params
+                    );
+                }
+            });
+        
+            let tr = document.createElement('tr');
+            let cell1 = document.createElement('td');
+            let cell2 = document.createElement('td');
+            let cell3 = document.createElement('td');
+            let cell4 = document.createElement('td');
+            let cell5 = document.createElement('td');
+            let cell6 = document.createElement('td');
+        
+            cell1.appendChild(document.createTextNode(firstName));
+            cell2.appendChild(document.createTextNode(lastName));
+            cell3.appendChild(document.createTextNode(position));
+            cell4.appendChild(document.createTextNode(contact));
+            cell5.appendChild(document.createTextNode(email));
+            cell6.appendChild(button);
+        
+            tr.appendChild(cell1);
+            tr.appendChild(cell2);
+            tr.appendChild(cell3);
+            tr.appendChild(cell4);
+            tr.appendChild(cell5);
+            tr.appendChild(cell6);
+        
+            tableRef.appendChild(tr);
+        }
+    });
+}
+
+function addToOrgResponderTable(data) {
+    Object.keys(data).forEach(key => {
+        if (key !== 'status') {
+            let firstName = data[key]['first_name'];
+            let lastName = data[key]['last_name'];
+            let position = data[key]['position'];
+            let contact = data[key]['contact'];
+            let email = data[key]['email'];
+    
+            let tableRef = document.getElementById('org-responders-table').getElementsByTagName('tbody')[0];
+    
+            let tr = document.createElement('tr');
+            let cell1 = document.createElement('td');
+            let cell2 = document.createElement('td');
+            let cell3 = document.createElement('td');
+            let cell4 = document.createElement('td');
+            let cell5 = document.createElement('td');
+        
+            cell1.appendChild(document.createTextNode(firstName));
+            cell2.appendChild(document.createTextNode(lastName));
+            cell3.appendChild(document.createTextNode(position));
+            cell4.appendChild(document.createTextNode(contact));
+            cell5.appendChild(document.createTextNode(email));
+        
+            tr.appendChild(cell1);
+            tr.appendChild(cell2);
+            tr.appendChild(cell3);
+            tr.appendChild(cell4);
+            tr.appendChild(cell5);
         
             tableRef.appendChild(tr);
         }

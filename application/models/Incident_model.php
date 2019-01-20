@@ -158,7 +158,12 @@
 
         public function markComplete($id) {
             $this->db->where('id', $id);
-            return $this->db->update('incidents', array('on_going' => '0'));
+            if ($this->db->update('incidents', array('on_going' => '0'))) {
+                $this->db->where('responding_to', $id);
+                return $this->db->update('responders', array('responding_to' => ''));
+            }
+
+            return false;
         }
 
         public function updateCasualties($id) {

@@ -93,6 +93,80 @@ class Api extends REST_Controller {
         }
     }
 
+    public function org_responders_get() {
+        $this->respondErrorIfNotAuthorized('Organization');
+        $orgId = $this->get('orgId', true);
+        $searchType = $this->get('searchType', true);
+        $searchValue = $this->get('searchValue', true);
+
+        $searchType = str_replace('-', '_', $searchType);
+
+        $result = $this->responder_model->getAvailableRespondersOf($orgId, $searchType, $searchValue);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'first_name' => $row->first_name,
+                'last_name' => $row->last_name,
+                'position' => $row->position,
+                'contact' => $row->contact,
+                'email' => $row->email
+            );
+        }
+
+        if (!empty($data) && count($data) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function org_responder_get() {
+        $this->respondErrorIfNotAuthorized('Organization');
+        $orgId = $this->get('orgId', true);
+        $searchType = $this->get('searchType', true);
+        $searchValue = $this->get('searchValue', true);
+
+        $searchType = str_replace('-', '_', $searchType);
+
+        $result = $this->responder_model->getResponders($orgId, $searchValue, $searchType);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'first_name' => $row->first_name,
+                'last_name' => $row->last_name,
+                'position' => $row->position,
+                'contact' => $row->contact,
+                'email' => $row->email
+            );
+        }
+
+        if (!empty($data) && count($data) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function add_responder_post() {
+        $this->respondErrorIfNotAuthorized('Organization');
+        $incidentId = $this->post('incidentId', true);
+        $responderId = $this->post('responderId', true);
+
+        if ($this->responder_model->assignToIncident($incidentId, $responderId)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+        
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
     public function alert_get() {
         $this->respondErrorIfNotAuthorized('Employee');
 

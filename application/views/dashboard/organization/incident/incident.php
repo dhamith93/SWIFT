@@ -29,6 +29,9 @@
                 case 'alerts-warnings':
                     $view = 'dashboard/organization/incident/alerts_warnings';
                     break;
+                case 'responders':
+                    $view = 'dashboard/organization/incident/responders';
+                    break;
                 case 'media':
                     $view = 'incident/media';
                     break;
@@ -51,6 +54,7 @@
     </div>
 </div>
 <script>
-    var incidentId = <?php echo $id; ?>;
+    const incidentId = <?php echo $id; ?>;
+    const orgId = <?php echo $orgId; ?>;
 </script>
 <script src="<?php echo base_url(); ?>assets/scripts/incident.js"></script>

@@ -44,9 +44,11 @@
 
             $orgId = $this->session->userdata('org_id');
             $data['id'] = $id;
+            $data['orgId'] = $orgId;
             $data['title'] = $page;
             $data['incident'] = $this->incident_model->getSingleIncident($id);
             $data['alerts'] = $this->incident_model->getAlerts($id);
+            $data['responders'] = $this->responder_model->getRespondersOf($id, $orgId);
             $data['tasks'] = $this->incident_model->getTasksFor($orgId, $id);
             $data['casualties'] = $this->incident_model->getCasualties($id);
             $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
