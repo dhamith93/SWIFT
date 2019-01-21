@@ -117,6 +117,19 @@
             return $query->row_array()['org_id'];
         }
 
+        public function updateInfo() {
+            $orgId = $this->input->post('org-id');
+            $data = array(
+                'name' => $this->input->post('name'),
+                'address' => $this->input->post('address'),
+                'email' => $this->input->post('email'),
+                'contact' => $this->input->post('contact')
+            );
+
+            $this->db->where('id', $orgId);
+            return $this->db->update('organizations', $data);
+        }
+
         function extractLocations($str) {
             $arr = array_unique(explode('|', $str));
             $returnArr = array();

@@ -22,6 +22,9 @@
             if ($page === 'tasks')
                 $data['tasks'] = $this->incident_model->getTasksFor($orgId);
 
+            if ($page === 'settings')
+                $data['org'] = $this->organization_model->getOrganization($orgId);
+
             if (!empty($this->session->flashdata('errors')))
                 $data['errors'] = $this->session->flashdata('errors');
 
@@ -252,6 +255,14 @@
             $this->session->set_flashdata('locationType', $locationType);
 
             redirect('employee/organizations/');
+        }
+
+        public function changeInfo() {
+            $this->redirectIfNotAuthorized('Organization');
+
+            $this->organization_model->updateInfo();
+
+            redirect('organization/settings/');
         }
 
         public function markTaskCompleted($taskId) {

@@ -79,6 +79,7 @@ $route['organization/add'] = 'organization/add';
 $route['organization/add-responder'] = 'organization/addResponder';
 $route['organization/get-responders'] = 'organization/getResponderInfo';
 $route['organization/delete-responder'] = 'organization/deleteResponder';
+$route['organization/change-info'] = 'organization/changeInfo';
 $route['organization/make-admin'] = 'organization/makeAdmin';
 $route['organization/assign-task'] = 'organization/assignTask';
 $route['organization/search'] = 'organization/getOrganizationInfo';

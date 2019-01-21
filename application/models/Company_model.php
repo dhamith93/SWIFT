@@ -8,7 +8,7 @@
             $data = array(
                 'name' => $this->input->post('name'),
                 'slogan' => $this->input->post('slogan'),
-                'address' => $this->input->post('slogan'),
+                'address' => $this->input->post('address'),
                 'email' => $this->input->post('email'),
                 'contact_1' => $this->input->post('contact_1'),
                 'contact_2' => $this->input->post('contact_2'),
