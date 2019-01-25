@@ -2,6 +2,7 @@
     <ul>
         <li class="vert-nav-item" id="incidents"><a href="<?php echo base_url(); ?>employee/incidents/">Incidents</a></li>
         <li class="vert-nav-item" id="organizations"><a href="<?php echo base_url(); ?>employee/organizations/">Organizations</a></li>
+        <li class="vert-nav-item" id="reports"><a href="<?php echo base_url(); ?>reports/">Reports</a></li>
         <li class="vert-nav-item" id="settings"><a href="<?php echo base_url(); ?>employee/settings/">Settings</a></li>
         <?php 
             if ($this->session->userdata('is_admin'))

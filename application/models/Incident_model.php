@@ -92,6 +92,44 @@
             return $resultArray;
         }
 
+        public function getBetween($startDate, $endDate, $location = null, $locationType = null) {
+            $startDate = str_replace('/', '-', $this->db->escape($startDate));
+            $endDate = str_replace('/', '-', $this->db->escape($endDate));
+
+            if ($location === null && $locationType === null) {
+                $query = $this->db->query(
+                          'SELECT `id`, `date` 
+                           FROM `incidents` 
+                           WHERE `date` BETWEEN '.$startDate.' AND '.$endDate.'
+                           ORDER BY `date` ASC;'
+                        );
+            } else {
+                // $locationType = $this->db->escape($locationType);
+                $location = $this->db->escape($location);
+
+                $query = $this->db->query(
+                    "SELECT `t1`.`id`, `t1`.`date` 
+                     FROM `incidents` AS `t1`
+                     JOIN `affected_areas` AS `t2` ON `t2`.`inc_id` = `t1`.`id` 
+                     WHERE `date` BETWEEN {$startDate} AND {$endDate}
+                     AND `t2`.{$locationType} = {$location}
+                     ORDER BY `date` ASC;"
+                  );
+            }
+
+            $results = $query->result();
+            $prevDate = '';
+            $incidentsArray = array();
+
+            foreach ($results as $result) {
+                $query = $this->db->get_where('incidents', array('id' => $result->id));
+                $incident = $this->buildReturnArray($query->result(), true);
+                $incidentsArray[$result->date][] = $incident;
+            }
+
+            return $incidentsArray;
+        }
+
         public function getSingleIncident($id) {
             $query = $this->db->get_where('incidents', array('id' => $id));
             return $this->buildReturnArray($query->result());
@@ -107,9 +145,39 @@
             return $query->result();
         }
 
+        public function getHospitalizationCount($id) {
+            $query = $this->db->query(
+                'SELECT SUM(`count`) AS `count` 
+                 FROM hospitalizations 
+                 WHERE inc_id = ' . $id . ';'
+              );
+            
+            $result = $query->result();
+
+            if (empty($result) || !isset($result[0]->count) || (int) $result[0]->count < 1)
+              return 0;
+            
+            return (int) $result[0]->count;
+        }
+
         public function getEvacuations($id) {
             $query = $this->db->get_where('evacuations', array('inc_id' => $id));
             return $query->result();
+        }
+
+        public function getEvacuationCount($id) {
+            $query = $this->db->query(
+                'SELECT SUM(`count`) AS `count` 
+                 FROM evacuations 
+                 WHERE inc_id = ' . $id . ';'
+              );
+            
+            $result = $query->result();
+
+            if (empty($result) || !isset($result[0]->count) || (int) $result[0]->count < 1)
+              return 0;
+            
+            return (int) $result[0]->count;
         }
 
         public function getOngoingIncidents() {
@@ -437,16 +505,24 @@
         }
 
 
-        function buildReturnArray($queryResult) {
+        function buildReturnArray($queryResult, $withCasualties = false) {
             $resultArray = array();
 
             foreach ($queryResult as $incident) {
-                $query = $this->db->get_where('affected_areas', array('inc_id' => $incident->id));
+                $query = $this->db->order_by('province', 'ASC')->order_by('district', 'ASC')->order_by('town', 'ASC')->get_where('affected_areas', array('inc_id' => $incident->id));
                 $locationArray = array();
                 $geocodes = array();
 
                 foreach ($query->result() as $location) {
-                    $locationArray[] = ucfirst($location->province).' > '.ucfirst($location->district).' > '.ucfirst($location->town);
+                    if (!$withCasualties) {
+                        $locationArray[] = ucfirst($location->province).' > '.ucfirst($location->district).' > '.ucfirst($location->town);
+                    } else {
+                        $locationArray[] = array(
+                            'province' => ucfirst($location->province), 
+                            'district' => ucfirst($location->district),
+                            'town' => ucfirst($location->town)
+                        );
+                    }
                     $geocodes[] = array(
                         'name' => $location->town,
                         'lat' => $location->lat,
@@ -454,19 +530,39 @@
                     );
                 }
 
-                $resultArray[$incident->id] = array(
-                    'id' => $incident->id,
-                    'name' => $incident->name,
-                    'type' => $incident->type,
-                    'date' => $incident->date,
-                    'time' => $incident->time,
-                    'lng' => $incident->lng,
-                    'lat' => $incident->lat,
-                    'locations' => $locationArray,
-                    'geocodes' => $geocodes,
-                    'on_going' => $incident->on_going,
-                    'warning' => $incident->hazard_warning
-                );
+                if (!$withCasualties) {
+                    $resultArray[$incident->id] = array(
+                        'id' => $incident->id,
+                        'name' => ucfirst($incident->name),
+                        'type' => ucfirst($incident->type),
+                        'date' => $incident->date,
+                        'time' => $incident->time,
+                        'lng' => $incident->lng,
+                        'lat' => $incident->lat,
+                        'locations' => $locationArray,
+                        'geocodes' => $geocodes,
+                        'on_going' => $incident->on_going,
+                        'warning' => $incident->hazard_warning
+                    );
+                } else {
+                    return array(
+                        'id' => $incident->id,
+                        'name' => ucfirst($incident->name),
+                        'type' => ucfirst($incident->type),
+                        'date' => $incident->date,
+                        'time' => $incident->time,
+                        'lng' => $incident->lng,
+                        'lat' => $incident->lat,
+                        'locations' => $locationArray,
+                        'geocodes' => $geocodes,
+                        'on_going' => $incident->on_going,
+                        'warning' => $incident->hazard_warning,
+                        'casualties' => $this->getCasualties($incident->id),
+                        'hospitalizations' => $this->getHospitalizationCount($incident->id),
+                        'evacuations' => $this->getEvacuationCount($incident->id) 
+                    );
+                }
+
             }
 
             return $resultArray;

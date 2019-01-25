@@ -41,6 +41,9 @@
                     case 'incidents':
                         $view = 'dashboard/employee/incidents';
                         break;
+                    case 'reports':
+                        $view = 'dashboard/employee/reports';
+                        break;
                     case 'organizations':
                         $view = 'dashboard/employee/organizations';
                         break;

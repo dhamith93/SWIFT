@@ -64,6 +64,7 @@ $route['article/edit/(:any)'] = 'article/edit/$1';
 $route['employee'] = 'employee/view';
 $route['employee/(:any)'] = 'employee/view/$1';
 $route['employee/settings/change_pw'] = 'employee/changePassword';
+$route['reports'] = 'report/view';
 $route['incident/add'] = 'incident/add';
 $route['incident/mark-complete/(:any)'] = 'incident/markComplete/$1';
 $route['incident/search'] = 'incident/getIncidentInfo';
