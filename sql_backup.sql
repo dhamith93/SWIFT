@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 17, 2019 at 11:12 AM
+-- Generation Time: Jan 25, 2019 at 01:07 PM
 -- Server version: 5.7.24-0ubuntu0.18.10.1
 -- PHP Version: 7.2.10-0ubuntu1
 
@@ -107,8 +107,8 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `emp_id`, `first_name`, `last_name`, `password`, `contact`, `email`, `last_logged_in`, `is_admin`) VALUES
-(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$P5VhaacDbHBSYP.Z2241WOPHlpXswB.yUo55ZA1ZupCynPrubtU0O', '+94773654321', 'hewamullage123@gmail.com', '2019-01-16 17:34:17', 1),
-(9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2019-01-16 12:16:26', 0);
+(8, 'E555', 'Dhamith', 'Hewamullage', '$2y$10$P5VhaacDbHBSYP.Z2241WOPHlpXswB.yUo55ZA1ZupCynPrubtU0O', '+94771234567', 'hewamullage123@gmail.com', '2019-01-25 11:57:00', 1),
+(9, 'E666', 'Test', 'Lamb', '$2y$10$mpGZgEv5MOwnE1ZlDSJiTu3qdH61bFbUH9AatC8an2iCgvEIAxUfa', '123123', 'test@test.com', '2019-01-25 11:50:24', 0);
 
 -- --------------------------------------------------------
 
@@ -147,7 +147,7 @@ CREATE TABLE `incidents` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(100) NOT NULL,
-  `date` varchar(10) NOT NULL,
+  `date` date NOT NULL,
   `time` varchar(8) NOT NULL,
   `lat` varchar(255) NOT NULL,
   `lng` varchar(255) NOT NULL,
@@ -263,12 +263,13 @@ CREATE TABLE `responders` (
   `org_id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
+  `position` varchar(50) DEFAULT NULL,
   `contact` varchar(15) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` text NOT NULL,
   `is_admin` int(11) NOT NULL DEFAULT '0',
   `is_available` int(11) DEFAULT '1',
-  `responding_to` int(11) DEFAULT NULL
+  `responding_to` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -312,7 +313,8 @@ CREATE TABLE `tasks` (
   `content` text NOT NULL,
   `is_completed` int(11) NOT NULL DEFAULT '0',
   `assigned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `completed_at` timestamp NULL DEFAULT NULL
+  `completed_at` timestamp NULL DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -320,7 +322,7 @@ CREATE TABLE `tasks` (
 --
 DELIMITER $$
 CREATE TRIGGER `tasks_BEFORE_UPDATE` BEFORE UPDATE ON `tasks` FOR EACH ROW BEGIN
-	if NEW.completed_at <=> OLD.completed_at THEN
+	if NEW.is_completed != OLD.is_completed THEN
 		SET NEW.completed_at = current_timestamp();
 	END if;
 END
@@ -459,7 +461,8 @@ ALTER TABLE `responding_organizations`
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `inc_id` (`inc_id`),
-  ADD KEY `org_id` (`org_id`);
+  ADD KEY `org_id` (`org_id`),
+  ADD KEY `fk_tasks_1_idx` (`assigned_to`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -474,12 +477,12 @@ ALTER TABLE `affected_areas`
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 --
 -- AUTO_INCREMENT for table `casualties`
 --
 ALTER TABLE `casualties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `employees`
 --
@@ -489,12 +492,12 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `evacuations`
 --
 ALTER TABLE `evacuations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `hospitalizations`
 --
 ALTER TABLE `hospitalizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `incidents`
 --
@@ -514,7 +517,7 @@ ALTER TABLE `message_boards`
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `organization_types`
 --
@@ -534,22 +537,22 @@ ALTER TABLE `property_damages`
 -- AUTO_INCREMENT for table `responders`
 --
 ALTER TABLE `responders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `responding_areas`
 --
 ALTER TABLE `responding_areas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `responding_organizations`
 --
 ALTER TABLE `responding_organizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- Constraints for dumped tables
 --
@@ -627,7 +630,6 @@ ALTER TABLE `property_damages`
 -- Constraints for table `responders`
 --
 ALTER TABLE `responders`
-  ADD CONSTRAINT `fk_responders_1` FOREIGN KEY (`responding_to`) REFERENCES `incidents` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `responders_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`);
 
 --
@@ -648,6 +650,7 @@ ALTER TABLE `responding_organizations`
 -- Constraints for table `tasks`
 --
 ALTER TABLE `tasks`
+  ADD CONSTRAINT `fk_tasks_1` FOREIGN KEY (`assigned_to`) REFERENCES `responders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`inc_id`) REFERENCES `incidents` (`id`),
   ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`);
 

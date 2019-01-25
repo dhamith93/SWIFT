@@ -101,7 +101,7 @@
                           'SELECT `id`, `date` 
                            FROM `incidents` 
                            WHERE `date` BETWEEN '.$startDate.' AND '.$endDate.'
-                           ORDER BY `date` ASC;'
+                           ORDER BY `t1`.`date` ASC;'
                         );
             } else {
                 // $locationType = $this->db->escape($locationType);
@@ -113,7 +113,8 @@
                      JOIN `affected_areas` AS `t2` ON `t2`.`inc_id` = `t1`.`id` 
                      WHERE `date` BETWEEN {$startDate} AND {$endDate}
                      AND `t2`.{$locationType} = {$location}
-                     ORDER BY `date` ASC;"
+                     GROUP BY `t1`.`id`
+                     ORDER BY `t1`.`date` ASC;"
                   );
             }
 
