@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // DHAMITH
-$config['base_url'] = 'http://localhost/SWIFT/';
+$config['base_url'] = 'https://dhamith.me/SWIFT/';
 
 // PRABUDDHA
 // $config['base_url'] = 'http://localhost:8888/SWIFT/';
