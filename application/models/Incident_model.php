@@ -101,7 +101,7 @@
                           'SELECT `id`, `date` 
                            FROM `incidents` 
                            WHERE `date` BETWEEN '.$startDate.' AND '.$endDate.'
-                           ORDER BY `t1`.`date` ASC;'
+                           ORDER BY `date` ASC;'
                         );
             } else {
                 // $locationType = $this->db->escape($locationType);
