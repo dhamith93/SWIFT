@@ -23,6 +23,9 @@
 
                 if ($section === 'organization')
                     $this->view('templates/organization-nav');
+
+                if ($section === 'responder')
+                    $this->view('templates/responder-nav');
             ?>
         </div>
         <div class="column is-four-fifths dashboard-selected-column">
@@ -71,10 +74,24 @@
                         $view = 'dashboard/organization/settings';
                         break;
                     default:
-                        $view = ($section === 'admin') ? 'dashboard/admin/employees' : 'dashboard/employee/incidents';
                         break;
                 }
+            }
 
+            if ($section === 'responder') {
+                switch (lcfirst($title)) {
+                    case 'incidents':
+                        $view = 'dashboard/responder/incidents';
+                        break;
+                    case 'tasks':
+                        $view = 'dashboard/responder/tasks';
+                        break;
+                    case 'settings':
+                        $view = 'dashboard/responder/settings';
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (!empty($view))

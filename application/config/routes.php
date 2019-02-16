@@ -90,5 +90,7 @@ $route['organization/mark-task-complete/(:any)'] = 'organization/markTaskComplet
 $route['organization'] = 'organization/view';
 $route['organization/(:any)'] = 'organization/view/$1';
 $route['org/(:any)'] = 'organization/singleOrganizationView/$1';
+$route['responder'] = 'responder/view';
+$route['responder/(:any)'] = 'responder/view/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

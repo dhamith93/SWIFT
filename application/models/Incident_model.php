@@ -205,6 +205,19 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function getOngoingIncidentsFor($resId) {            
+            $query = $this->db->select('*')
+                        ->from('responders as t1')
+                        ->where('t1.id', $resId)
+                        ->join('incidents as t2', 't1.responding_to = t2.id', 'LEFT')
+                        ->where('t2.on_going', '1')
+                        ->order_by('t2.id', 'desc')
+                        ->get();
+
+            $incidentResult = $query->result();
+            return $this->buildReturnArray($incidentResult);
+        }
+
         public function getPressReleases($id) {
             $query = $this->db
                     ->select('id, title, published_date, is_published')

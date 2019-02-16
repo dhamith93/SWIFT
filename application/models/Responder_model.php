@@ -22,6 +22,11 @@
             return $this->db->insert('responders', $responderData);
         }
 
+        public function getResId($email) {
+            $query = $this->db->get_where('responders', array('email' => $email));
+            return $query->row_array()['id'];
+        }
+
         public function getResponders($orgId, $searchValue, $searchType) {
             $query = $this->db->get_where('responders', array('org_id' => $orgId, $searchType => $searchValue));
             return $query->result();
@@ -55,6 +60,19 @@
         public function assignToIncident($incidentId, $responderId) {
             $this->db->where('id', $responderId);
             return $this->db->update('responders', array('responding_to'=> $incidentId, 'is_available' => '0'));
+        }
+
+        public function getTasks($responderId) {
+            $query = $this->db->select('t2.name, t1.id, t1.inc_id, t1.content, t1.is_completed, t1.completed_at, t1.assigned_at')
+                        ->from('tasks as t1')
+                        ->where('t1.assigned_to', $responderId)
+                        ->join('incidents as t2', 't1.inc_id = t2.id', 'LEFT')
+                        ->where('t2.on_going', '1')
+                        ->where('t1.is_completed', '0')
+                        ->order_by('t1.id', 'desc')
+                        ->get();
+
+            return $query->result();
         }
 
         public function delete($responderId) {
