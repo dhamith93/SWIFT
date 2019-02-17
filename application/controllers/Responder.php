@@ -4,7 +4,7 @@
             $this->redirectIfNotAuthorized('Responder');
 
             if ($page === null)
-                redirect('responder/incidents');
+                redirect('responder/incidents/');
 
             $orgId = $this->session->userdata('org_id');
             $resId = $this->session->userdata('res_id');
