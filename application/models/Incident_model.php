@@ -494,9 +494,10 @@
             return $this->db->update('tasks', array('assigned_to'=> $responderId));
         }
 
-        public function markTaskCompleted($taskId, $orgId) {
+        public function markTaskCompleted($taskId, $orgId = null) {
             $this->db->where('id', $taskId);
-            $this->db->where('org_id', $orgId);
+            if ($orgId !== null)
+                $this->db->where('org_id', $orgId);
             return $this->db->update('tasks', array('is_completed'=> '1'));
         }
 

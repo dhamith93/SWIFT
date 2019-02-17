@@ -8,7 +8,6 @@
                     <th>Affected Areas</th>
                     <th>Longtitude</th>
                     <th>Latitude</th>
-                    <th>On going</th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,14 +25,7 @@
                         echo '<td>' . ucfirst($row['lng']) . '</td>';
                         echo '<td>' . ucfirst($row['lat']) . '</td>';
                         echo '<td>';
-                        if ($row['on_going'] === '1') {
-                            echo 'YES';
-                        } else {
-                            echo 'NO';
-                        }
-                        echo '</td>';
-                        echo '<td>';
-                        echo '<a class="button is-danger" href="../../organization/incident/' . $row['id'] . '" target="_blank" aria-haspopup="true">More</a>';
+                        echo '<a class="button is-danger" href="../../responder/incident/' . $row['id'] . '" target="_blank" aria-haspopup="true">More</a>';
                         echo '</td>';
                         echo '</tr>';
                     }
@@ -41,6 +33,6 @@
             </tbody>
         </table>
     <?php else : ?>
-        <p style="text-align:center;">No incidents assigned yet...</p>
+        <p style="text-align:center;">No incident assigned yet...</p>
     <?php endif; ?>
 </div>

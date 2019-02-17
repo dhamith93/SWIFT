@@ -81,7 +81,7 @@
             if ($section === 'responder') {
                 switch (lcfirst($title)) {
                     case 'incidents':
-                        $view = 'dashboard/responder/incidents';
+                        $view = 'dashboard/responder/incident';
                         break;
                     case 'tasks':
                         $view = 'dashboard/responder/tasks';
