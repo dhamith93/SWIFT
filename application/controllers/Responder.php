@@ -1,7 +1,7 @@
 <?php
     class Responder extends CI_Controller {
         public function view($page = null) {
-            // check auth
+            $this->redirectIfNotAuthorized('Responder');
 
             if ($page === null)
                 redirect('responder/incidents');
@@ -26,7 +26,7 @@
         }
 
         public function incidentView($id, $page = null) {
-            // $this->redirectIfNotAuthorized('Organization');
+            $this->redirectIfNotAuthorized('Responder');
     
             if ($page === null)
                 redirect('responder/incident/'.$id.'/information');
@@ -70,7 +70,8 @@
         }  
 
         public function markTaskCompleted($taskId, $incidentId = null) {
-            // $this->redirectIfNotAuthorized('Organization');
+            $this->redirectIfNotAuthorized('Responder');
+
             $orgId = $this->session->userdata('org_id');
 
             if ($this->incident_model->markTaskCompleted($taskId)) {
@@ -86,5 +87,11 @@
             }
 
             redirect('responder/tasks#update-error');
+        }
+
+        public function redirectIfNotAuthorized($userType) {
+            if (!$this->session->userdata('logged_in') 
+                        || $this->session->userdata('user_type') !== $userType) 
+                redirect('login');
         }
     } 
