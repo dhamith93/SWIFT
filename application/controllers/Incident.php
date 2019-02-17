@@ -14,6 +14,7 @@
             $data['responders'] = $this->incident_model->getResponders($id);
             $data['alerts'] = $this->incident_model->getAlerts($id);
             $data['tasks'] = $this->incident_model->getTasks($id);
+            $data['requests'] = $this->incident_model->getRequests($id);
             $data['casualties'] = $this->incident_model->getCasualties($id);
             $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
             $data['evacuations'] = $this->incident_model->getEvacuations($id);
@@ -160,6 +161,14 @@
             } else {
                 redirect('incident/' . $id . '/information/#location-error');
             }
+        }
+
+        public function updateRequestStatus($requestId, $incidentId) {
+            $this->redirectIfNotAuthorized();
+            
+            $status = $this->input->post('status');
+            $this->incident_model->updateRequestStatus($requestId, $status);
+            redirect('incident/' . $incidentId . '/requests/');
         }
 
         public function uploadImage($id) {
