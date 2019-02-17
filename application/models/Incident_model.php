@@ -501,6 +501,47 @@
             return $this->db->update('tasks', array('is_completed'=> '1'));
         }
 
+        public function addRequest($incidentId, $responderId, $content, $priority) {
+            $data = array(
+                'inc_id' => $incidentId,
+                'res_id' => $responderId,
+                'content' => $content,
+                'priority' => $priority,
+            );
+
+            return $this->db->insert('requests', $data);
+        }
+
+        public function updateRequestStatus($id, $status) {
+            $this->db->where('id', $id);
+            return $this->db->update('requests', array('status'=> $status));
+        }
+
+        public function markRequestCompleted($id, $status = 'completed') {
+            $this->db->where('id', $id);
+            return $this->db->update('requests', array('is_completed' => 1, 'status'=> $status));
+        }
+
+        public function getRequests($incidentId, $responderId = null) {
+            if ($responderId === null) {
+                $query = $this->db->select('*')
+                        ->from('requests')
+                        ->where('inc_id', $incidentId)
+                        ->order_by('priority', 'desc')
+                        ->get();
+            } else {
+                $query = $this->db->select('*')
+                        ->from('requests')
+                        ->where('inc_id', $incidentId)
+                        ->where('res_id', $responderId)
+                        ->order_by('priority', 'desc')
+                        ->get();
+
+            }
+
+            return $query->result();
+        }
+
         public function responderExists($orgId, $incidentId) {
             $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $orgId));
             return (count($checkQuery->result()) > 0);

@@ -40,6 +40,7 @@
             $data['orgId'] = $orgId;
             $data['title'] = $page;
             $data['incident'] = $this->incident_model->getSingleIncident($id);
+            $data['resId'] = $resId;
             
             if ($page === 'information') {
                 $data['casualties'] = $this->incident_model->getCasualties($id);
@@ -53,6 +54,10 @@
             if ($page === 'tasks') {
                 // $data['tasks'] = $this->incident_model->getTasksFor($orgId, $id);
                 $data['tasks'] = $this->responder_model->getTasks($resId, $id);
+            }
+
+            if ($page === 'requests') {
+                $data['requests'] = $this->incident_model->getRequests($id);
             }
     
             if ($page === 'media') {
@@ -87,6 +92,41 @@
             }
 
             redirect('responder/tasks#update-error');
+        }
+
+        public function markRequestCompleted($requestId, $incidentId) {
+            $this->redirectIfNotAuthorized('Responder');
+
+            if ($this->incident_model->markRequestCompleted($requestId)) {
+                if ($incidentId !== null) {
+                    redirect('responder/incident/'.$incidentId.'/tasks');
+                } else {
+                    redirect('responder/');
+                }
+            }
+
+            redirect('responder/tasks#update-error');
+        }
+
+        public function addRequest() {
+            $this->redirectIfNotAuthorized('Responder');
+
+            $this->form_validation->set_rules('inc-id', 'Incident Id', 'required');
+            $this->form_validation->set_rules('res-id', 'Responder ID', 'required');
+            $this->form_validation->set_rules('request-content', 'Request Content', 'required'); 
+            $this->form_validation->set_rules('priority', 'Request Priority', 'required'); 
+
+            if ($this->form_validation->run()) {
+                $incidentId = $this->input->post('inc-id', true);
+                $resId = $this->input->post('res-id', true);
+                $content = $this->input->post('request-content', true);
+                $priority = $this->input->post('priority', true);
+    
+                $this->incident_model->addRequest($incidentId, $resId, $content, $priority);
+                redirect('responder/incident/'.$incidentId.'/requests');
+            }
+
+            redirect('responder/');
         }
 
         public function redirectIfNotAuthorized($userType) {
