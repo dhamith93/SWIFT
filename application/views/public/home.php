@@ -29,10 +29,9 @@
         <div class="section-two">
             <div class="section-two__title">Reports</div>
             <div class="section-two__report-sec">
-                <div class="section-two__report"><div class="section-two__report-text">Date</div></div>
-                <div class="section-two__report"><div class="section-two__report-text">Date</div></div>
-                <div class="section-two__report"><div class="section-two__report-text">Date</div></div>
-                <div class="section-two__report"><div class="section-two__report-text">Date</div></div>
+                <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, ratione consequatur reiciendis quisquam suscipit eos earum minima facilis nobis id?</h3>
+                <div class="section-two__report"><div class="section-two__report-text">Link</div></div>
+                
 
             </div>
 
