@@ -1,0 +1,58 @@
+.header {
+    position: relative;
+    height: 80vh;
+    background-image: url(../images/water.jpeg);
+    background-size: cover;
+    background-position: top;
+
+    
+
+
+    &__text-box {
+        position: absolute;
+        top: 60%;
+        left: 35%;
+        transform: translate(-50%, -50%);
+        text-align: left;
+
+        @media only screen and (max-width: $bp-large) {
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+.header__press{
+    position: relative;
+    height: 50vh;
+        background-image: linear-gradient(to bottom,
+                    rgba($color-black, 0.5),
+                    rgba($color-black, 0.5)),
+                    url(../images/bg_2.jpeg);
+    
+    background-size: cover;
+    background-position: top;
+}
+.header__alert{
+    position: relative;
+    height: 50vh;
+        background-image: linear-gradient(to bottom,
+                    rgba($color-black, 0.5),
+                    rgba($color-black, 0.5)),
+                    url(../images/bg_3.jpg);
+    
+    background-size: cover;
+    background-position: top;
+}
+.header__contacts{
+    position: relative;
+    height: 50vh;
+        background-image: linear-gradient(to bottom,
+                    rgba($color-black, 0.5),
+                    rgba($color-black, 0.5)),
+                    url(../images/bg_3.jpg);
+    
+    background-size: cover;
+    background-position: top;
+}

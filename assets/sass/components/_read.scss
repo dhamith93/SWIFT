@@ -1,0 +1,39 @@
+.section-read {
+    height: 44rem;
+    background-color: $color-black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.read{
+    &__text{
+        color: $color-white;
+        margin-bottom: 3rem;
+        margin-top: 5rem;
+
+    }
+
+    &__secondSection {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        &--image{
+            margin: 5rem 5rem 1rem 10rem;
+            height: 25rem;
+            width: 100%;
+            background-image: url(../images/logo.jpg);
+            background-repeat: no-repeat;
+            background-size: contain; 
+        }
+
+        &--para{
+            color: $color-white;
+            margin: 5rem 5rem 5rem 10rem;
+
+        }
+    }
+}

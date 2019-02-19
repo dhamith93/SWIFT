@@ -99,5 +99,10 @@ $route['responder/incident/(:any)'] = 'responder/incidentView/$1';
 $route['responder/mark-request-complete/(:any)/(:any)'] = 'responder/markRequestCompleted/$1/$2';
 $route['responder/mark-task-complete/(:any)/(:any)'] = 'responder/markTaskCompleted/$1/$2';
 $route['responder/mark-task-complete/(:any)'] = 'responder/markTaskCompleted/$1';
+$route['home'] = 'publicController/home';
+$route['press-release'] = 'pressController/press';
+$route['contacts'] = 'publicController/contacts';
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

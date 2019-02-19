@@ -1,0 +1,29 @@
+.section-red {
+    height: 70rem;
+    width: 100%;
+    background-image: url(../images/bg_1.jpeg);
+    background-size: cover;
+
+}
+
+.red{
+    margin: 0 80rem 5rem 15rem;
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba($color-black,.5);
+
+    @media only screen and (max-width: $bp-large) {
+        margin: 0;
+    }
+
+
+    &__heading{
+        margin-top: 10rem;
+        margin-bottom: 2rem;
+        color: $color-white
+    }
+    &__para{
+        color: $color-white;
+    }
+}
