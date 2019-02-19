@@ -26,5 +26,5 @@
     </div>
 </div>
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1979.0142403556943!2d79.84129922346031!3d7.23759076239605!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x64d095806b9e9f46!2sGrand+Oceanpark!5e0!3m2!1sen!2slk!4v1546225390981"
-    width="100%" height="450" frameborder="0" style="border:none; display: block;" allowfullscreen></iframe>
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15843.483148130663!2d79.871764!3d6.906051!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x7909870db8510336!2sDisaster+Management+Centre!5e0!3m2!1sen!2slk!4v1550604757582"     width="100%" height="450" frameborder="0" style="border:none; display: block;" allowfullscreen></iframe>
+
