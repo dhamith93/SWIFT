@@ -1,7 +1,7 @@
 application/config/config.php
 application/config/database.php
 
-/assests/media/
+assests/media/
 
 ### CodeIgniter ###
 */config/development
