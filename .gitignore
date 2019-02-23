@@ -1,4 +1,7 @@
-/assets/media/
+application/config/config.php
+application/config/database.php
+
+
 
 ### CodeIgniter ###
 */config/development

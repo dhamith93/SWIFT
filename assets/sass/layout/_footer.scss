@@ -1,0 +1,37 @@
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media only screen and (max-width: $bp-large) {
+        flex-direction: column;
+    }
+
+
+    &__text{
+        color: $color-black;
+        align-self: flex-end;
+        margin-bottom: 2rem;
+        font-weight: 800;
+
+         @media only screen and (max-width: $bp-large) {
+             flex: 0 0 100%;
+             align-self: center;
+         }
+    }
+
+    &__logobox{
+        margin: 2rem 2rem 2rem 1rem;
+
+        @media only screen and (max-width: $bp-large) {
+            flex: 0 0 100%;
+        }
+        
+    }
+}
+
+.social-media{
+    &__icon{
+        height: 7rem;
+    }
+}
