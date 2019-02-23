@@ -542,6 +542,15 @@
             return $query->result();
         }
 
+        public function getUnseenRequestCount($incidentId) {
+            $query = $this->db->select('count(*) as count')
+                    ->from('requests')
+                    ->where('inc_id', $incidentId)
+                    ->where('status', 'unseen')
+                    ->get();
+            return $query->result()[0]->count;
+        }
+
         public function responderExists($orgId, $incidentId) {
             $checkQuery = $this->db->get_where('responding_organizations', array('inc_id' => $incidentId, 'org_id' => $orgId));
             return (count($checkQuery->result()) > 0);

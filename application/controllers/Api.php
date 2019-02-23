@@ -351,6 +351,26 @@ class Api extends REST_Controller {
 
         $this->response($data, REST_Controller::HTTP_OK);
     }
+
+    public function unseen_request_count_get() {
+        $this->respondErrorIfNotAuthorized('Employee');
+        $incidentId = $this->get('incidentId', true);
+
+        $unseenRequestCount = $this->incident_model->getUnseenRequestCount($incidentId);
+
+        if ($unseenRequestCount >= 0) {
+            $data = array(
+                'count' => $unseenRequestCount,
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
     
     public function employee_get() {
         $this->respondErrorIfNotAuthorized('Admin');

@@ -100,12 +100,10 @@
             if ($this->incident_model->markRequestCompleted($requestId)) {
                 if ($incidentId !== null) {
                     redirect('responder/incident/'.$incidentId.'/tasks');
-                } else {
-                    redirect('responder/');
                 }
             }
 
-            redirect('responder/tasks#update-error');
+            redirect('responder/');
         }
 
         public function addRequest() {

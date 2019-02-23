@@ -30,8 +30,9 @@ const deleteBtns = getAll('.delete-btn');
 const searchRespondersBtn = document.getElementById('search-responders-btn');
 const assignedTaskBtns = getAll('.task-assign-btn');
 const modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
-
 const urlAnchor = window.location.hash.substr(1);
+const refreshMillSecs = 60000;
+const requestCountInterval = window.setInterval(refreshRequestCount, refreshMillSecs);
 
 if (urlAnchor && urlAnchor === 'gallery-error') {
     window.history.replaceState('', 'Incident', '#');
@@ -750,3 +751,22 @@ if (locateBtn) {
 function getAll(selector) {
     return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }
+
+function refreshRequestCount() {
+    let params = 'incidentId= ' + incidentId;
+    sendXhr(
+        'http://localhost/SWIFT/api/unseen_request_count/?' + params,
+        'GET',
+        (r) => {
+            if (r['count'] > 0) {
+                let requestLink = document.getElementById('request-link');
+                let requestLinkText = 'Requests &nbsp; <sup>' + r['count'] + '</sup>';
+                requestLink.innerHTML = requestLinkText;
+            }
+        },
+        (r) => { }
+    );
+}
+
+// set request count for the first time
+refreshRequestCount();
