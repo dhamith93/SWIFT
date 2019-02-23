@@ -26,7 +26,7 @@
             </nav>
 
 
-    <?php $this->load->view('public/'. $site_view); ?>
+    <?php $this->load->view('public/'. lcfirst($site_view)); ?>
 
 
     <footer>
