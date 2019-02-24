@@ -49,7 +49,7 @@
                     'username' => $username,
                     'logged_in' => true,
                     'user_type' => $accountType,
-                    'org_id' => ($accountType === 'Organization') ? $this->organization_model->getOrgId($username) : 'null',
+                    'org_id' => ($accountType !== 'Employee') ? $this->organization_model->getOrgId($username) : 'null',
                     'res_id' => ($accountType === 'Responder') ? $this->responder_model->getResId($username) : 'null',
                     'is_admin' => $this->employee_model->isAdmin($username) ? true : false
                 );

@@ -1,0 +1,21 @@
+#msg-box {
+    height: 800px;
+    overflow-y: scroll;
+}
+
+.msg {
+    background-color: #ffffff;
+}
+
+.msg-header {
+    font-family: monospace;
+    font-size: 10pt;
+}
+
+.msg-self p {
+    color: #ffffff;
+}
+
+.msg-content {
+    margin-top: 10px;
+}

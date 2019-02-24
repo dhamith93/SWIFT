@@ -138,5 +138,6 @@ $autoload['model'] = array(
                         'organization_model', 
                         'responder_model', 
                         'article_model',
-                        'company_model'
+                        'company_model',
+                        'messageboard_model'
                     );

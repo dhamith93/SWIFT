@@ -371,6 +371,64 @@ class Api extends REST_Controller {
 
         $this->response($data, REST_Controller::HTTP_OK);
     }
+
+    public function add_message_post() {
+        $incidentId = $this->post('incidentId', true);
+        $content = $this->post('content', true);
+        $userType = $this->session->userdata('user_type');
+        $username = $this->session->userdata('username');
+
+        if ($userType === 'Employee') {
+            $userId = $this->employee_model->getEmpId($username);
+            $name = $this->employee_model->getEmployeeFullName($userId);
+            $organization = 'INTERNAL';
+        } else {
+            $userId = $this->responder_model->getResId($username);
+            $name = $this->responder_model->getResponderFullName($userId);
+            $orgId = $this->session->userdata('org_id');
+            $organization = $this->organization_model->getOrganizationName($orgId);
+        }
+
+        if ($this->messageboard_model->addMessage($incidentId, $content, $userType, $userId, $name, $organization)) {
+            $data = array(
+                'status' => 'OK'
+            );
+        } else {
+            $data = array(
+                'status' => 'DB_ERROR'
+            );
+        }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function retrieve_messages_get() {
+        $incidentId = $this->get('incidentId', true);
+        $from = $this->get('from', true);
+        $count = $this->get('count', true);
+        $direction = $this->get('direction', true);
+
+        $direction = ($direction === 'up') ? '<' : '>';
+
+        $messages = $this->messageboard_model->getMessages($incidentId, $from, $count, $direction);
+
+        $messages['status'] = 'OK';
+        echo json_encode($messages);
+    }
+
+    public function latest_msg_id_get() {
+        $incidentId = $this->get('incidentId', true);
+        $id = $this->messageboard_model->getLatestMsgId($incidentId);
+        $id['status'] = 'OK';
+        echo json_encode($id);
+    }
+
+    public function first_msg_id_get() {
+        $incidentId = $this->get('incidentId', true);
+        $id = $this->messageboard_model->getFirstMsgId($incidentId);
+        $id['status'] = 'OK';
+        echo json_encode($id);
+    }
     
     public function employee_get() {
         $this->respondErrorIfNotAuthorized('Admin');

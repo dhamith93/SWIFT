@@ -80,6 +80,11 @@
             return $query->result();
         }
 
+        public function getOrganizationName($orgId) {
+            $query = $this->db->get_where('organizations', array('id' => $orgId));
+            return $query->row_array()['name'];
+        }
+
         public function getRespondingAreas($orgId) {
             $query = $this->db
                     ->select('*')

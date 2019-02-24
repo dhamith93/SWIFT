@@ -62,19 +62,11 @@
             return $this->db->update('responders', array('responding_to'=> $incidentId, 'is_available' => '0'));
         }
 
-        // public function getTasks($responderId) {
-        //     $query = $this->db->select('t2.name, t1.id, t1.inc_id, t1.content, t1.is_completed, t1.completed_at, t1.assigned_at')
-        //                 ->from('tasks as t1')
-        //                 ->where('t1.assigned_to', $responderId)
-        //                 ->join('incidents as t2', 't1.inc_id = t2.id', 'LEFT')
-        //                 ->where('t2.on_going', '1')
-        //                 ->where('t1.is_completed', '0')
-        //                 ->order_by('t1.id', 'desc')
-        //                 ->get();
-
-        //     return $query->result();
-        // }
-
+        public function getResponderFullName($responderId) {
+            $query = $this->db->get_where('responders', array('id' => $responderId));
+            return $query->row_array()['first_name'] . ' ' . $query->row_array()['last_name'];
+        }
+        
         public function getTasks($responderId, $incidentId = null) {
             if ($incidentId === null) {
                 $query = $this->db->select('t2.name, t1.id, t1.inc_id, t1.content, t1.is_completed, t1.completed_at, t1.assigned_at')

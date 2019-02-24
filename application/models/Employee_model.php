@@ -30,6 +30,16 @@
             return $query->result();
         }
 
+        public function getEmpId($username) {
+            $query = $this->db->get_where('employees', array('emp_id' => $username));
+            return $query->row_array()['id'];
+        }
+
+        public function getEmployeeFullName($id) {
+            $query = $this->db->get_where('employees', array('id' => $id));
+            return $query->row_array()['first_name'] . ' ' . $query->row_array()['last_name'];
+        }
+
         public function deleteEmployee($empId) {
             $this->db->where('emp_id', $empId);
             return $this->db->delete('employees');
