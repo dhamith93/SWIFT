@@ -266,6 +266,9 @@ body {
         margin: auto;
         margin-bottom: 1rem;
         width: 80%; } }
+  .section-one__alert-box-date{
+    font-style: oblique;
+  }
 
 .section-two {
   height: 100%;

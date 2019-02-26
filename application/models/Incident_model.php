@@ -642,5 +642,17 @@
 
             return $returnArr;
         }
+
+        //publice Model methods
+        public function getPublicAlerts($public) {
+            $query = $this->db
+                    ->select('*')
+                    ->from('alerts')
+                    ->where('is_public', $public)
+                    ->order_by('id', 'desc')
+                    ->limit(2)
+                    ->get();
+            return $query->result();
+        }
     }
 ?>

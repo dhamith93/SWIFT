@@ -448,5 +448,27 @@ class Api extends REST_Controller {
                     || $this->session->userdata('user_type') !== $userType)
             $this->response(array('status' => 'UNAUTHORIZED_ACCESS'), REST_Controller::HTTP_UNAUTHORIZED);
     }
+
+    //Public REST
+    public function public_alert_get() {
+
+        $public = 1;
+        $result = $this->incident_model->getPublicAlerts($public);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'content' => $row->content,
+                'date' => $row->published_date
+            );
+        }
+
+        if (count($data) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+
+    }
 } 
 ?>

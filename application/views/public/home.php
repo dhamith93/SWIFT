@@ -15,14 +15,11 @@
     <section class="section-notification">
         <div class="section-one">
             <div class="section-one__title">Alerts</div>
-            <div class="">
-                <div class="section-one__alert-box">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente itaque quas placeat ipsa voluptates aspernatur provident accusamus est velit laborum pariatur impedit porro, ratione officiis!
-                </div>
-                <div class="section-one__alert-box">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente itaque quas placeat ipsa voluptates aspernatur provident accusamus est velit laborum pariatur impedit porro, ratione officiis!
-                </div>
-                
+            <div class="section-one__alerts">
+                <!-- <div class="section-one__alert-box" id="section-one__alert-box">
+                    <p id="section-one__alert-box-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente itaque quas placeat ipsa voluptates aspernatur provident accusamus est velit laborum pariatur impedit porro, ratione officiis! - Date <span class="section-one__alert-box-date">Date</span></p>
+                </div> -->
+               
                 
             </div>
         </div>
@@ -87,3 +84,7 @@
                 similique quo quae est ex doloribus.</div>
         </div>
     </section>
+
+    <script src="<?php echo base_url();?>assets/scripts/public.js"></script>
+
+    
