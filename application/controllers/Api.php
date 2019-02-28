@@ -470,5 +470,28 @@ class Api extends REST_Controller {
         }
 
     }
+
+    public function public_posts_get() {
+
+        $isPublished = 1;
+        $result = $this->incident_model->getPublicPosts($isPublished);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'title' => $row->title,
+                'content' => $row->content,
+                'publish_date' =>$row->published_date,
+                'author' => $row->written_by
+            );
+        }
+
+        if (count($data) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+
+    }
 } 
 ?>
