@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabHeaders = document.getElementsByClassName('tab-header');
     const tabs = document.getElementsByClassName('tab');
+    let locationList = new Array();
 
     // if path/to/here#add || path/to/gere#add-success is loaded after adding a new user, display Add tab
     const urlAnchor = window.location.hash.substr(1);
@@ -153,8 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const addLocationBtn = document.getElementById('add-location-btn');
 
     if (addLocationBtn) {
-        const locationCount = 0;
-        const locationList = new Array();
+        let locationCount = 0;
+        locationList = new Array();
     
         addLocationBtn.addEventListener('click', (e) => {
             let province = document.getElementById('province').value;

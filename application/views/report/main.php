@@ -1,5 +1,5 @@
 <div class="section">
-    <div class="search">
+    <div class="report-search">
         <?php echo form_open(''); ?>
             <p class="control">
                 <span style="line-height: 2rem;">From</span>

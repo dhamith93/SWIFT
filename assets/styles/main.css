@@ -232,6 +232,11 @@ body {
     width: 200px;
 }
 
+.report-search {
+    width: 860px;
+    margin: auto;
+}
+
 @media screen and (min-width: 769px), print {
     .navbar-burger {
         display: none;
