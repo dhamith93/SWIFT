@@ -14,16 +14,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 let span = document.createElement('span');
                 span.classList.add('section-one__alert-box-date');
                 let date = (r[keys[i]].date).split(' ');
-                span.innerHTML = ' - ' + date[0];
+                span.innerHTML = date[0];
 
 
-                let p = document.createElement('p');
-                p.innerHTML = r[keys[i]].content;
-                p.appendChild(span);
+                let h1 = document.createElement('h1');
+                h1.innerHTML = r[keys[i]].content;
+                
 
                 let div = document.createElement('div');
                 div.classList.add('section-one__alert-box');
-                div.appendChild(p);
+                div.appendChild(span);
+                div.appendChild(h1);
 
                 let fragment = document.createDocumentFragment();
                 fragment.appendChild(div);

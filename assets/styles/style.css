@@ -248,7 +248,7 @@ body {
     text-transform: uppercase; }
   .section-one__alert-box {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: #fff;
     border-radius: 5px;
     width: 50rem;
@@ -423,14 +423,19 @@ body {
     margin-top: 1rem;
     padding: 0 1rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between; }
     .press__mainSection--title {
       font-weight: 700;
-      color: #111111; }
+      color: #111111;
+      font-size: 2rem;
+      text-transform: capitalize;
+    }
     .press__mainSection--date {
-      font-weight: 700;
-      color: #111111; }
+      font-weight: 600;
+      color: #3f3f3f;
+      font-size: 1.2rem;
+    }
   .press__para {
     padding: 0 1rem 1rem 1rem;
     font-size: 1.5rem;
