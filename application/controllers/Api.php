@@ -478,8 +478,8 @@ class Api extends REST_Controller {
 
         foreach ($result as $row) {
             $data[$row->id] = array(
-                'title' => $row->title,
-                'content' => $row->content,
+                'title' => htmlspecialchars_decode($row->title),
+                'content' => substr(htmlspecialchars_decode($row->content),10). ' ' . '<i>Read More...</i>',
                 'publish_date' =>$row->published_date,
                 'author' => $row->written_by
             );
