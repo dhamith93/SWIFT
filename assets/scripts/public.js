@@ -65,7 +65,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
                 let para = document.createElement('div');
                 para.classList.add('press__para');
-                para.innerHTML = r[keys[i]].content;
+                //get base url
+                let getUrl = window.location;
+                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+                para.innerHTML = r[keys[i]].content + "<a href='" + baseUrl + "/press-release/" + r[keys[i]].id + "'><p>Read More..</p>";
 
                 let image = document.createElement('div');
                 image.classList.add('press__image');

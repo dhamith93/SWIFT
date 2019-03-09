@@ -101,8 +101,8 @@ $route['responder/mark-task-complete/(:any)/(:any)'] = 'responder/markTaskComple
 $route['responder/mark-task-complete/(:any)'] = 'responder/markTaskCompleted/$1';
 $route['home'] = 'publicController/home';
 $route['press-release'] = 'pressController/press';
+$route['press-release/(:num)'] = 'pressController/singlePress/$1';
 $route['contacts'] = 'publicController/contacts';
-
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

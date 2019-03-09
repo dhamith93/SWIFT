@@ -526,3 +526,19 @@ body {
 
 .social-media__icon {
   height: 7rem; }
+a {
+  text-decoration: none;
+  color:#494848;
+  font-weight: 700;
+  font-style: italic;
+}
+a:hover{
+  color: #000000
+}
+
+.single-press{
+  width: 70%;
+  height: auto;
+  margin:10rem 20rem;
+  text-align: justify;
+}

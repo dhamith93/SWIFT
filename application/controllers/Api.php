@@ -478,8 +478,32 @@ class Api extends REST_Controller {
 
         foreach ($result as $row) {
             $data[$row->id] = array(
+                'id' => $row->id,
                 'title' => htmlspecialchars_decode($row->title),
-                'content' => substr(htmlspecialchars_decode($row->content),10). ' ' . '<i>Read More...</i>',
+                'content' => substr(htmlspecialchars_decode($row->content),0,20),
+                'publish_date' =>$row->published_date,
+                'author' => $row->written_by
+            );
+        }
+
+        if (count($data) > 0) {
+            $data['status'] = 'OK';
+            $this->response($data, REST_Controller::HTTP_OK);
+        } else {
+            $this->response(array('status' => 'NO_RECORDS'), REST_Controller::HTTP_OK);
+        }
+
+    }
+    public function public_posts_all_get() {
+
+        $isPublished = 1;
+        $result = $this->incident_model->getPublicPostsAll($isPublished);
+
+        foreach ($result as $row) {
+            $data[$row->id] = array(
+                'id' => $row->id,
+                'title' => htmlspecialchars_decode($row->title),
+                'content' => substr(htmlspecialchars_decode($row->content),10),
                 'publish_date' =>$row->published_date,
                 'author' => $row->written_by
             );

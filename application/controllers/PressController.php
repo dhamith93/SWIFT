@@ -10,6 +10,14 @@ class PressController extends CI_Controller{
         $this->load->view('public/main/swift', $data);
     }
 
+    public function singlePress($pageid){
+        $data['site_title'] = 'Press Release';
+        $data['site_view'] = 'Single-press';
+        $data['site_header'] = '__press';
+        $data['result'] = $this->article_model->getPress($pageid);
+        $this->load->view('public/main/swift', $data);
+    }
+
 
 }
 

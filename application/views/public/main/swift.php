@@ -35,7 +35,7 @@
                 <div class="footer__logobox">
                     <img src="https://via.placeholder.com/300X150" class="navigation__logo" alt="Logo">
                 </div>
-                <h4 class="footer__text">SFWIT</h4>
+                <h4 class="footer__text">SWFIT</h4>
                 <div class="social-media">
                     <img src="<?php echo base_url();?>assets/images/image.png" class="social-media__icon" alt="">
                 </div>

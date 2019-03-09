@@ -46,6 +46,15 @@
             $this->db->where('id', $articleId);
             return $this->db->delete('press_releases');
         }
+
+        //Press Item
+        public function getPress($id) {
+            $this->db->where('id', $id);
+            $query = $this->db->get('press_releases');
+            return $query->row();
+        }
+
+
     }
 
 

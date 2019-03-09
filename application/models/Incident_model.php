@@ -665,5 +665,14 @@
                     ->get();
             return $query->result();
         }
+        public function getPublicPostsAll($isPublished) {
+            $query = $this->db
+                    ->select('*')
+                    ->from('press_releases')
+                    ->where('is_published', $isPublished)
+                    ->order_by('id', 'desc')
+                    ->get();
+            return $query->result();
+        }
     }
 ?>

@@ -20,3 +20,5 @@
         </div>
         </div>
     </section>
+
+    <script src="<?php echo base_url();?>assets/scripts/press.js"></script>
