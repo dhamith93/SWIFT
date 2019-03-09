@@ -36,7 +36,7 @@
                 <div class="footer__logobox">
                     <a href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo"></a>
                 </div>
-                <h4 class="footer__text">SWIFT</h4>
+                <h4 class="footer__text">Copyright &copy; SWIFT. All Rights Reserved</h4>
                 <div class="social-media">
                     <img src="<?php echo base_url();?>assets/images/image.png" class="social-media__icon" alt="">
                 </div>

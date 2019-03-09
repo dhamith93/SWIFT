@@ -40,10 +40,8 @@
 
     <section class="section-red">
         <div class="red u-margin-top-large">
-            <h1 class="heading--title red__heading">Lorem ipsum dolor</h1>
-            <div class="red__para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias tempore
-                cupiditate iste eius optio, aut, natus veniam doloremque numquam laudantium, illo fugit ullam veritatis
-                similique quo quae est ex doloribus.</div>
+            <h1 class="heading--title red__heading">Mission</h1>
+            <div class="red__para">To build national Disaster Risk Management and Climate Change Adaptation capabilities with our partners and coordinate response and recovery operations in order to protect the people, environment and economy and ensure a disaster resilient nation.</div>
         </div>
     </section>
 
