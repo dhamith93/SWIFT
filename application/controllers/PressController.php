@@ -7,6 +7,7 @@ class PressController extends CI_Controller{
         $data['site_title'] = 'Press Release';
         $data['site_view'] = 'Press';
         $data['site_header'] = '__press';
+        $data['company'] = $this->company_model->getInfo();
         $this->load->view('public/main/swift', $data);
     }
 
@@ -15,6 +16,7 @@ class PressController extends CI_Controller{
         $data['site_view'] = 'Single-press';
         $data['site_header'] = '__press';
         $data['result'] = $this->article_model->getPress($pageid);
+        $data['company'] = $this->company_model->getInfo();
         $this->load->view('public/main/swift', $data);
     }
 

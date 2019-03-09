@@ -15,7 +15,8 @@
      <header class="header<?php echo(empty($site_header) ? '' : $site_header);?>">
             <nav class="navigation">
                 <div class="navigation__logobox">
-                    <img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo">
+                    <a href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo"></a>
+                    <h1 class="navigation__logobox-title"><?php echo ($site_title == 'Home') ? ' ' : $company->name; ?></h1>
                 </div>
                 <ul class="navigation__nav">
                     <li class="navigation__item"><a href="<?php echo base_url(); ?>home" class="navigation__link">Home</a></li>
@@ -33,7 +34,7 @@
         <div class="container">
             <div class="footer">
                 <div class="footer__logobox">
-                    <img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo">
+                    <a href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo"></a>
                 </div>
                 <h4 class="footer__text">SWIFT</h4>
                 <div class="social-media">

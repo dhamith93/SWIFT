@@ -184,6 +184,7 @@ body {
     .navigation {
       flex-direction: column; } }
   .navigation__logobox {
+    display: flex;
     margin: 1rem 1rem 1rem 10rem; }
     @media only screen and (max-width: 62.5em) {
       .navigation__logobox {
@@ -192,6 +193,11 @@ body {
   .navigation__logo {
     height: 7rem;
     width: auto; }
+    .navigation__logobox-title{
+      padding-left: 2rem;
+      margin: auto;
+   
+    }
   .navigation__nav {
     display: flex;
     list-style: none;
