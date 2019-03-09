@@ -1,7 +1,7 @@
             
             <div class="header__text-box">
                 <h1 class="heading-primary">
-                    <span class="heading-primary--main">Disaster Management Center</span>
+                    <span class="heading-primary--main"><?php echo $name->name; ?></span>
     
                 </h1>
             </div>
