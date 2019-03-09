@@ -13,9 +13,6 @@
         <div class="section-one">
             <div class="section-one__title">Alerts</div>
             <div class="section-one__alerts">
-                
-               
-                
             </div>
         </div>
         <div class="section-two">
