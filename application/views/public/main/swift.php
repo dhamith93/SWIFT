@@ -15,7 +15,7 @@
      <header class="header<?php echo(empty($site_header) ? '' : $site_header);?>">
             <nav class="navigation">
                 <div class="navigation__logobox">
-                    <img src="https://via.placeholder.com/300X150" class="navigation__logo" alt="Logo">
+                    <img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo">
                 </div>
                 <ul class="navigation__nav">
                     <li class="navigation__item"><a href="<?php echo base_url(); ?>home" class="navigation__link">Home</a></li>
@@ -33,9 +33,9 @@
         <div class="container">
             <div class="footer">
                 <div class="footer__logobox">
-                    <img src="https://via.placeholder.com/300X150" class="navigation__logo" alt="Logo">
+                    <img src="<?php echo base_url(); ?>assets/images/logo.png" class="navigation__logo" alt="Logo">
                 </div>
-                <h4 class="footer__text">SWFIT</h4>
+                <h4 class="footer__text">SWIFT</h4>
                 <div class="social-media">
                     <img src="<?php echo base_url();?>assets/images/image.png" class="social-media__icon" alt="">
                 </div>

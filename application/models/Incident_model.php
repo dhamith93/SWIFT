@@ -650,7 +650,7 @@
                     ->from('alerts')
                     ->where('is_public', $public)
                     ->order_by('id', 'desc')
-                    ->limit(2)
+                    ->limit(5)
                     ->get();
             return $query->result();
         }

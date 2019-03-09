@@ -503,7 +503,7 @@ class Api extends REST_Controller {
             $data[$row->id] = array(
                 'id' => $row->id,
                 'title' => htmlspecialchars_decode($row->title),
-                'content' => substr(htmlspecialchars_decode($row->content),10),
+                'content' => substr(htmlspecialchars_decode($row->content),0,20),
                 'publish_date' =>$row->published_date,
                 'author' => $row->written_by
             );

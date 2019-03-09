@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', (e) => {
 
+    //get base URL
+    let getUrl = window.location;
+    let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+
     sendXhr(
-        'http://localhost/swift/api/public_alert/',
+        baseUrl + '/api/public_alert',
         'GET',
         (r) => {
             let target = document.querySelector('.section-one__alerts');
@@ -40,7 +44,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     );
     sendXhr(
-        'http://localhost/swift/api/public_posts/',
+        baseUrl + '/api/public_posts/',
         'GET',
         (r) => {
             let target = document.querySelector('.press');
@@ -65,10 +69,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
                 let para = document.createElement('div');
                 para.classList.add('press__para');
-                //get base url
-                let getUrl = window.location;
-                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-                para.innerHTML = r[keys[i]].content + "<a href='" + baseUrl + "/press-release/" + r[keys[i]].id + "'><p>Read More..</p>";
+                para.innerHTML = r[keys[i]].content + "<a href='" + baseUrl + "/press-release/" + r[keys[i]].id + "'><p>Read More..</p></a>";
 
                 let image = document.createElement('div');
                 image.classList.add('press__image');
@@ -78,6 +79,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 box.appendChild(image);
                 box.appendChild(mainSection);
                 box.appendChild(para);
+
+                box.addEventListener('click', e => {
+                    window.location = baseUrl + "/press-release/" + r[keys[i]].id;
+                });
 
                 let fragment = document.createDocumentFragment();
                 fragment.appendChild(box);

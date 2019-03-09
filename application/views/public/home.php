@@ -12,14 +12,14 @@
     <section class="section-notification">
         <div class="section-one">
             <div class="section-one__title">Alerts</div>
-            <div class="section-one__alerts">
+            <div class="section-one__alerts" >
             </div>
         </div>
         <div class="section-two">
             <div class="section-two__title">Reports</div>
             <div class="section-two__report-sec">
-                <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, ratione consequatur reiciendis quisquam suscipit eos earum minima facilis nobis id?</h3>
-                <a href="<?php echo base_url(); ?>reports" style="text-decoration:none;"><div class="section-two__report"><div class="section-two__report-text">Link</div></div></a>
+                <h3 style="margin:auto;"> Get Reports by location and time range. </h3>
+                <a href="<?php echo base_url(); ?>reports" style="text-decoration:none;"><div class="section-two__report"><div class="section-two__report-text">View Reports</div></div></a>
                 
 
             </div>

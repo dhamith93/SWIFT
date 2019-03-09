@@ -10,14 +10,9 @@
 
     <section class="section-press__home">
         <div class="contailer">
+            <!-- selecter for js -->
             <div class="press" style="margin-left: 120px;">
-            <div class="press__box">
-            <div class="press">
-     
-            
-            
-            </div>   
-        </div>
+        
         </div>
     </section>
 

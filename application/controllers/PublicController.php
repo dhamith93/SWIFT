@@ -14,6 +14,7 @@ class PublicController extends CI_Controller{
         $data['site_title'] = 'Contacts';
         $data['site_view'] = 'Contacts';
         $data['site_header'] = '__contacts';
+        $data['name'] = $this->company_model->getInfo();
         $this->load->view('public/main/swift', $data);
     }
 

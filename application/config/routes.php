@@ -103,6 +103,7 @@ $route['home'] = 'publicController/home';
 $route['press-release'] = 'pressController/press';
 $route['press-release/(:num)'] = 'pressController/singlePress/$1';
 $route['contacts'] = 'publicController/contacts';
+$route['mail'] = 'publicMailController/mail';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
