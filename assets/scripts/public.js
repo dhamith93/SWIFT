@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
                 let image = document.createElement('div');
                 image.classList.add('press__image');
+                image.classList.add('press__image-'+ i);
 
                 let box = document.createElement('div');
                 box.classList.add('press__box');

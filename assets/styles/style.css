@@ -525,10 +525,42 @@ textarea{
       transform: scale(1.1); }
   .press__image {
     height: 10rem;
-    background-image: url(../images/water.jpeg);
+    
     background-size: cover;
     background-repeat: no-repeat;
     overflow: hidden; }
+
+    .press__image-1{
+      background-image: url(../images/1.jpg);
+    }
+    .press__image-2{
+      background-image: url(../images/2.jpg);
+    }
+    .press__image-3{
+      background-image: url(../images/3.jpg);
+    }
+    .press__image-4{
+      background-image: url(../images/4.jpg);
+    }
+    .press__image-5{
+      background-image: url(../images/5.jpg);
+    }
+    .press__image-6{
+      background-image: url(../images/6.jpg);
+    }
+    .press__image-7{
+      background-image: url(../images/7.jpg);
+    }
+    .press__image-8{
+      background-image: url(../images/8.jpg);
+    }
+    .press__image-9{
+      background-image: url(../images/9.jpg);
+    }
+
+
+
+
   .press__mainSection {
     margin-top: 1rem;
     padding: 0 1rem;
