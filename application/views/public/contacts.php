@@ -10,19 +10,23 @@
         <svg class="contact-us__img">
             <use xlink:href="<?php echo base_url();?>assets/images/sprite.svg#icon-volume-control-phone"></use>
         </svg>
-        <h4 class="contact-us__text">Lorem ipsum dolor sit</h4>
+    
+        <?php for($i = 1; $i <= 5; $i++) : ?>
+            <h4 class="contact-us__text"><?php $contact = 'contact_'.$i; echo $company->$contact ;?></h4>
+        <?php endfor; ?>
+
     </div>
     <div class="contact-us__section">
         <svg class="contact-us__img">
             <use xlink:href="<?php echo base_url();?>assets/images/sprite.svg#icon-home"></use>
         </svg>
-        <h1 class="contact-us__text">011223355446</h1>
+        <h1 class="contact-us__text"><?php echo $company->address;?></h1>
     </div>
     <div class="contact-us__section">
         <svg class="contact-us__img">
             <use xlink:href="<?php echo base_url();?>assets/images/sprite.svg#icon-comments-o"></use>
         </svg>
-        <h4 class="contact-us__text">Lorem ipsum dolor sit</h4>
+        <h4 class="contact-us__text"><?php echo $company->email;?></h4>
     </div>
 </div>
 <hr>
