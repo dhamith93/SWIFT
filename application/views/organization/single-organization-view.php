@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/incident.css">
-
-<div class="background"></div>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/organization.css">
 
 <div class="container">
     <div class="columns">

@@ -1,0 +1,14 @@
+.container {
+    padding-top: 3em;
+}
+
+input:disabled, textarea:disabled {
+    background-color: #ffffff !important;
+    color: #000 !important;
+    border-color: #888888 !important;
+    box-shadow: unset !important;
+}
+
+input:disabled:hover, textarea:disabled:hover {
+    cursor: text;
+}
