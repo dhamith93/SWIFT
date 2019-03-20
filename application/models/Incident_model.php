@@ -141,8 +141,13 @@
             return $query->result();
         }
 
-        public function getHospitalizations($id) {
-            $query = $this->db->get_where('hospitalizations', array('inc_id' => $id));
+        public function getHospitalizations($incId) {
+            $query = $this->db
+                    ->select('t1.hospital_id, t1.count, t2.name')
+                    ->from('hospitalizations as t1')
+                    ->join('organizations as t2', 't1.hospital_id = t2.id', 'LEFT')
+                    ->where('t1.inc_id', $incId)
+                    ->get();
             return $query->result();
         }
 
@@ -218,6 +223,35 @@
             return $this->buildReturnArray($incidentResult);
         }
 
+        public function getAssignedHospitals($incId) {
+            $query = $this->db
+                    ->select('t1.org_id, t2.name')
+                    ->from('responding_organizations as t1')
+                    ->join('organizations as t2', 't1.org_id = t2.id', 'LEFT')
+                    ->join('organization_types as t3', 't2.type_id = t3.id', 'LEFT' )
+                    ->where('t1.inc_id', $incId)
+                    ->where('t3.type', 'Hospital')
+                    ->get();
+            return $query->result();
+        }
+
+        public function getHospitalIds($incId) {
+            $query = $this->db
+                    ->select('hospital_id')
+                    ->from('hospitalizations')
+                    ->where('inc_id', $incId)
+                    ->get();
+            $result = $query->result();
+
+            $ids = array();
+
+            foreach($result as $row) {
+                $ids[] = $row->hospital_id;
+            }
+
+            return $ids;
+        }
+
         public function getPressReleases($id) {
             $query = $this->db
                     ->select('id, title, published_date, is_published')
@@ -264,6 +298,24 @@
             }
 
             return $this->db->insert('casualties', $data);
+        }
+
+        public function updateHospitalizations($id) {
+            $hospitalId = htmlspecialchars($this->input->post('hospital', true));
+            $checkQuery = $this->db->get_where('hospitalizations', array('inc_id' => $id, 'hospital_id' => $hospitalId));
+            
+            $data = array(
+                'inc_id' => $id,
+                'hospital_id' => $hospitalId,
+                'count' => htmlspecialchars($this->input->post('count', true))
+            );
+
+            if (count($checkQuery->result()) > 0) {
+                $this->db->where('inc_id', $id);
+                return $this->db->update('hospitalizations', $data);
+            }
+
+            return $this->db->insert('hospitalizations', $data);
         }
 
         public function addEvacuations($id) {

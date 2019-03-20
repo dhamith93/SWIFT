@@ -71,6 +71,7 @@ $route['incident/mark-complete/(:any)'] = 'incident/markComplete/$1';
 $route['incident/search'] = 'incident/getIncidentInfo';
 $route['incident/add-location/(:any)'] = 'incident/addLocation/$1';
 $route['incident/add-evacuations/(:any)'] = 'incident/addEvacuations/$1';
+$route['incident/update-hospitalization/(:any)'] = 'incident/updateHospitalizations/$1';
 $route['incident/update-casualties/(:any)'] = 'incident/updateCasualties/$1';
 $route['incident/update-evacuations/(:any)'] = 'incident/updateEvacuations/$1';
 $route['incident/upload-image/(:any)'] = 'incident/uploadImage/$1';

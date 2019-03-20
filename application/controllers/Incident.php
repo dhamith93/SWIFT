@@ -12,11 +12,13 @@
             $data['title'] = $page;
             $data['incident'] = $this->incident_model->getSingleIncident($id); 
             $data['responders'] = $this->incident_model->getResponders($id);
+            $data['respondingHospitals'] = $this->incident_model->getAssignedHospitals($id);
             $data['alerts'] = $this->incident_model->getAlerts($id);
             $data['tasks'] = $this->incident_model->getTasks($id);
             $data['requests'] = $this->incident_model->getRequests($id);
             $data['casualties'] = $this->incident_model->getCasualties($id);
             $data['hospitalizations'] = $this->incident_model->getHospitalizations($id);
+            $data['hospitalsWithPatients'] = $this->incident_model->getHospitalIds($id);
             $data['evacuations'] = $this->incident_model->getEvacuations($id);
             $data['pressReleases'] = $this->incident_model->getPressReleases($id);
             
@@ -112,6 +114,21 @@
                 redirect('incident/' . $id .'#update-error');
 
             if ($this->incident_model->updateCasualties($id))
+                redirect('incident/' . $id);
+
+            redirect('incident/' . $id .'/information/#update-error');
+        }
+
+        public function updateHospitalizations($id) {
+            $this->redirectIfNotAuthorized();
+
+            $this->form_validation->set_rules('hospital', 'Hospital', 'required');
+            $this->form_validation->set_rules('count', 'Count', 'required');
+
+            if ($this->form_validation->run() === FALSE) 
+                redirect('incident/' . $id .'#update-error');
+
+            if ($this->incident_model->updateHospitalizations($id))
                 redirect('incident/' . $id);
 
             redirect('incident/' . $id .'/information/#update-error');

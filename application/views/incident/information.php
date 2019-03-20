@@ -201,17 +201,57 @@
                     <tr>
                         <th>Hospital</th>
                         <th>No. of patients</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                        <?php if (isset($hospitalizations[0])) echo $hospitalizations[0]->hospital_id; ?>
-                        </td>
-                        <td>
-                        <?php if (isset($hospitalizations[0])) echo $hospitalizations[0]->count; ?>
-                        </td>
-                    </tr>
+                    <?php if (!empty($hospitalizations)) foreach ($hospitalizations as $hospitalization): ?>
+                        <?php echo form_open('incident/update-hospitalization/' . $id, 'id="add-hospitalization-form"') ?>
+                        <tr>
+                            <td>
+                                <a href="<?php echo base_url(); ?>org/<?php echo $hospitalization->hospital_id; ?>" target="_blank">
+                                    <?php echo $hospitalization->name; ?>
+                                </a>
+                            </td>
+                            <td>
+                                <div class="control">
+                                    <input class="input" type="number" name="count" value="<?php echo $hospitalization->count; ?>">
+                                </div>
+                            </td>
+                            <input type="hidden" name="hospital" value="<?php echo $hospitalization->hospital_id; ?>">
+                            <td>
+                                <button class="button is-link" type="submit" style="width: 100%;">Update</button>
+                            </td>
+                        </tr>
+                        <?php echo form_close(); ?>
+                    <?php endforeach; ?>
+                    <?php if (!empty($respondingHospitals)): ?>
+                        <?php echo form_open('incident/update-hospitalization/' . $id, 'id="add-hospitalization-form"') ?>
+                        <tr>
+                            <td>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="hospital">
+                                            <?php foreach ($respondingHospitals as $hospital): ?>
+                                                <?php if (!in_array($hospital->org_id, $hospitalsWithPatients)): ?>
+                                                    <option value="<?php echo $hospital->org_id; ?>"><?php echo $hospital->name; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="control">
+                                    <input class="input" type="number" name="count">
+                                </div>
+                            </td>
+                            <td>
+                                <button class="button is-link" type="submit" style="width: 100%;">Add</button>
+                            </td>
+                        </tr>
+                        <?php echo form_close(); ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
